@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,6 +86,7 @@ button[aria-pressed="true"] {
 </style>
 </head>
 <body>
+
 <h2>S-NOVA</h2>
 <div>DIGITAL ODYSSEY // NOVA DRIVE</div>
 <div id="stats"></div>
@@ -99,13 +99,20 @@ button[aria-pressed="true"] {
   <div class="actions">
     <button data-key="slide">SLIDE</button>
     <button data-key="focus">FOCUS</button>
-    <button data-key="combo" style="grid-column:span 2">SLIDE + FOCUS</button>
-    <button id="auto" aria-pressed="true" style="grid-column:span 2">AUTO FIRE: ON</button>
+    <button id="combo" style="grid-column:span 2">
+      SLIDE + FOCUS
+    </button>
+    <button id="mode" style="grid-column:span 2">
+      COMBO MODE: HOLD
+    </button>
+    <button id="auto" aria-pressed="true" style="grid-column:span 2">
+      AUTO FIRE: ON
+    </button>
   </div>
 </div>
 
 <button id="restart">Restart Mission</button>
-<p>Prototype v0.03 — Mobile Controls</p>
+<p>Prototype v0.04 — Combo Toggle</p>
 
 <script>
 const c=document.getElementById("arena");
@@ -114,16 +121,28 @@ const stats=document.getElementById("stats");
 const stick=document.getElementById("stick");
 const knob=document.getElementById("knob");
 const autoButton=document.getElementById("auto");
+const comboButton=document.getElementById("combo");
+const modeButton=document.getElementById("mode");
 
 const keys={};
+const actionPointers=new Map();
+
 let auto=true;
+let toggleMode=false;
+let comboOn=false;
+let comboPointer=null;
 let jx=0,jy=0,stickId=null;
 let p,e,bullets,hp,heat,kills,locked;
 let fireDelay,enemyDelay,dx,dy,last=0;
 
-document.addEventListener("contextmenu",ev=>ev.preventDefault());
-document.addEventListener("selectstart",ev=>ev.preventDefault());
-document.addEventListener("touchmove",ev=>ev.preventDefault(),{passive:false});
+document.addEventListener("contextmenu",
+  ev=>ev.preventDefault());
+
+document.addEventListener("selectstart",
+  ev=>ev.preventDefault());
+
+document.addEventListener("touchmove",
+  ev=>ev.preventDefault(),{passive:false});
 
 function moveStick(ev){
   const b=stick.getBoundingClientRect();
@@ -131,9 +150,12 @@ function moveStick(ev){
   let y=ev.clientY-b.top-b.height/2;
   const d=Math.hypot(x,y);
   const m=Math.min(1,d/42);
+
   jx=d>5?x/d*m:0;
   jy=d>5?y/d*m:0;
-  knob.style.transform=`translate(${jx*42}px,${jy*42}px)`;
+
+  knob.style.transform=
+    `translate(${jx*42}px,${jy*42}px)`;
 }
 
 function clearStick(){
@@ -162,19 +184,72 @@ stick.onlostpointercapture=ev=>{
 
 autoButton.onclick=()=>{
   auto=!auto;
-  autoButton.textContent="AUTO FIRE: "+(auto?"ON":"OFF");
-  autoButton.setAttribute("aria-pressed",String(auto));
+  autoButton.textContent=
+    "AUTO FIRE: "+(auto?"ON":"OFF");
+  autoButton.setAttribute(
+    "aria-pressed",String(auto));
+};
+
+function syncCombo(){
+  comboButton.classList.toggle("active",comboOn);
+  comboButton.setAttribute(
+    "aria-pressed",String(comboOn));
+
+  comboButton.textContent=toggleMode
+    ?"SLIDE + FOCUS: "+(comboOn?"ON":"OFF")
+    :"SLIDE + FOCUS";
+
+  modeButton.textContent=
+    "COMBO MODE: "+(toggleMode?"TOGGLE":"HOLD");
+}
+
+function stopCombo(){
+  comboOn=false;
+  comboPointer=null;
+  syncCombo();
+}
+
+modeButton.onclick=()=>{
+  toggleMode=!toggleMode;
+  stopCombo();
+};
+
+comboButton.onpointerdown=ev=>{
+  ev.preventDefault();
+
+  if(locked||hp<=0)return;
+  if(comboPointer!==null)return;
+
+  comboPointer=ev.pointerId;
+  comboButton.setPointerCapture(ev.pointerId);
+
+  comboOn=toggleMode?!comboOn:true;
+  syncCombo();
+};
+
+comboButton.onpointerup=
+comboButton.onlostpointercapture=ev=>{
+  if(ev.pointerId!==comboPointer)return;
+
+  comboPointer=null;
+
+  if(!toggleMode)stopCombo();
+};
+
+comboButton.onpointercancel=ev=>{
+  if(ev.pointerId===comboPointer)stopCombo();
 };
 
 document.querySelectorAll("[data-key]").forEach(b=>{
   const k=b.dataset.key;
   const pointers=new Set();
 
+  actionPointers.set(k,pointers);
+
   b.onpointerdown=ev=>{
     ev.preventDefault();
     b.setPointerCapture(ev.pointerId);
     pointers.add(ev.pointerId);
-    keys[k]=true;
     b.classList.add("active");
   };
 
@@ -182,14 +257,21 @@ document.querySelectorAll("[data-key]").forEach(b=>{
   b.onpointercancel=
   b.onlostpointercapture=ev=>{
     pointers.delete(ev.pointerId);
-    keys[k]=pointers.size>0;
-    b.classList.toggle("active",keys[k]);
+    b.classList.toggle("active",pointers.size>0);
   };
 });
 
+function held(k){
+  return !!keys[k]||
+    (actionPointers.get(k)?.size||0)>0;
+}
+
 function clearInputs(){
   Object.keys(keys).forEach(k=>keys[k]=false);
+  actionPointers.forEach(set=>set.clear());
   clearStick();
+  stopCombo();
+
   document.querySelectorAll(".active").forEach(b=>{
     b.classList.remove("active");
   });
@@ -211,6 +293,7 @@ function reset(){
 }
 
 reset();
+
 document.getElementById("restart").onclick=reset;
 
 const map={
@@ -232,6 +315,7 @@ window.addEventListener("keyup",ev=>{
 });
 
 window.addEventListener("blur",clearInputs);
+
 document.addEventListener("visibilitychange",()=>{
   if(document.hidden)clearInputs();
 });
@@ -245,6 +329,7 @@ function orb(x,y,r,color){
 
 function shoot(a,t,v,own){
   let d=Math.hypot(t.x-a.x,t.y-a.y)||1;
+
   bullets.push({
     x:a.x,y:a.y,
     vx:(t.x-a.x)*v/d,
@@ -257,13 +342,17 @@ function frame(now){
   let dt=Math.min(.04,(now-last)/1000||0);
   last=now;
 
-  let slide=(keys.slide||keys.combo)&&!locked;
-  let focus=(keys.focus||keys.combo)&&!locked;
+  let slide=(held("slide")||comboOn)&&!locked;
+  let focus=(held("focus")||comboOn)&&!locked;
   let slow=focus?0.25:1;
 
   if(hp>0){
-    let x=jx+Number(!!keys.right)-Number(!!keys.left);
-    let y=jy+Number(!!keys.down)-Number(!!keys.up);
+    let x=jx+Number(held("right"))
+      -Number(held("left"));
+
+    let y=jy+Number(held("down"))
+      -Number(held("up"));
+
     let l=Math.hypot(x,y);
 
     if(l){
@@ -285,13 +374,17 @@ function frame(now){
       -(!slide&&!focus?26:0))
     ));
 
-    if(heat>=100)locked=true;
+    if(heat>=100){
+      locked=true;
+      stopCombo();
+    }
+
     if(heat<30)locked=false;
 
     fireDelay-=dt;
     enemyDelay-=dt*slow;
 
-    if((auto||keys.fire)&&fireDelay<=0){
+    if((auto||held("fire"))&&fireDelay<=0){
       shoot(p,e,300,true);
       fireDelay=.2;
     }
@@ -310,20 +403,25 @@ function frame(now){
 
     for(let b of bullets){
       let t=dt*(b.own?1:slow);
+
       b.x+=b.vx*t;
       b.y+=b.vy*t;
 
       let target=b.own?e:p;
 
-      if(Math.hypot(b.x-target.x,b.y-target.y)<(b.own?15:10)){
+      if(Math.hypot(b.x-target.x,b.y-target.y)
+        <(b.own?15:10)){
+
         if(b.own)e.hp-=10;
         else hp=Math.max(0,hp-10);
+
         b.dead=true;
       }
     }
 
     bullets=bullets.filter(b=>
-      !b.dead&&b.x>0&&b.x<360&&b.y>0&&b.y<320
+      !b.dead&&b.x>0&&b.x<360
+      &&b.y>0&&b.y<320
     );
 
     if(e.hp<=0){
@@ -358,14 +456,16 @@ function frame(now){
   if(slide){
     for(let i=5;i>0;i--){
       orb(p.x-dx*i*9,p.y-dy*i*9,9,
-      "rgba(155,90,255,.25)");
+        "rgba(155,90,255,.25)");
     }
   }
 
   g.shadowBlur=14;
   g.shadowColor="#ac75ff";
+
   orb(p.x,p.y,11,"#a76bff");
   orb(p.x,p.y,5,"#f2d9ff");
+
   g.shadowBlur=0;
 
   orb(e.x,e.y,15,"#ff486d");
@@ -382,14 +482,18 @@ function frame(now){
 
   g.fillStyle="#3d2d55";
   g.fillRect(10,305,100,5);
+
   g.fillStyle=locked?"#ff536b":"#b78aff";
   g.fillRect(10,305,heat,5);
 
   stats.textContent=
     `HP ${hp} | HEAT ${Math.round(heat)}% | KILLS ${kills}`
-    +(locked?" | OVERHEATED":focus?" | HYPERFOCUS":"");
+    +(locked?" | OVERHEATED":
+      focus?" | HYPERFOCUS":"");
 
   if(hp<=0){
+    if(comboOn)stopCombo();
+
     g.fillStyle="rgba(10,5,20,.85)";
     g.fillRect(0,0,360,320);
     g.fillStyle="white";
