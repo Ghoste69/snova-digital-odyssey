@@ -6,232 +6,403 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>S-Nova: Digital Odyssey</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#090615;color:white;font-family:system-ui;text-align:center}
-h2{color:#bc8cff;letter-spacing:3px}
-canvas{width:100%;max-width:600px;background:#17112b;border:1px solid #7950bd;border-radius:10px;touch-action:none}
-#controls{display:flex;justify-content:space-between;max-width:600px;margin:12px auto;padding:8px;gap:12px}
-.pad{display:grid;grid-template-columns:repeat(3,48px);gap:5px}
-.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-button{background:#382354;color:white;border:1px solid #9565db;border-radius:10px;padding:12px;min-height:48px;font-weight:bold;touch-action:none;user-select:none;-webkit-user-select:none}
-button:active{background:#a267ff}
-#stats{padding:12px;color:#d9baff}
+* {
+  box-sizing:border-box;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none;
+  -webkit-tap-highlight-color:transparent;
+}
+html,body {
+  touch-action:none;
+  overscroll-behavior:none;
+}
+body {
+  margin:0;
+  background:#090615;
+  color:white;
+  font-family:system-ui;
+  text-align:center;
+}
+h2 {color:#bc8cff;letter-spacing:3px}
+canvas {
+  width:100%;
+  max-width:600px;
+  background:#17112b;
+  border:1px solid #7950bd;
+  border-radius:10px;
+  touch-action:none;
+}
+#controls {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  max-width:600px;
+  margin:12px auto;
+  padding:8px;
+  gap:12px;
+}
+#stick {
+  width:132px;
+  height:132px;
+  flex-shrink:0;
+  border-radius:50%;
+  background:#24163e;
+  border:2px solid #7950bd;
+  position:relative;
+  touch-action:none;
+}
+#knob {
+  position:absolute;
+  left:calc(50% - 23px);
+  top:calc(50% - 23px);
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:#a76bff;
+  pointer-events:none;
+}
+.actions {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:6px;
+}
+button {
+  background:#382354;
+  color:white;
+  border:1px solid #9565db;
+  border-radius:10px;
+  padding:10px;
+  min-height:44px;
+  font-weight:bold;
+  touch-action:none;
+}
+button:active,button.active {
+  background:#a267ff;
+}
+button[aria-pressed="true"] {
+  background:#7950bd;
+}
+#stats {padding:12px;color:#d9baff}
 </style>
 </head>
 <body>
 <h2>S-NOVA</h2>
 <div>DIGITAL ODYSSEY // NOVA DRIVE</div>
-<div id="stats">HP 100 | HEAT 0% | KILLS 0</div>
+<div id="stats"></div>
 <canvas id="arena" width="360" height="320"></canvas>
+
 <div id="controls">
-<div class="pad">
-<span></span><button data-key="up">▲</button><span></span>
-<button data-key="left">◀</button>
-<button data-key="down">▼</button>
-<button data-key="right">▶</button>
+  <div id="stick" aria-label="Movement joystick">
+    <div id="knob"></div>
+  </div>
+  <div class="actions">
+    <button data-key="slide">SLIDE</button>
+    <button data-key="focus">FOCUS</button>
+    <button data-key="combo" style="grid-column:span 2">SLIDE + FOCUS</button>
+    <button id="auto" aria-pressed="true" style="grid-column:span 2">AUTO FIRE: ON</button>
+  </div>
 </div>
-<div class="actions">
-<button data-key="slide">SLIDE</button>
-<button data-key="focus">FOCUS</button>
-<button data-key="fire" style="grid-column:span 2">FIRE</button>
-</div>
-</div>
+
 <button id="restart">Restart Mission</button>
-<p>Prototype v0.02</p>
+<p>Prototype v0.03 — Mobile Controls</p>
+
 <script>
 const c=document.getElementById("arena");
 const g=c.getContext("2d");
 const stats=document.getElementById("stats");
+const stick=document.getElementById("stick");
+const knob=document.getElementById("knob");
+const autoButton=document.getElementById("auto");
+
 const keys={};
-let p,e,bullets,hp,heat,kills,locked,fireDelay,enemyDelay,dx,dy,last=0;
+let auto=true;
+let jx=0,jy=0,stickId=null;
+let p,e,bullets,hp,heat,kills,locked;
+let fireDelay,enemyDelay,dx,dy,last=0;
+
+document.addEventListener("contextmenu",ev=>ev.preventDefault());
+document.addEventListener("selectstart",ev=>ev.preventDefault());
+document.addEventListener("touchmove",ev=>ev.preventDefault(),{passive:false});
+
+function moveStick(ev){
+  const b=stick.getBoundingClientRect();
+  let x=ev.clientX-b.left-b.width/2;
+  let y=ev.clientY-b.top-b.height/2;
+  const d=Math.hypot(x,y);
+  const m=Math.min(1,d/42);
+  jx=d>5?x/d*m:0;
+  jy=d>5?y/d*m:0;
+  knob.style.transform=`translate(${jx*42}px,${jy*42}px)`;
+}
+
+function clearStick(){
+  stickId=null;
+  jx=jy=0;
+  knob.style.transform="";
+}
+
+stick.onpointerdown=ev=>{
+  ev.preventDefault();
+  if(stickId!==null)return;
+  stickId=ev.pointerId;
+  stick.setPointerCapture(ev.pointerId);
+  moveStick(ev);
+};
+
+stick.onpointermove=ev=>{
+  if(ev.pointerId===stickId)moveStick(ev);
+};
+
+stick.onpointerup=
+stick.onpointercancel=
+stick.onlostpointercapture=ev=>{
+  if(ev.pointerId===stickId)clearStick();
+};
+
+autoButton.onclick=()=>{
+  auto=!auto;
+  autoButton.textContent="AUTO FIRE: "+(auto?"ON":"OFF");
+  autoButton.setAttribute("aria-pressed",String(auto));
+};
+
+document.querySelectorAll("[data-key]").forEach(b=>{
+  const k=b.dataset.key;
+  const pointers=new Set();
+
+  b.onpointerdown=ev=>{
+    ev.preventDefault();
+    b.setPointerCapture(ev.pointerId);
+    pointers.add(ev.pointerId);
+    keys[k]=true;
+    b.classList.add("active");
+  };
+
+  b.onpointerup=
+  b.onpointercancel=
+  b.onlostpointercapture=ev=>{
+    pointers.delete(ev.pointerId);
+    keys[k]=pointers.size>0;
+    b.classList.toggle("active",keys[k]);
+  };
+});
+
+function clearInputs(){
+  Object.keys(keys).forEach(k=>keys[k]=false);
+  clearStick();
+  document.querySelectorAll(".active").forEach(b=>{
+    b.classList.remove("active");
+  });
+}
 
 function reset(){
-p={x:65,y:160};
-e={x:300,y:160,hp:100};
-bullets=[];
-hp=100;heat=0;kills=0;
-locked=false;
-fireDelay=0;enemyDelay=0;
-dx=1;dy=0;
-Object.keys(keys).forEach(k=>keys[k]=false);
+  p={x:65,y:160};
+  e={x:300,y:160,hp:100};
+  bullets=[];
+  hp=100;
+  heat=0;
+  kills=0;
+  locked=false;
+  fireDelay=0;
+  enemyDelay=0;
+  dx=1;
+  dy=0;
+  clearInputs();
 }
+
 reset();
 document.getElementById("restart").onclick=reset;
 
-document.querySelectorAll("[data-key]").forEach(b=>{
-const k=b.dataset.key;
-b.onpointerdown=ev=>{
-ev.preventDefault();
-b.setPointerCapture(ev.pointerId);
-keys[k]=true;
-};
-b.onpointerup=b.onpointercancel=b.onlostpointercapture=()=>{
-keys[k]=false;
-};
-});
-
 const map={
-w:"up",a:"left",s:"down",d:"right",
-ArrowUp:"up",ArrowDown:"down",
-ArrowLeft:"left",ArrowRight:"right",
-Shift:"slide",q:"focus"," ":"fire"
+  w:"up",a:"left",s:"down",d:"right",
+  ArrowUp:"up",ArrowDown:"down",
+  ArrowLeft:"left",ArrowRight:"right",
+  Shift:"slide",q:"focus"," ":"fire"
 };
 
 window.addEventListener("keydown",ev=>{
-if(map[ev.key]){
-ev.preventDefault();
-keys[map[ev.key]]=true;
-}
+  if(map[ev.key]){
+    ev.preventDefault();
+    keys[map[ev.key]]=true;
+  }
 });
+
 window.addEventListener("keyup",ev=>{
-if(map[ev.key])keys[map[ev.key]]=false;
+  if(map[ev.key])keys[map[ev.key]]=false;
 });
-window.addEventListener("blur",()=>{
-Object.keys(keys).forEach(k=>keys[k]=false);
+
+window.addEventListener("blur",clearInputs);
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden)clearInputs();
 });
 
 function orb(x,y,r,color){
-g.fillStyle=color;
-g.beginPath();
-g.arc(x,y,r,0,Math.PI*2);
-g.fill();
+  g.fillStyle=color;
+  g.beginPath();
+  g.arc(x,y,r,0,Math.PI*2);
+  g.fill();
 }
 
 function shoot(a,t,v,own){
-let d=Math.hypot(t.x-a.x,t.y-a.y)||1;
-bullets.push({
-x:a.x,y:a.y,
-vx:(t.x-a.x)*v/d,
-vy:(t.y-a.y)*v/d,own
-});
+  let d=Math.hypot(t.x-a.x,t.y-a.y)||1;
+  bullets.push({
+    x:a.x,y:a.y,
+    vx:(t.x-a.x)*v/d,
+    vy:(t.y-a.y)*v/d,
+    own
+  });
 }
 
 function frame(now){
-let dt=Math.min(.04,(now-last)/1000||0);
-last=now;
-let slide=keys.slide&&!locked;
-let focus=keys.focus&&!locked;
-let slow=focus?0.25:1;
+  let dt=Math.min(.04,(now-last)/1000||0);
+  last=now;
 
-if(hp>0){
-let x=Number(!!keys.right)-Number(!!keys.left);
-let y=Number(!!keys.down)-Number(!!keys.up);
-let l=Math.hypot(x,y);
-if(l){dx=x/l;dy=y/l}
-if(l||slide){
-p.x+=dx*dt*(slide?270:100);
-p.y+=dy*dt*(slide?270:100);
+  let slide=(keys.slide||keys.combo)&&!locked;
+  let focus=(keys.focus||keys.combo)&&!locked;
+  let slow=focus?0.25:1;
+
+  if(hp>0){
+    let x=jx+Number(!!keys.right)-Number(!!keys.left);
+    let y=jy+Number(!!keys.down)-Number(!!keys.up);
+    let l=Math.hypot(x,y);
+
+    if(l){
+      dx=x/l;
+      dy=y/l;
+    }
+
+    if(l||slide){
+      let speed=slide?270:100*Math.min(1,l);
+      p.x+=dx*dt*speed;
+      p.y+=dy*dt*speed;
+    }
+
+    p.x=Math.max(12,Math.min(348,p.x));
+    p.y=Math.max(12,Math.min(308,p.y));
+
+    heat=Math.max(0,Math.min(100,
+      heat+dt*((slide?32:0)+(focus?24:0)
+      -(!slide&&!focus?26:0))
+    ));
+
+    if(heat>=100)locked=true;
+    if(heat<30)locked=false;
+
+    fireDelay-=dt;
+    enemyDelay-=dt*slow;
+
+    if((auto||keys.fire)&&fireDelay<=0){
+      shoot(p,e,300,true);
+      fireDelay=.2;
+    }
+
+    let d=Math.hypot(p.x-e.x,p.y-e.y)||1;
+
+    if(d>65){
+      e.x+=(p.x-e.x)/d*38*dt*slow;
+      e.y+=(p.y-e.y)/d*38*dt*slow;
+    }
+
+    if(enemyDelay<=0){
+      shoot(e,p,125,false);
+      enemyDelay=.85;
+    }
+
+    for(let b of bullets){
+      let t=dt*(b.own?1:slow);
+      b.x+=b.vx*t;
+      b.y+=b.vy*t;
+
+      let target=b.own?e:p;
+
+      if(Math.hypot(b.x-target.x,b.y-target.y)<(b.own?15:10)){
+        if(b.own)e.hp-=10;
+        else hp=Math.max(0,hp-10);
+        b.dead=true;
+      }
+    }
+
+    bullets=bullets.filter(b=>
+      !b.dead&&b.x>0&&b.x<360&&b.y>0&&b.y<320
+    );
+
+    if(e.hp<=0){
+      kills++;
+      e={
+        x:p.x<180?330:30,
+        y:30+Math.random()*260,
+        hp:100
+      };
+    }
+  }
+
+  g.fillStyle=focus?"#24204b":"#17112b";
+  g.fillRect(0,0,360,320);
+  g.strokeStyle="#35264e";
+  g.lineWidth=.6;
+
+  for(let x=0;x<360;x+=30){
+    g.beginPath();
+    g.moveTo(x,0);
+    g.lineTo(x,320);
+    g.stroke();
+  }
+
+  for(let y=0;y<320;y+=30){
+    g.beginPath();
+    g.moveTo(0,y);
+    g.lineTo(360,y);
+    g.stroke();
+  }
+
+  if(slide){
+    for(let i=5;i>0;i--){
+      orb(p.x-dx*i*9,p.y-dy*i*9,9,
+      "rgba(155,90,255,.25)");
+    }
+  }
+
+  g.shadowBlur=14;
+  g.shadowColor="#ac75ff";
+  orb(p.x,p.y,11,"#a76bff");
+  orb(p.x,p.y,5,"#f2d9ff");
+  g.shadowBlur=0;
+
+  orb(e.x,e.y,15,"#ff486d");
+  orb(e.x,e.y,7,"#72213d");
+
+  g.fillStyle="#ff9cb2";
+  g.fillRect(e.x-15,e.y-22,
+    30*Math.max(0,e.hp)/100,3);
+
+  for(let b of bullets){
+    orb(b.x,b.y,b.own?3:4,
+      b.own?"#d5b0ff":"#ffb353");
+  }
+
+  g.fillStyle="#3d2d55";
+  g.fillRect(10,305,100,5);
+  g.fillStyle=locked?"#ff536b":"#b78aff";
+  g.fillRect(10,305,heat,5);
+
+  stats.textContent=
+    `HP ${hp} | HEAT ${Math.round(heat)}% | KILLS ${kills}`
+    +(locked?" | OVERHEATED":focus?" | HYPERFOCUS":"");
+
+  if(hp<=0){
+    g.fillStyle="rgba(10,5,20,.85)";
+    g.fillRect(0,0,360,320);
+    g.fillStyle="white";
+    g.textAlign="center";
+    g.font="bold 24px system-ui";
+    g.fillText("SIGNAL LOST",180,150);
+    g.font="14px system-ui";
+    g.fillText("Restart mission to retry",180,178);
+  }
+
+  requestAnimationFrame(frame);
 }
-p.x=Math.max(12,Math.min(348,p.x));
-p.y=Math.max(12,Math.min(308,p.y));
 
-heat=Math.max(0,Math.min(100,
-heat+dt*((slide?32:0)+(focus?24:0)
--(!slide&&!focus?26:0))));
-
-if(heat>=100)locked=true;
-if(heat<30)locked=false;
-
-fireDelay-=dt;
-enemyDelay-=dt*slow;
-
-if(keys.fire&&fireDelay<=0){
-shoot(p,e,300,true);
-fireDelay=.2;
-}
-
-let d=Math.hypot(p.x-e.x,p.y-e.y)||1;
-if(d>65){
-e.x+=(p.x-e.x)/d*38*dt*slow;
-e.y+=(p.y-e.y)/d*38*dt*slow;
-}
-
-if(enemyDelay<=0){
-shoot(e,p,125,false);
-enemyDelay=.85;
-}
-
-for(let b of bullets){
-let t=dt*(b.own?1:slow);
-b.x+=b.vx*t;
-b.y+=b.vy*t;
-let target=b.own?e:p;
-if(Math.hypot(b.x-target.x,b.y-target.y)<(b.own?15:10)){
-if(b.own)e.hp-=10;
-else hp=Math.max(0,hp-10);
-b.dead=true;
-}
-}
-
-bullets=bullets.filter(b=>
-!b.dead&&b.x>0&&b.x<360&&b.y>0&&b.y<320);
-
-if(e.hp<=0){
-kills++;
-e={x:p.x<180?330:30,
-y:30+Math.random()*260,hp:100};
-}
-}
-
-g.fillStyle=focus?"#24204b":"#17112b";
-g.fillRect(0,0,360,320);
-g.strokeStyle="#35264e";
-g.lineWidth=.6;
-
-for(let x=0;x<360;x+=30){
-g.beginPath();g.moveTo(x,0);
-g.lineTo(x,320);g.stroke();
-}
-for(let y=0;y<320;y+=30){
-g.beginPath();g.moveTo(0,y);
-g.lineTo(360,y);g.stroke();
-}
-
-if(slide){
-for(let i=5;i>0;i--){
-orb(p.x-dx*i*9,p.y-dy*i*9,9,
-"rgba(155,90,255,.25)");
-}
-}
-
-g.shadowBlur=14;
-g.shadowColor="#ac75ff";
-orb(p.x,p.y,11,"#a76bff");
-orb(p.x,p.y,5,"#f2d9ff");
-g.shadowBlur=0;
-
-orb(e.x,e.y,15,"#ff486d");
-orb(e.x,e.y,7,"#72213d");
-g.fillStyle="#ff9cb2";
-g.fillRect(e.x-15,e.y-22,
-30*Math.max(0,e.hp)/100,3);
-
-for(let b of bullets){
-orb(b.x,b.y,b.own?3:4,
-b.own?"#d5b0ff":"#ffb353");
-}
-
-g.fillStyle="#3d2d55";
-g.fillRect(10,305,100,5);
-g.fillStyle=locked?"#ff536b":"#b78aff";
-g.fillRect(10,305,heat,5);
-
-stats.textContent=
-`HP ${hp} | HEAT ${Math.round(heat)}% | KILLS ${kills}`
-+(locked?" | OVERHEATED":focus?" | HYPERFOCUS":"");
-
-if(hp<=0){
-g.fillStyle="rgba(10,5,20,.85)";
-g.fillRect(0,0,360,320);
-g.fillStyle="white";
-g.textAlign="center";
-g.font="bold 24px system-ui";
-g.fillText("SIGNAL LOST",180,150);
-g.font="14px system-ui";
-g.fillText("Restart mission to retry",180,178);
-}
-requestAnimationFrame(frame);
-}
 requestAnimationFrame(frame);
 </script>
 </body>
