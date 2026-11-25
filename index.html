@@ -23,7 +23,10 @@ body {
   font-family:system-ui;
   text-align:center;
 }
-h2 {color:#bc8cff;letter-spacing:3px}
+h2 {
+  color:#bc8cff;
+  letter-spacing:3px;
+}
 canvas {
   width:100%;
   max-width:600px;
@@ -82,7 +85,15 @@ button:active,button.active {
 button[aria-pressed="true"] {
   background:#7950bd;
 }
-#stats {padding:12px;color:#d9baff}
+#stats {
+  padding:12px;
+  color:#d9baff;
+}
+.legend {
+  font-size:11px;
+  color:#aaa;
+  margin:6px;
+}
 </style>
 </head>
 <body>
@@ -90,29 +101,48 @@ button[aria-pressed="true"] {
 <h2>S-NOVA</h2>
 <div>DIGITAL ODYSSEY // NOVA DRIVE</div>
 <div id="stats"></div>
+
 <canvas id="arena" width="360" height="320"></canvas>
 
+<div class="legend">
+  <span style="color:#ff486d">● Sentinel</span>
+  &nbsp;
+  <span style="color:#ff9d42">▲ Hunter</span>
+  &nbsp;
+  <span style="color:#4bcde8">■ Artillery</span>
+</div>
+
 <div id="controls">
-  <div id="stick" aria-label="Movement joystick">
+  <div id="stick">
     <div id="knob"></div>
   </div>
+
   <div class="actions">
     <button data-key="slide">SLIDE</button>
     <button data-key="focus">FOCUS</button>
+
     <button id="combo" style="grid-column:span 2">
       SLIDE + FOCUS
     </button>
+
     <button id="mode" style="grid-column:span 2">
       COMBO MODE: HOLD
     </button>
-    <button id="auto" aria-pressed="true" style="grid-column:span 2">
+
+    <button id="auto" aria-pressed="true"
+      style="grid-column:span 2">
       AUTO FIRE: ON
+    </button>
+
+    <button data-key="fire" id="manual"
+      style="grid-column:span 2;display:none">
+      FIRE
     </button>
   </div>
 </div>
 
 <button id="restart">Restart Mission</button>
-<p>Prototype v0.04 — Combo Toggle</p>
+<p>Prototype v0.05 — Enemy Waves</p>
 
 <script>
 const c=document.getElementById("arena");
@@ -123,6 +153,7 @@ const knob=document.getElementById("knob");
 const autoButton=document.getElementById("auto");
 const comboButton=document.getElementById("combo");
 const modeButton=document.getElementById("mode");
+const manual=document.getElementById("manual");
 
 const keys={};
 const actionPointers=new Map();
@@ -132,8 +163,37 @@ let toggleMode=false;
 let comboOn=false;
 let comboPointer=null;
 let jx=0,jy=0,stickId=null;
-let p,e,bullets,hp,heat,kills,locked;
-let fireDelay,enemyDelay,dx,dy,last=0;
+
+let p,enemies,bullets,hp,heat,kills,locked;
+let fireDelay,dx,dy,last=0;
+let wave=1;
+
+const TYPES={
+  sentinel:{
+    hp:100,
+    speed:38,
+    radius:15,
+    color:"#ff486d",
+    range:65,
+    interval:.85
+  },
+  hunter:{
+    hp:60,
+    speed:105,
+    radius:11,
+    color:"#ff9d42",
+    range:0,
+    interval:.8
+  },
+  artillery:{
+    hp:120,
+    speed:24,
+    radius:16,
+    color:"#4bcde8",
+    range:145,
+    interval:2.2
+  }
+};
 
 document.addEventListener("contextmenu",
   ev=>ev.preventDefault());
@@ -167,6 +227,7 @@ function clearStick(){
 stick.onpointerdown=ev=>{
   ev.preventDefault();
   if(stickId!==null)return;
+
   stickId=ev.pointerId;
   stick.setPointerCapture(ev.pointerId);
   moveStick(ev);
@@ -184,14 +245,19 @@ stick.onlostpointercapture=ev=>{
 
 autoButton.onclick=()=>{
   auto=!auto;
+
   autoButton.textContent=
     "AUTO FIRE: "+(auto?"ON":"OFF");
+
   autoButton.setAttribute(
     "aria-pressed",String(auto));
+
+  manual.style.display=auto?"none":"block";
 };
 
 function syncCombo(){
   comboButton.classList.toggle("active",comboOn);
+
   comboButton.setAttribute(
     "aria-pressed",String(comboOn));
 
@@ -269,6 +335,7 @@ function held(k){
 function clearInputs(){
   Object.keys(keys).forEach(k=>keys[k]=false);
   actionPointers.forEach(set=>set.clear());
+
   clearStick();
   stopCombo();
 
@@ -277,19 +344,70 @@ function clearInputs(){
   });
 }
 
+function spawn(type){
+  const t=TYPES[type];
+
+  let x,y;
+  let attempts=0;
+
+  do{
+    const side=Math.floor(Math.random()*4);
+
+    x=side===0?20:
+      side===1?340:20+Math.random()*320;
+
+    y=side===2?20:
+      side===3?300:20+Math.random()*280;
+
+    attempts++;
+
+  }while(Math.hypot(x-p.x,y-p.y)<140
+    &&attempts<30);
+
+  enemies.push({
+    type,
+    x,y,
+    hp:t.hp,
+    maxHp:t.hp,
+    speed:t.speed,
+    radius:t.radius,
+    color:t.color,
+    range:t.range,
+    interval:t.interval,
+    cooldown:.7+Math.random(),
+    angle:0
+  });
+}
+
+function nextType(){
+  const r=Math.random();
+
+  if(kills<2)return "sentinel";
+
+  if(kills<5){
+    return r<.6?"sentinel":"hunter";
+  }
+
+  if(r<.4)return "sentinel";
+  if(r<.75)return "hunter";
+  return "artillery";
+}
+
 function reset(){
   p={x:65,y:160};
-  e={x:300,y:160,hp:100};
+  enemies=[];
   bullets=[];
   hp=100;
   heat=0;
   kills=0;
+  wave=1;
   locked=false;
   fireDelay=0;
-  enemyDelay=0;
   dx=1;
   dy=0;
+
   clearInputs();
+  spawn("sentinel");
 }
 
 reset();
@@ -327,24 +445,148 @@ function orb(x,y,r,color){
   g.fill();
 }
 
-function shoot(a,t,v,own){
-  let d=Math.hypot(t.x-a.x,t.y-a.y)||1;
+function shoot(a,t,v,own,offset=0,color=null){
+  const angle=Math.atan2(t.y-a.y,t.x-a.x)+offset;
 
   bullets.push({
-    x:a.x,y:a.y,
-    vx:(t.x-a.x)*v/d,
-    vy:(t.y-a.y)*v/d,
-    own
+    x:a.x,
+    y:a.y,
+    vx:Math.cos(angle)*v,
+    vy:Math.sin(angle)*v,
+    own,
+    color:color||(own?"#d5b0ff":"#ffb353")
   });
+}
+
+function nearestEnemy(){
+  let target=null;
+  let distance=Infinity;
+
+  for(const e of enemies){
+    if(e.hp<=0)continue;
+
+    const d=Math.hypot(p.x-e.x,p.y-e.y);
+
+    if(d<distance){
+      distance=d;
+      target=e;
+    }
+  }
+
+  return target;
+}
+
+function updateEnemy(e,dt,slow){
+  const t=dt*slow;
+  const x=p.x-e.x;
+  const y=p.y-e.y;
+  const d=Math.hypot(x,y)||1;
+
+  e.angle=Math.atan2(y,x);
+  e.cooldown-=t;
+
+  let direction=0;
+
+  if(e.type==="hunter"){
+    if(d>20)direction=1;
+
+    if(d<24&&e.cooldown<=0){
+      hp=Math.max(0,hp-10);
+      e.cooldown=e.interval;
+    }
+
+  }else if(e.type==="artillery"){
+    if(d>165)direction=1;
+    if(d<115)direction=-1;
+
+    if(e.cooldown<=0){
+      for(const offset of [-.28,0,.28]){
+        shoot(e,p,105,false,offset,"#4bcde8");
+      }
+
+      e.cooldown=e.interval;
+    }
+
+  }else{
+    if(d>e.range)direction=1;
+
+    if(e.cooldown<=0){
+      shoot(e,p,125,false);
+      e.cooldown=e.interval;
+    }
+  }
+
+  e.x+=x/d*e.speed*t*direction;
+  e.y+=y/d*e.speed*t*direction;
+
+  for(const other of enemies){
+    if(other===e)continue;
+
+    const sx=e.x-other.x;
+    const sy=e.y-other.y;
+    const sd=Math.hypot(sx,sy)||.01;
+    const min=e.radius+other.radius+4;
+
+    if(sd<min){
+      e.x+=sx/sd*(min-sd)*.35;
+      e.y+=sy/sd*(min-sd)*.35;
+    }
+  }
+
+  e.x=Math.max(e.radius,
+    Math.min(360-e.radius,e.x));
+
+  e.y=Math.max(e.radius,
+    Math.min(320-e.radius,e.y));
+}
+
+function drawEnemy(e){
+  g.save();
+  g.translate(e.x,e.y);
+
+  g.fillStyle=e.color;
+
+  if(e.type==="hunter"){
+    g.rotate(e.angle);
+    g.beginPath();
+    g.moveTo(15,0);
+    g.lineTo(-10,-10);
+    g.lineTo(-5,0);
+    g.lineTo(-10,10);
+    g.closePath();
+    g.fill();
+
+  }else if(e.type==="artillery"){
+    g.fillRect(-15,-15,30,30);
+    g.fillStyle="#19566b";
+    g.fillRect(-8,-8,16,16);
+
+  }else{
+    orb(0,0,15,e.color);
+    orb(0,0,7,"#72213d");
+  }
+
+  g.restore();
+
+  g.fillStyle="#35264e";
+  g.fillRect(e.x-15,e.y-e.radius-8,30,3);
+
+  g.fillStyle=e.color;
+  g.fillRect(e.x-15,e.y-e.radius-8,
+    30*Math.max(0,e.hp)/e.maxHp,3);
 }
 
 function frame(now){
   let dt=Math.min(.04,(now-last)/1000||0);
   last=now;
 
-  let slide=(held("slide")||comboOn)&&!locked;
-  let focus=(held("focus")||comboOn)&&!locked;
-  let slow=focus?0.25:1;
+  let slide=hp>0&&
+    (held("slide")||comboOn)&&!locked;
+
+  let focus=hp>0&&
+    (held("focus")||comboOn)&&!locked;
+
+  let slow=focus?.25:1;
 
   if(hp>0){
     let x=jx+Number(held("right"))
@@ -382,39 +624,41 @@ function frame(now){
     if(heat<30)locked=false;
 
     fireDelay-=dt;
-    enemyDelay-=dt*slow;
 
-    if((auto||held("fire"))&&fireDelay<=0){
-      shoot(p,e,300,true);
+    const target=nearestEnemy();
+
+    if(target&&(auto||held("fire"))
+      &&fireDelay<=0){
+
+      shoot(p,target,300,true);
       fireDelay=.2;
     }
 
-    let d=Math.hypot(p.x-e.x,p.y-e.y)||1;
-
-    if(d>65){
-      e.x+=(p.x-e.x)/d*38*dt*slow;
-      e.y+=(p.y-e.y)/d*38*dt*slow;
+    for(const e of enemies){
+      updateEnemy(e,dt,slow);
     }
 
-    if(enemyDelay<=0){
-      shoot(e,p,125,false);
-      enemyDelay=.85;
-    }
-
-    for(let b of bullets){
+    for(const b of bullets){
       let t=dt*(b.own?1:slow);
 
       b.x+=b.vx*t;
       b.y+=b.vy*t;
 
-      let target=b.own?e:p;
+      if(b.own){
+        for(const e of enemies){
+          if(e.hp<=0)continue;
 
-      if(Math.hypot(b.x-target.x,b.y-target.y)
-        <(b.own?15:10)){
+          if(Math.hypot(b.x-e.x,b.y-e.y)
+            <e.radius+2){
 
-        if(b.own)e.hp-=10;
-        else hp=Math.max(0,hp-10);
+            e.hp-=10;
+            b.dead=true;
+            break;
+          }
+        }
 
+      }else if(Math.hypot(b.x-p.x,b.y-p.y)<10){
+        hp=Math.max(0,hp-10);
         b.dead=true;
       }
     }
@@ -424,18 +668,22 @@ function frame(now){
       &&b.y>0&&b.y<320
     );
 
-    if(e.hp<=0){
-      kills++;
-      e={
-        x:p.x<180?330:30,
-        y:30+Math.random()*260,
-        hp:100
-      };
+    for(const e of enemies){
+      if(e.hp<=0)kills++;
+    }
+
+    enemies=enemies.filter(e=>e.hp>0);
+
+    wave=kills>=15?3:kills>=5?2:1;
+
+    while(enemies.length<wave){
+      spawn(nextType());
     }
   }
 
   g.fillStyle=focus?"#24204b":"#17112b";
   g.fillRect(0,0,360,320);
+
   g.strokeStyle="#35264e";
   g.lineWidth=.6;
 
@@ -468,16 +716,24 @@ function frame(now){
 
   g.shadowBlur=0;
 
-  orb(e.x,e.y,15,"#ff486d");
-  orb(e.x,e.y,7,"#72213d");
+  for(const e of enemies){
+    drawEnemy(e);
+  }
 
-  g.fillStyle="#ff9cb2";
-  g.fillRect(e.x-15,e.y-22,
-    30*Math.max(0,e.hp)/100,3);
+  const target=nearestEnemy();
 
-  for(let b of bullets){
-    orb(b.x,b.y,b.own?3:4,
-      b.own?"#d5b0ff":"#ffb353");
+  if(target&&hp>0&&(auto||held("fire"))){
+    g.strokeStyle="rgba(210,175,255,.6)";
+    g.lineWidth=1;
+
+    g.beginPath();
+    g.arc(target.x,target.y,
+      target.radius+6,0,Math.PI*2);
+    g.stroke();
+  }
+
+  for(const b of bullets){
+    orb(b.x,b.y,b.own?3:4,b.color);
   }
 
   g.fillStyle="#3d2d55";
@@ -485,6 +741,11 @@ function frame(now){
 
   g.fillStyle=locked?"#ff536b":"#b78aff";
   g.fillRect(10,305,heat,5);
+
+  g.fillStyle="#d9baff";
+  g.font="11px system-ui";
+  g.textAlign="right";
+  g.fillText("WAVE "+wave,350,15);
 
   stats.textContent=
     `HP ${hp} | HEAT ${Math.round(heat)}% | KILLS ${kills}`
@@ -496,12 +757,19 @@ function frame(now){
 
     g.fillStyle="rgba(10,5,20,.85)";
     g.fillRect(0,0,360,320);
+
     g.fillStyle="white";
     g.textAlign="center";
     g.font="bold 24px system-ui";
-    g.fillText("SIGNAL LOST",180,150);
+    g.fillText("SIGNAL LOST",180,125);
+
+    g.fillStyle="#d9baff";
+    g.font="bold 18px system-ui";
+    g.fillText("KILLS: "+kills,180,155);
+
     g.font="14px system-ui";
-    g.fillText("Restart mission to retry",180,178);
+    g.fillText("Wave reached: "+wave,180,180);
+    g.fillText("Restart mission to retry",180,210);
   }
 
   requestAnimationFrame(frame);
