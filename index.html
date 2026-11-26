@@ -13,7 +13,7 @@
   #menu button { flex-basis: 29%; }
   body { padding-bottom: calc(162px + env(safe-area-inset-bottom)); }
 }
-</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2><span data-game-text="DIGITAL ODYSSEY // NEON INTERFACE">DIGITAL ODYSSEY // NEON INTERFACE</span><div id="stats"><div class="hud"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div><div id="menu"><button id="pauseBtn" data-game-text="Pause">Pause</button><button id="restart" data-game-text="Restart Mission">Restart Mission</button><button id="settingsBtn" data-game-text="Settings">Settings</button><button id="scoresBtn" data-game-text="Leaderboards">Leaderboards</button><button id="shopBtn" data-game-text="Shop">Shop</button><button id="profileBtn" data-game-text="Profile">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3 data-game-text="Control settings">Control settings</h3><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden><button id="closeSettings" data-game-text="Resume">Resume</button></div><div id="records" hidden></div><div id="shop" hidden><h3 data-game-text="Nova Upgrade Shop">Nova Upgrade Shop</h3><div id="offers"></div><button id="closeShop" data-game-text="Resume">Resume</button></div><div id="profile" hidden><h3 data-game-text="Player Profile">Player Profile</h3><img id="avatarPreview" hidden alt="Player avatar"><div><label><span data-game-text="Display name">Display name</span> <input id="displayName" maxlength="24" placeholder="Player"></label></div><button id="saveName" data-game-text="Save name">Save name</button><button id="avatarBtn" data-game-text="Change photo">Change photo</button><button id="removeAvatar" data-game-text="Remove photo">Remove photo</button><input id="avatarFile" type="file" accept="image/*" hidden><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.12.1 — Online Lobby Preview">Prototype v0.12.1 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
+.lobby-translation{padding:6px 8px;border-inline-start:2px solid #bc8cff;color:#e5cdff}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2><span data-game-text="DIGITAL ODYSSEY // NEON INTERFACE">DIGITAL ODYSSEY // NEON INTERFACE</span><div id="stats"><div class="hud"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div><div id="menu"><button id="pauseBtn" data-game-text="Pause">Pause</button><button id="restart" data-game-text="Restart Mission">Restart Mission</button><button id="settingsBtn" data-game-text="Settings">Settings</button><button id="scoresBtn" data-game-text="Leaderboards">Leaderboards</button><button id="shopBtn" data-game-text="Shop">Shop</button><button id="profileBtn" data-game-text="Profile">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3 data-game-text="Control settings">Control settings</h3><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden><button id="closeSettings" data-game-text="Resume">Resume</button></div><div id="records" hidden></div><div id="shop" hidden><h3 data-game-text="Nova Upgrade Shop">Nova Upgrade Shop</h3><div id="offers"></div><button id="closeShop" data-game-text="Resume">Resume</button></div><div id="profile" hidden><h3 data-game-text="Player Profile">Player Profile</h3><img id="avatarPreview" hidden alt="Player avatar"><div><label><span data-game-text="Display name">Display name</span> <input id="displayName" maxlength="24" placeholder="Player"></label></div><button id="saveName" data-game-text="Save name">Save name</button><button id="avatarBtn" data-game-text="Change photo">Change photo</button><button id="removeAvatar" data-game-text="Remove photo">Remove photo</button><input id="avatarFile" type="file" accept="image/*" hidden><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.12.2 — Online Lobby Preview">Prototype v0.12.2 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
 <h3 data-copy="lobby">Online lobby</h3>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
@@ -73,7 +73,7 @@ const gameSpanish = {
   "Change photo": "Cambiar foto",
   "Remove photo": "Eliminar foto",
   "Close": "Cerrar",
-  "Prototype v0.12.1 — Online Lobby Preview": "Prototipo v0.12.1 — Vista previa de la sala en línea",
+  "Prototype v0.12.2 — Online Lobby Preview": "Prototipo v0.12.2 — Vista previa de la sala en línea",
   "Player avatar": "Avatar del jugador",
   "Player": "Jugador",
   "Lobby messages": "Mensajes de la sala",
@@ -344,6 +344,7 @@ async function refreshLobby() {
       name.textContent = message.profiles ? message.profiles.display_name + " #" + message.profiles.arcade_id : "—";
       body.textContent = message.body;
       item.append(name, body);
+      addTranslateButton(item, message);
       if (message.sender_id !== lobbyPlayer.id) {
         for (const action of ["block","report"]) {
           const button = document.createElement("button");
@@ -432,4 +433,182 @@ document.addEventListener("visibilitychange", () => {
   if (document.hidden) stopLobbyUpdates();
   else startLobbyUpdates();
 });
+
+// Lobby overlay, support link, and restart confirmation
+const gameDialogs = document.createElement("style");
+gameDialogs.textContent = `
+  .game-dialog {
+    width: min(560px, calc(100% - 24px));
+    max-height: calc(100dvh - 24px);
+    box-sizing: border-box;
+    overflow: auto;
+    overscroll-behavior: contain;
+    border: 1px solid #7950bd;
+    border-radius: 14px;
+    background: #24163e;
+    color: inherit;
+    text-align: center;
+    padding: 12px;
+  }
+  .game-dialog::backdrop { background: #090615bb; }
+  .game-dialog #lobby { margin: 0; padding: 0; }
+  .game-dialog #lobbyMessages { max-height: min(280px, 35dvh); }
+  .game-dialog button { margin: 4px; min-height: 44px; }
+  #supportEmail { color: #e5cdff; overflow-wrap: anywhere; }
+`;
+document.head.append(gameDialogs);
+
+const lobbyDialog = document.createElement("dialog");
+lobbyDialog.className = "game-dialog";
+lobbyDialog.setAttribute("aria-labelledby", "lobbyHeading");
+const lobbySection = $("lobby");
+lobbySection.querySelector("h3").id = "lobbyHeading";
+lobbySection.before(lobbyDialog);
+lobbyDialog.append(lobbySection);
+
+$("lobbyBtn").onclick = () => {
+  panel("lobby");
+  lobbyDialog.showModal();
+  startLobbyUpdates();
+};
+function dismissLobby() {
+  panel("lobby");
+  stopLobbyUpdates();
+  lobbyDialog.close();
+  $("lobbyBtn").focus({preventScroll:true});
+}
+$("closeLobby").onclick = dismissLobby;
+lobbyDialog.addEventListener("cancel", event => {
+  event.preventDefault();
+  dismissLobby();
+});
+
+lobbyText.en.support = "Help and feedback";
+lobbyText.es.support = "Ayuda y comentarios";
+const support = document.createElement("p");
+const supportLabel = document.createElement("span");
+supportLabel.dataset.copy = "support";
+const supportEmail = document.createElement("a");
+supportEmail.id = "supportEmail";
+supportEmail.href = "mailto:snova.labs32@gmail.com";
+supportEmail.textContent = "snova.labs32@gmail.com";
+support.append(supportLabel, document.createElement("br"), supportEmail);
+$("closeHelp").before(support);
+
+Object.assign(lobbyText.en, {
+  restartQuestion: "Are you sure you want to restart this mission?",
+  yes: "Yes", no: "No"
+});
+Object.assign(lobbyText.es, {
+  restartQuestion: "¿Seguro que quieres reiniciar esta misión?",
+  yes: "Sí", no: "No"
+});
+const restartDialog = document.createElement("dialog");
+restartDialog.className = "game-dialog";
+restartDialog.setAttribute("aria-labelledby", "restartQuestion");
+restartDialog.innerHTML = `
+  <p id="restartQuestion" data-copy="restartQuestion"></p>
+  <button type="button" data-copy="no" autofocus></button>
+  <button type="button" data-copy="yes"></button>
+`;
+document.body.append(restartDialog);
+
+let pausedBeforeRestart;
+$("restart").onclick = () => {
+  pausedBeforeRestart = paused;
+  clear();
+  paused = true;
+  restartDialog.showModal();
+};
+function dismissRestart(restart) {
+  paused = pausedBeforeRestart;
+  last = 0;
+  restartDialog.close();
+  if (restart) reset();
+  $("restart").focus({preventScroll:true});
+}
+restartDialog.querySelector('[data-copy="no"]').onclick = () => dismissRestart(false);
+restartDialog.querySelector('[data-copy="yes"]').onclick = () => dismissRestart(true);
+restartDialog.addEventListener("cancel", event => {
+  event.preventDefault();
+  dismissRestart(false);
+});
+translateGame();
+Object.assign(lobbyText.en, {
+  translate:"Translate with DeepL", translating:"Translating…",
+  translationDisclosure:"Sends this message to DeepL for translation.",
+  translationRate:"Wait a few seconds before translating another message.",
+  translationFailed:"Translation is unavailable right now."
+});
+Object.assign(lobbyText.es, {
+  translate:"Traducir con DeepL", translating:"Traduciendo…",
+  translationDisclosure:"Envía este mensaje a DeepL para traducirlo.",
+  translationRate:"Espera unos segundos antes de traducir otro mensaje.",
+  translationFailed:"La traducción no está disponible por ahora."
+});
+const lobbyTranslations = new Map();
+const translatingMessages = new Set();
+
+function addTranslateButton(item, message) {
+  const language = lobbyLanguage.value;
+  const key = language + ":" + message.id;
+  const output = document.createElement("p");
+  output.className = "lobby-translation";
+  output.lang = language === "es" ? "es-419" : "en";
+  output.setAttribute("role", "status");
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = copy("translate");
+  button.title = copy("translationDisclosure");
+  button.disabled = translatingMessages.has(key);
+  function showTranslation() {
+    output.textContent = lobbyTranslations.get(key) ?? "";
+    output.hidden = !lobbyTranslations.has(key);
+    button.hidden = !output.hidden;
+  }
+  button.onclick = async () => {
+    if (translatingMessages.has(key)) return;
+    translatingMessages.add(key);
+    button.disabled = true;
+    output.hidden = false;
+    output.textContent = copy("translating");
+    try {
+      const {session} = await lobbyResult(lobbyClient.auth.getSession());
+      if (!session) throw new Error("session expired");
+      const response = await fetch(lobbyUrl + "/functions/v1/translate-lobby-message", {
+        method: "POST",
+        headers: {
+          apikey: lobbyKey,
+          Authorization: "Bearer " + session.access_token,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({messageId: message.id, language}),
+        signal: AbortSignal.timeout(25000)
+      });
+      if (response.status === 429) {
+        output.textContent = copy("translationRate");
+        return;
+      }
+      if (!response.ok) throw new Error("translation unavailable");
+      const {text} = await response.json();
+      if (typeof text !== "string") throw new Error("invalid translation");
+      lobbyTranslations.set(key, text);
+      if (lobbyTranslations.size > 60) lobbyTranslations.delete(lobbyTranslations.keys().next().value);
+      showTranslation();
+    } catch {
+      output.textContent = copy("translationFailed");
+    } finally {
+      translatingMessages.delete(key);
+      button.disabled = false;
+      const current = $("lobbyMessages").querySelector('[data-translation-key="' + key + '"]');
+      if (current && current !== button) {
+        current.disabled = false;
+        if (lobbyTranslations.has(key)) refreshLobby();
+      }
+    }
+  };
+  button.dataset.translationKey = key;
+  showTranslation();
+  item.append(button, output);
+}
 </script></body></html>
