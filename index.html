@@ -13,7 +13,7 @@
   #menu button { flex-basis: 29%; }
   body { padding-bottom: calc(162px + env(safe-area-inset-bottom)); }
 }
-.lobby-translation{padding:6px 8px;border-inline-start:2px solid #bc8cff;color:#e5cdff}#shareGameBar{margin:4px 0 7px}#shareGameButton{font-size:12px;min-height:36px;padding:4px 10px}#gameShareLink{display:block;width:100%;margin:6px 0;font-size:16px;user-select:text;-webkit-user-select:text}#profileInviteCode{overflow-wrap:anywhere}#accountPanel{border-block:1px solid #7950bd;padding:8px 0;margin:10px 0}#accountEmail{width:min(220px,100%);font-size:16px;user-select:text;-webkit-user-select:text}#accountStatus:empty{display:none}#controls,#controls *{touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2><span data-game-text="DIGITAL ODYSSEY // NEON INTERFACE">DIGITAL ODYSSEY // NEON INTERFACE</span><div id="shareGameBar"><button type="button" id="shareGameButton" data-copy="shareGame">Share game</button></div><div id="stats"><div class="hud"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div><div id="menu"><button id="pauseBtn" data-game-text="Pause">Pause</button><button id="restart" data-game-text="Restart Mission">Restart Mission</button><button id="settingsBtn" data-game-text="Settings">Settings</button><button id="scoresBtn" data-game-text="Leaderboards">Leaderboards</button><button id="shopBtn" data-game-text="Shop">Shop</button><button id="profileBtn" data-game-text="Profile">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3 data-game-text="Control settings">Control settings</h3><div><label for="difficulty" data-game-text="Difficulty">Difficulty</label> <select id="difficulty"><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option></select><p id="difficultyHint"></p></div><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden><button id="closeSettings" data-game-text="Resume">Resume</button></div><div id="records" hidden><section id="liveScores">
+.lobby-translation{padding:6px 8px;border-inline-start:2px solid #bc8cff;color:#e5cdff}#shareGameBar{margin:4px 0 7px}#shareGameButton{font-size:12px;min-height:36px;padding:4px 10px}#gameShareLink{display:block;width:100%;margin:6px 0;font-size:16px;user-select:text;-webkit-user-select:text}#profileInviteCode{overflow-wrap:anywhere}#accountPanel{border-block:1px solid #7950bd;padding:8px 0;margin:10px 0}#accountEmail{width:min(220px,100%);font-size:16px;user-select:text;-webkit-user-select:text}#accountStatus:empty{display:none}#controls,#controls *{touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}#profileFriends{border-block-start:1px solid #7950bd;margin-top:12px;padding-top:6px}#profileFriendsList{padding:0;list-style:none;text-align:left}#profileFriendsList li{padding:8px;margin:4px 0;background:#140c27;border-radius:8px;overflow-wrap:anywhere}#profileFriendsList small{display:block;margin-top:4px;color:#d0bce8}#profileFriendsStatus:empty{display:none}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2><span data-game-text="DIGITAL ODYSSEY // NEON INTERFACE">DIGITAL ODYSSEY // NEON INTERFACE</span><div id="shareGameBar"><button type="button" id="shareGameButton" data-copy="shareGame">Share game</button></div><div id="stats"><div class="hud"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div><div id="menu"><button id="pauseBtn" data-game-text="Pause">Pause</button><button id="restart" data-game-text="Restart Mission">Restart Mission</button><button id="settingsBtn" data-game-text="Settings">Settings</button><button id="scoresBtn" data-game-text="Leaderboards">Leaderboards</button><button id="shopBtn" data-game-text="Shop">Shop</button><button id="profileBtn" data-game-text="Profile">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3 data-game-text="Control settings">Control settings</h3><div><label for="difficulty" data-game-text="Difficulty">Difficulty</label> <select id="difficulty"><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option></select><p id="difficultyHint"></p></div><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden><button id="closeSettings" data-game-text="Resume">Resume</button></div><div id="records" hidden><section id="liveScores">
 <h3 data-copy="liveScores">Live leaderboards</h3>
 <label for="leaderboardMode" data-game-text="Difficulty">Difficulty</label>
 <select id="leaderboardMode"><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option></select>
@@ -31,7 +31,7 @@
 <button type="button" id="cloudRestore" data-copy="accountRestore">Restore cloud save</button>
 </div>
 <p id="accountStatus" role="status"></p>
-</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.12.9 — Online Lobby Preview">Prototype v0.12.9 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
+</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><section id="profileFriends"><h4 data-copy="friendsTitle">Friends</h4><p id="profileFriendsStatus" role="status"></p><ul id="profileFriendsList"></ul></section><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.12.10 — Online Lobby Preview">Prototype v0.12.10 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
 <header id="lobbyHeader"><h3 data-copy="lobby">Online lobby</h3><button type="button" id="closeLobby" data-copy="close">Close</button></header>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
@@ -90,7 +90,7 @@ const gameSpanish = {
   "Change photo": "Cambiar foto",
   "Remove photo": "Eliminar foto",
   "Close": "Cerrar",
-  "Prototype v0.12.9 — Online Lobby Preview": "Prototipo v0.12.9 — Vista previa de la sala en línea",
+  "Prototype v0.12.10 — Online Lobby Preview": "Prototipo v0.12.10 — Vista previa de la sala en línea",
   "Player avatar": "Avatar del jugador",
   "Player": "Jugador",
   "Lobby messages": "Mensajes de la sala",
@@ -790,16 +790,16 @@ Object.assign(lobbyText.en, {
   inviteRewards: "Referral bonus: 1,000 Nova Credits each after the invited player's first mission.",
   inviteRejected: "This referral code is invalid, is yours, or has already been used.",
   inviteUnavailable: "Referral status is unavailable. Open Profile again to retry.",
-  copyLink: "Copy link", linkCopied: "Copied.", copyInvite: "Copy invite", inviteMessage: "Come play S-Nova: Digital Odyssey! Dodge enemies, charge up, and see how far you can get. Join with my invite and we’ll each earn 1,000 Nova Credits after your first mission."
+  copyLink: "Copy link", linkCopied: "Copied.", copyInvite: "Copy invite", inviteMessage: "Come play S-Nova: Digital Odyssey! Dodge enemies, charge up, and see how far you can get. Use my invite and finish your first mission to add me as a friend and earn 1,000 Nova Credits each."
 });
 Object.assign(lobbyText.es, {
   shareGame: "Compartir juego", shareInvite: "Compartir invitación", inviteCode: "Código de referido",
   inviteSignIn: "Entra a la sala en línea para obtener tu código de referido.",
   invitePending: "Invitación guardada. Termina una misión e inicia sesión para reclamarla.",
-  inviteRewards: "Bono de referido: 1000 créditos Nova para cada jugador después de la primera misión del invitado.",
+  inviteRewards: "Al terminar la primera misión del jugador invitado, se harán amigos y cada uno ganará 1000 créditos Nova.",
   inviteRejected: "Este código no es válido, es tuyo o ya lo usaste.",
   inviteUnavailable: "El estado de referidos no está disponible. Vuelve a abrir el perfil para reintentar.",
-  copyLink: "Copiar enlace", linkCopied: "Copiado.", copyInvite: "Copiar invitación", inviteMessage: "¡Ven a jugar S-Nova: Odisea Digital! Esquiva enemigos, carga tu energía y descubre hasta dónde puedes llegar. Únete con mi invitación y cada quien ganará 1000 créditos Nova cuando termines tu primera misión."
+  copyLink: "Copiar enlace", linkCopied: "Copiado.", copyInvite: "Copiar invitación", inviteMessage: "¡Ven a jugar S-Nova: Odisea Digital! Esquiva enemigos, carga tu energía y descubre hasta dónde puedes llegar. Usa mi invitación y termina tu primera misión para agregarme como amigo y ganar 1000 créditos Nova cada uno."
 });
 
 function renderReferral() {
@@ -838,6 +838,7 @@ async function refreshReferral() {
       }
     }
     onlineInvite = await lobbyResult(lobbyClient.rpc("referral_profile"));
+    if (!$("profile").hidden) refreshFriends();
     const credited = Number(progress.referralCreditsApplied?.[session.user.id]) || 0;
     if (Number.isSafeInteger(onlineInvite.credits) && onlineInvite.credits > credited) {
       progress.credits += onlineInvite.credits - credited;
@@ -1127,4 +1128,37 @@ for (const symbol of ["😀","😂","😍","🔥","👏","🙌","👍","💜","�
 lobbyLanguage.addEventListener("change",refreshEmojiLabels);
 lobbyDialog.addEventListener("close",() => setEmojiPicker(false));
 refreshEmojiLabels();
+Object.assign(lobbyText.en, {friendsTitle:"Friends", friendsGuest:"Join the online lobby to see your friends.", friendsLoading:"Loading friends…", friendsEmpty:"Share an invite. You’ll appear on each other’s Friends lists when the referral is redeemed.", friendsError:"Could not load friends."});
+Object.assign(lobbyText.es, {friendsTitle:"Amigos", friendsGuest:"Entra a la sala en línea para ver a tus amigos.", friendsLoading:"Cargando amigos…", friendsEmpty:"Comparte una invitación. Aparecerán en sus listas de amigos cuando se canjee el referido.", friendsError:"No se pudo cargar la lista de amigos."});
+let friendsRequest = 0;
+async function refreshFriends() {
+  const request = ++friendsRequest;
+  const list = $("profileFriendsList");
+  const status = $("profileFriendsStatus");
+  list.replaceChildren();
+  status.textContent = copy("friendsLoading");
+  try {
+    const client = await getAccountClient();
+    const {session} = await lobbyResult(client.auth.getSession());
+    const rows = session ? await lobbyResult(client.rpc("referral_friends")) : [];
+    if (request !== friendsRequest) return;
+    status.textContent = !session ? copy("friendsGuest") : rows.length ? "" : copy("friendsEmpty");
+    list.replaceChildren(...rows.map(row => {
+      const item = document.createElement("li");
+      const name = document.createElement("strong");
+      const scores = document.createElement("small");
+      name.textContent = row.display_name + " #" + row.arcade_id;
+      scores.textContent = Object.entries(difficultyLabels).map(([mode,label]) =>
+        gameText(label) + " " + (row[mode]?.toLocaleString(lobbyLanguage.value) ?? "—")
+      ).join(" · ");
+      item.append(name,scores);
+      return item;
+    }));
+  } catch {
+    if (request === friendsRequest) status.textContent = copy("friendsError");
+  }
+}
+$("profileBtn").addEventListener("click", () => { if (!$("profile").hidden) refreshFriends(); });
+lobbyLanguage.addEventListener("change", () => { if (!$("profile").hidden) refreshFriends(); });
+translateGame();
 </script></body></html>
