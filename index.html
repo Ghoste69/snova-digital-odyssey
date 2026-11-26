@@ -1,10 +1,19 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>S-Nova Digital Odyssey</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>S-Nova Digital Odyssey</title><style>
 *{box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}body{margin:0;background:#090615;color:#eee;font:14px system-ui;text-align:center}h2{color:#bc8cff;margin:8px;letter-spacing:3px}canvas{width:100%;max-width:600px;background:#17112b;border:1px solid #7950bd;border-radius:10px;touch-action:none}#controls{display:flex;max-width:600px;margin:8px auto;gap:8px;align-items:center;padding:5px;touch-action:none}#stick{width:128px;height:128px;flex-shrink:0;border:2px solid #7950bd;border-radius:50%;background:#24163e;position:relative;touch-action:none}#knob{position:absolute;left:41px;top:41px;width:42px;height:42px;background:#a76bff;border-radius:50%;pointer-events:none}.actions{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:5px}button{background:#382354;color:white;border:1px solid #9565db;border-radius:8px;padding:8px;min-height:40px;font-weight:bold;touch-action:none}.wide{grid-column:span 2}button.active{background:#a267ff}#stats,#records{padding:7px;color:#d9baff}footer{padding:8px;color:#a99ac2}
 [hidden]{display:none!important}.actions button{min-height:58px}#settings,#records{max-width:600px;margin:8px auto;padding:12px;background:#24163e;border-radius:10px}#settings button{margin:4px}#menu button{margin:3px}#shop{max-width:600px;margin:8px auto;padding:12px;background:#24163e;border-radius:10px}#shop button{margin:4px}#wallet{color:#ffd65c;padding:4px}#backup{user-select:text;-webkit-user-select:text}
 #menu{position:relative;z-index:12;background:#090615;display:flex;flex-wrap:wrap;justify-content:center;max-width:600px;margin:auto}#menu button{min-height:36px;padding:6px}#settings,#records,#shop,#profile{position:fixed;z-index:11;top:8px;left:50%;transform:translateX(-50%);width:min(94vw,580px);max-height:65dvh;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;background:#24163e;border:1px solid #9565db;border-radius:12px;padding:14px;margin:0;box-shadow:0 0 0 100vmax #090615bb}#profile input{user-select:text;-webkit-user-select:text;max-width:100%;padding:8px;border-radius:6px}#avatarPreview{width:76px;height:76px;object-fit:cover;border-radius:50%;background:#382354}#profile button{margin:4px}#profileStats{line-height:1.8;white-space:pre-line}#menu button[aria-expanded=true]{background:#7950bd}body:has(#profile:not([hidden])),body:has(#settings:not([hidden])),body:has(#shop:not([hidden])),body:has(#records:not([hidden])){overflow:hidden}#menu{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;padding-bottom:env(safe-area-inset-bottom)}body{padding-bottom:100px}#settings,#records,#shop,#profile{max-height:calc(100dvh - 115px)} @media(max-height:750px){canvas{max-height:38dvh;object-fit:contain}#stick{width:108px;height:108px}#knob{left:31px;top:31px}.actions button{min-height:48px}}
 
 :root{color-scheme:dark;--ink:#f1eaff;--muted:#aaa0c4;--line:#49336c;--panel:#171126;--violet:#b78aff}body{background:radial-gradient(ellipse at 50% 0,#25143d 0, #0a0814 55%);color:var(--ink);padding:0 8px 110px;font-variant-numeric:tabular-nums}h2{font-size:25px;letter-spacing:7px;margin:10px 0 2px;text-shadow:0 0 18px #a76bff88}canvas{border-color:#7950bd;box-shadow:0 0 18px #9b5cff25;display:block;margin:auto}button{background:linear-gradient(160deg,#302145,#1b142b);border-color:#62468b;color:var(--ink);font-size:12px;letter-spacing:.3px}button:disabled{opacity:.45}button.active,#menu button[aria-expanded=true]{background:#6840ad;box-shadow:inset 0 0 12px #c69aff55}#menu{gap:4px;padding:8px 6px calc(8px + env(safe-area-inset-bottom));background:#100c1a;border-top:1px solid var(--line)}#menu button{margin:0;flex:1;min-width:48px;font-size:11px;min-height:42px}#stick{background:radial-gradient(circle,#30204c,#120e20);box-shadow:inset 0 0 16px #a76bff22}#knob{background:radial-gradient(circle at 35% 30%,#d4b5ff,#8550ce);box-shadow:0 0 12px #a76bff77}#stats{max-width:600px;margin:8px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:0} .hud{background:#181225;border:1px solid #38284f;border-radius:6px;padding:5px 2px;min-width:0}.hud small,.tile small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.7px}.hud b{font-size:14px}.meter{height:4px;background:#352844;border-radius:5px;overflow:hidden;margin:4px 5px 0}.meter i{display:block;height:100%;background:#b78aff;border-radius:5px}.hp i{background:#69e6a4}.hot i{background:#ff697e}#wallet{font-size:12px;letter-spacing:1px}#settings,#records,#shop,#profile{top:12px;background:linear-gradient(150deg,#211633,#100d1c);border-color:#7252a1;box-shadow:0 0 0 100vmax #05030bd9,0 0 25px #a76bff44;text-align:left;padding:16px;max-height:calc(100dvh - 125px)}h3{margin:0 0 14px;color:#d4b5ff;letter-spacing:2px;text-transform:uppercase;font-size:15px}#profile{text-align:center}#avatarPreview{width:82px;height:82px;border:2px solid #b78aff;box-shadow:0 0 16px #a76bff55;margin-bottom:8px}#profile input{background:#0d0a16;border:1px solid #62468b;color:white;font-size:16px}#profileStats{white-space:normal;line-height:1.4;text-align:left;margin-top:12px}.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:10px 0}.tile,.upgrade,.rank,.levelbox{background:#110d1d;border:1px solid #3b2b55;border-radius:9px;padding:10px}.tile strong{display:block;font-size:21px;color:#e3ceff}.levelbox b{color:#d4b5ff;font-size:20px}.levelbox .meter{height:7px;margin:8px 0}.sectionlabel{color:#bda6df;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin:15px 0 7px}.upgrade{margin:6px 0;display:flex;align-items:center;justify-content:space-between;gap:8px}.upgrade small{color:var(--muted);display:block}.segments{display:flex;gap:3px;flex-shrink:0}.segments i{width:12px;height:9px;background:#3b2b55;border-radius:2px}.segments i.on{background:#b78aff;box-shadow:0 0 5px #b78aff66}.rank{display:grid;grid-template-columns:30px 1fr auto;align-items:center;margin:5px 0;gap:8px}.rank strong{color:#e3ceff}.rank small{color:var(--muted)}.rank:first-of-type{border-color:#b78aff}#settings{ text-align:center}#settings button{touch-action:manipulation}#profile button,#shop button,#menu button{touch-action:manipulation}footer{font-size:11px;letter-spacing:1px} @media(max-height:750px){#stats{gap:3px}.hud{padding:3px 1px}h2{margin:4px 0;font-size:20px}#controls{margin:3px auto}canvas{max-height:34dvh}} 
-.online-panel{max-width:600px;margin:8px auto;padding:12px;background:#24163e;border-radius:10px}.online-panel input{user-select:text;-webkit-user-select:text;width:min(72%,300px);font-size:16px}.online-panel button{margin:4px}#lobbyMessages{list-style:none;padding:0;max-height:280px;overflow:auto;text-align:left}#lobbyMessages li{margin:4px;padding:8px;background:#140c27;border-radius:8px;overflow-wrap:anywhere}#lobbyMessages p{margin:4px 0;white-space:pre-wrap}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2> DIGITAL ODYSSEY // NEON INTERFACE<div id="stats"><div class="hud"><small>Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud"><small>Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small>Kills</small><b id="hudKills">—</b></div><div class="hud"><small>Time</small><b id="hudTime">—</b></div><div class="hud"><small>Score</small><b id="hudScore">—</b></div><div class="hud"><small>Power</small><b id="hudPower">—</b></div><div class="hud"><small>Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small>Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db">◆ Power</span> · <span style="color:#6affbd">◆ Speed</span> · <span style="color:#ffd65c">● Coin</span> · <span style="color:#ff3344">◆ Mine</span> · <span style="color:#7dff85">✚ Health</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide">SLIDE</button><button id="focus">FOCUS</button><button id="combo" class="wide">SLIDE + FOCUS</button><button id="charge" class="wide">NOVA CHARGE</button><button id="fire" class="wide" hidden>FIRE</button></div></div><div id="menu"><button id="pauseBtn">Pause</button><button id="restart">Restart Mission</button><button id="settingsBtn">Settings</button><button id="scoresBtn">Leaderboards</button><button id="shopBtn">Shop</button><button id="profileBtn">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3>Control settings</h3><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button><button id="exportSave">Export save</button><button id="importSave">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden><button id="closeSettings">Resume</button></div><div id="records" hidden></div><div id="shop" hidden><h3>Nova Upgrade Shop</h3><div id="offers"></div><button id="closeShop">Resume</button></div><div id="profile" hidden><h3>Player Profile</h3><img id="avatarPreview" hidden alt="Player avatar"><div><label>Display name <input id="displayName" maxlength="24" placeholder="Player"></label></div><button id="saveName">Save name</button><button id="avatarBtn">Change photo</button><button id="removeAvatar">Remove photo</button><input id="avatarFile" type="file" accept="image/*" hidden><div id="profileStats"></div><button id="closeProfile">Close</button></div><footer>Prototype v0.12 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
+.online-panel{max-width:600px;margin:8px auto;padding:12px;background:#24163e;border-radius:10px}.online-panel input{user-select:text;-webkit-user-select:text;width:min(72%,300px);font-size:16px}.online-panel button{margin:4px}#lobbyMessages{list-style:none;padding:0;max-height:280px;overflow:auto;text-align:left}#lobbyMessages li{margin:4px;padding:8px;background:#140c27;border-radius:8px;overflow-wrap:anywhere}#lobbyMessages p{margin:4px 0;white-space:pre-wrap}
+@media (max-width: 540px) {
+  #menu button { flex: 1 1 22%; min-width: 0; padding-inline: 4px; letter-spacing: 0; }
+  body { padding-bottom: calc(116px + env(safe-area-inset-bottom)); }
+}
+@media (max-width: 360px) {
+  #menu button { flex-basis: 29%; }
+  body { padding-bottom: calc(162px + env(safe-area-inset-bottom)); }
+}
+</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2><span data-game-text="DIGITAL ODYSSEY // NEON INTERFACE">DIGITAL ODYSSEY // NEON INTERFACE</span><div id="stats"><div class="hud"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div><div id="menu"><button id="pauseBtn" data-game-text="Pause">Pause</button><button id="restart" data-game-text="Restart Mission">Restart Mission</button><button id="settingsBtn" data-game-text="Settings">Settings</button><button id="scoresBtn" data-game-text="Leaderboards">Leaderboards</button><button id="shopBtn" data-game-text="Shop">Shop</button><button id="profileBtn" data-game-text="Profile">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3 data-game-text="Control settings">Control settings</h3><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden><button id="closeSettings" data-game-text="Resume">Resume</button></div><div id="records" hidden></div><div id="shop" hidden><h3 data-game-text="Nova Upgrade Shop">Nova Upgrade Shop</h3><div id="offers"></div><button id="closeShop" data-game-text="Resume">Resume</button></div><div id="profile" hidden><h3 data-game-text="Player Profile">Player Profile</h3><img id="avatarPreview" hidden alt="Player avatar"><div><label><span data-game-text="Display name">Display name</span> <input id="displayName" maxlength="24" placeholder="Player"></label></div><button id="saveName" data-game-text="Save name">Save name</button><button id="avatarBtn" data-game-text="Change photo">Change photo</button><button id="removeAvatar" data-game-text="Remove photo">Remove photo</button><input id="avatarFile" type="file" accept="image/*" hidden><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.12.1 — Online Lobby Preview">Prototype v0.12.1 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
 <h3 data-copy="lobby">Online lobby</h3>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
@@ -29,25 +38,128 @@
 <p data-copy="about">Play offline anytime. Join the lobby for a guest callsign. You can block or report messages from another player.</p>
 <button id="closeHelp" data-copy="close">Close</button>
 </section><script>
+const gameSpanish = {
+  "DIGITAL ODYSSEY // NEON INTERFACE": "ODISEA DIGITAL // INTERFAZ NEÓN",
+  "Integrity": "Integridad",
+  "Heat": "Calor",
+  "Kills": "Bajas",
+  "Time": "Tiempo",
+  "Score": "Puntaje",
+  "Power": "Potencia",
+  "Speed": "Velocidad",
+  "Sector": "Sector",
+  "◆ Power": "◆ Potencia",
+  "◆ Speed": "◆ Velocidad",
+  "● Coin": "● Moneda",
+  "◆ Mine": "◆ Mina",
+  "✚ Health": "✚ Salud",
+  "SLIDE": "DESLIZAR",
+  "FOCUS": "CONCENTRAR",
+  "NOVA CHARGE": "CARGA NOVA",
+  "FIRE": "DISPARAR",
+  "Restart Mission": "Reiniciar misión",
+  "Settings": "Ajustes",
+  "Leaderboards": "Clasificación",
+  "Shop": "Tienda",
+  "Profile": "Perfil",
+  "Control settings": "Ajustes de controles",
+  "Export save": "Exportar partida",
+  "Import save": "Importar partida",
+  "Resume": "Reanudar",
+  "Nova Upgrade Shop": "Tienda de mejoras Nova",
+  "Player Profile": "Perfil del jugador",
+  "Display name": "Nombre visible",
+  "Save name": "Guardar nombre",
+  "Change photo": "Cambiar foto",
+  "Remove photo": "Eliminar foto",
+  "Close": "Cerrar",
+  "Prototype v0.12.1 — Online Lobby Preview": "Prototipo v0.12.1 — Vista previa de la sala en línea",
+  "Player avatar": "Avatar del jugador",
+  "Player": "Jugador",
+  "Lobby messages": "Mensajes de la sala",
+  "Pause": "Pausar",
+  "PAUSE": "PAUSA",
+  "TOUCH": "TÁCTIL",
+  "MANUAL": "MANUAL",
+  "Wallet": "Saldo",
+  "Save failed — export backup": "No se guardó la partida. Exporta una copia.",
+  "Power Amplifier": "Amplificador de potencia",
+  "Velocity Engine": "Motor de velocidad",
+  "Thermal Regulator": "Regulador térmico",
+  "+2 base damage per level": "+2 de daño base por nivel",
+  "+5% base speed per level": "+5 % de velocidad base por nivel",
+  "+10% boost duration per level": "+10 % de duración de mejoras temporales por nivel",
+  "MAX": "MÁX.",
+  "Buy": "Comprar",
+  "COMBINE": "COMBINAR",
+  "AUTO FIRE": "DISPARO AUTO.",
+  "ON": "SÍ",
+  "OFF": "NO",
+  "Invalid save": "Partida no válida",
+  "Replace current wallet, upgrades, settings and records with this backup? Current mission will restart.": "¿Quieres reemplazar tu saldo, mejoras, ajustes y récords con esta copia? La misión actual se reiniciará.",
+  "Save imported": "Partida importada",
+  "Import failed": "No se pudo importar la partida",
+  "Personal records": "Récords personales",
+  "Highest score": "Puntaje más alto",
+  "Fastest victory": "Victoria más rápida",
+  "Best victory HP": "Mayor salud al ganar",
+  "All-time wins": "Victorias totales",
+  "Most kills": "Más bajas",
+  "Top 10 missions · local": "Mejores 10 misiones · local",
+  "kills": "bajas",
+  "VICTORY": "VICTORIA",
+  "DEFEAT": "DERROTA",
+  "SLIDE + FOCUS": "DESLIZAR + CONCENTRAR",
+  "COMBO": "COMBO",
+  "TOGGLE": "ALTERNAR",
+  "HOLD": "MANTENER",
+  "PAUSED — press Resume": "EN PAUSA — toca Reanudar",
+  "PAUSED — touch controls": "EN PAUSA — toca los controles",
+  "CORE GUARDIAN": "GUARDIÁN DEL NÚCLEO",
+  "CLEAR REMAINING": "ELIMINA A LOS RESTANTES",
+  "WAVE": "OLEADA",
+  "MISSION COMPLETE": "MISIÓN COMPLETA",
+  "SIGNAL LOST": "SEÑAL PERDIDA",
+  "HP": "Salud",
+  "Restart mission to retry": "Reinicia la misión para volver a intentar",
+  "Profile save failed. Export a backup in Settings.": "No se guardó el perfil. Exporta una copia en Ajustes.",
+  "LEVEL": "NIVEL",
+  "Nova credits": "Créditos Nova",
+  "Career · since v0.10": "Trayectoria · desde v0.10",
+  "Missions": "Misiones",
+  "Win rate": "Porcentaje de victorias",
+  "Wins": "Victorias",
+  "Defeats": "Derrotas",
+  "Playtime": "Tiempo de juego",
+  "Permanent upgrades": "Mejoras permanentes",
+  "Could not read this photo": "No se pudo leer esta foto"
+};
+const lobbyLanguage = document.getElementById("lobbyLanguage");
+try { lobbyLanguage.value = localStorage.getItem("snovaLobbyLanguage") === "es" ? "es" : "en"; } catch {}
+function gameText(english) {
+  return lobbyLanguage.value === "es" && Object.hasOwn(gameSpanish, english)
+    ? gameSpanish[english] : english;
+}
+
 const $=id=>document.getElementById(id),g=$("arena").getContext("2d"),W=360,H=320;
 let p,E,B,I,F,hp,heat,kills,score,power,speed,elapsed,wave,state,boss,locked,delay,dx,dy;
 let auto=true,toggle=false,combo=false,charging=false,charge=0,jx=0,jy=0,sid=null,last=0;
 let combined=true,paused=false,history=[],touchPause=false,manualPaused=false;
 const contacts=new Set();
 function idlePause(){return touchPause&&contacts.size===0&&![...keys].some(k=>["w","a","s","d","ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Shift","q","e"," "].includes(k))}
-function pauseUI(){ $("pauseBtn").hidden=touchPause;$("pauseBtn").textContent=manualPaused?"Resume":"Pause";$("pauseMode").textContent="PAUSE: "+(touchPause?"TOUCH":"MANUAL"); }
+function pauseUI(){ $("pauseBtn").hidden=touchPause;$("pauseBtn").textContent=manualPaused?gameText("Resume"):gameText("Pause");$("pauseMode").textContent=gameText("PAUSE")+": "+(touchPause?gameText("TOUCH"):gameText("MANUAL")); }
 try{let prefs=JSON.parse(localStorage.getItem("snova07prefs"))||{};auto=prefs.auto??true;toggle=prefs.toggle??false;combined=prefs.combined??true;touchPause=prefs.touchPause===true;history=JSON.parse(localStorage.getItem("snova07history"))||[];if(!Array.isArray(history))history=[]}catch{}
 let progress={version:1,credits:0,damage:0,velocity:0,thermal:0};
 function validProgress(v){return v&&v.version===1&&Number.isSafeInteger(v.credits)&&v.credits>=0&&[v.damage,v.velocity,v.thermal].every(n=>Number.isInteger(n)&&n>=0&&n<=5)}
 try{let v=JSON.parse(localStorage.getItem("snova08progress"));if(validProgress(v))progress=v}catch{}
 let storageWarning=false;
 function persist(){try{localStorage.setItem("snova08progress",JSON.stringify(progress));storageWarning=false}catch{storageWarning=true}wallet()}
-function wallet(){$("wallet").textContent=`Wallet: ${progress.credits} NC`+(storageWarning?" | Save failed — export backup":"")}
+function wallet(){$("wallet").textContent=`${gameText("Wallet")}: ${progress.credits} NC`+(storageWarning?" | "+gameText("Save failed — export backup"):"")}
 const prices=[100,250,500,1000,2000];
 const upgrades=[["damage","Power Amplifier","+2 base damage per level"],["velocity","Velocity Engine","+5% base speed per level"],["thermal","Thermal Regulator","+10% boost duration per level"]];
-function shop(){wallet();let root=$("offers");root.replaceChildren();for(let [key,name,desc] of upgrades){let level=progress[key],row=document.createElement("div"),b=document.createElement("button");row.className="upgrade";row.innerHTML=`<div>${name}<small>${desc} · ${level}/5</small>${segments(level)}</div>`;b.textContent=level===5?"MAX":`Buy: ${prices[level]} NC`;b.disabled=level===5||progress.credits<prices[level];b.onclick=()=>{let n=progress[key];if(n>=5||progress.credits<prices[n])return;progress.credits-=prices[n];progress[key]++;persist();shop()};row.appendChild(b);root.appendChild(row)}}
+function shop(){wallet();let root=$("offers");root.replaceChildren();for(let [key,name,desc] of upgrades){let level=progress[key],row=document.createElement("div"),b=document.createElement("button");row.className="upgrade";row.innerHTML=`<div>${gameText(name)}<small>${gameText(desc)} · ${level}/5</small>${segments(level)}</div>`;b.textContent=level===5?gameText("MAX"):`${gameText("Buy")}: ${prices[level]} NC`;b.disabled=level===5||progress.credits<prices[level];b.onclick=()=>{let n=progress[key];if(n>=5||progress.credits<prices[n])return;progress.credits-=prices[n];progress[key]++;persist();shop()};row.appendChild(b);root.appendChild(row)}}
 function savePrefs(){try{localStorage.setItem("snova07prefs",JSON.stringify({auto,toggle,combined,touchPause}))}catch{}}
-function layout(){pauseUI();$("slide").hidden=combined;$("focus").hidden=combined;$("combo").hidden=!combined;$("fire").hidden=auto;$("combine").textContent="COMBINE: "+(combined?"ON":"OFF");$("auto").textContent="AUTO FIRE: "+(auto?"ON":"OFF");sync()}
+function layout(){pauseUI();$("slide").hidden=combined;$("focus").hidden=combined;$("combo").hidden=!combined;$("fire").hidden=auto;$("combine").textContent=gameText("COMBINE")+": "+(combined?gameText("ON"):gameText("OFF"));$("auto").textContent=gameText("AUTO FIRE")+": "+(auto?gameText("ON"):gameText("OFF"));sync()}
 const panels={settings:"settingsBtn",records:"scoresBtn",shop:"shopBtn",profile:"profileBtn",lobby:"lobbyBtn",help:"helpBtn"};
 function panel(id){if(id!=="lobby")stopLobbyUpdates();let open=$(id).hidden;clear();for(let [key,btn] of Object.entries(panels)){$(key).hidden=true;$(btn).setAttribute("aria-expanded","false")}$(id).hidden=!open;$(panels[id]).setAttribute("aria-expanded",String(open));paused=open;last=0;if(open&&id==="records")records();if(open&&id==="shop")shop();if(open&&id==="profile")renderProfile()}
 
@@ -59,7 +171,7 @@ for(const event of ["pointerup","pointercancel","lostpointercapture"])window.add
 $("shopBtn").onclick=()=>panel("shop");$("closeShop").onclick=()=>panel("shop");
 $("exportSave").onclick=()=>{let data={version:1,progress,prefs:{auto,toggle,combined,touchPause},history,rec,career};let url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));let a=document.createElement("a");a.href=url;a.download="snova-save.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),3000)};
 $("importSave").onclick=()=>$("saveFile").click();
-$("saveFile").onchange=async()=>{try{let f=$("saveFile").files[0];if(!f)return;let v=JSON.parse(await f.text());let nonneg=n=>typeof n==="number"&&Number.isFinite(n)&&n>=0;if(v.version!==1||!validProgress(v.progress)||!v.prefs||![v.prefs.auto,v.prefs.toggle,v.prefs.combined].every(n=>typeof n==="boolean")||!Array.isArray(v.history)||v.history.length>10||!v.history.every(h=>h&&[h.score,h.kills,h.elapsed,h.hp].every(nonneg)&&typeof h.win==="boolean")||!v.rec||![v.rec.kills,v.rec.hp,v.rec.score,v.rec.wins].every(nonneg)||!(v.rec.fast===null||nonneg(v.rec.fast)))throw Error("Invalid save");if(!confirm("Replace current wallet, upgrades, settings and records with this backup? Current mission will restart."))return;progress=v.progress;({auto,toggle,combined}=v.prefs);touchPause=v.prefs.touchPause===true;history=v.history;rec=v.rec;career=validCareer(v.career)?v.career:initialCareer();saveCareer();persist();savePrefs();localStorage.setItem("snova07history",JSON.stringify(history));localStorage.setItem("snova06",JSON.stringify(rec));layout();reset();alert("Save imported")}catch(e){alert("Import failed: "+e.message)}finally{$("saveFile").value=""}};
+$("saveFile").onchange=async()=>{try{let f=$("saveFile").files[0];if(!f)return;let v=JSON.parse(await f.text());let nonneg=n=>typeof n==="number"&&Number.isFinite(n)&&n>=0;if(v.version!==1||!validProgress(v.progress)||!v.prefs||![v.prefs.auto,v.prefs.toggle,v.prefs.combined].every(n=>typeof n==="boolean")||!Array.isArray(v.history)||v.history.length>10||!v.history.every(h=>h&&[h.score,h.kills,h.elapsed,h.hp].every(nonneg)&&typeof h.win==="boolean")||!v.rec||![v.rec.kills,v.rec.hp,v.rec.score,v.rec.wins].every(nonneg)||!(v.rec.fast===null||nonneg(v.rec.fast)))throw Error(gameText("Invalid save"));if(!confirm(gameText("Replace current wallet, upgrades, settings and records with this backup? Current mission will restart.")))return;progress=v.progress;({auto,toggle,combined}=v.prefs);touchPause=v.prefs.touchPause===true;history=v.history;rec=v.rec;career=validCareer(v.career)?v.career:initialCareer();saveCareer();persist();savePrefs();localStorage.setItem("snova07history",JSON.stringify(history));localStorage.setItem("snova06",JSON.stringify(rec));layout();reset();alert(gameText("Save imported"))}catch(e){alert(gameText("Import failed")+": "+e.message)}finally{$("saveFile").value=""}};
 const held={slide:new Set(),focus:new Set(),fire:new Set()},keys=new Set();
 const T={sentinel:[100,38,15,"#ff486d",65,.85],hunter:[60,105,11,"#ff9d42",0,.8],artillery:[120,24,16,"#4bcde8",145,2.2],boss:[1500,35,30,"#ff286a",125,1.1]};
 let rec={fast:null,kills:0,hp:0,score:0,wins:0};try{Object.assign(rec,JSON.parse(localStorage.getItem("snova06"))||{})}catch{}
@@ -67,8 +179,8 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),dist=(a,b)=>Math.hypot(a.x-b.x,a.
 function time(t){return Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0")}
 function tiles(items){return '<div class="tiles">'+items.map(([k,v])=>`<div class="tile"><small>${k}</small><strong>${v}</strong></div>`).join('')+'</div>'}
 function segments(n){return '<span class="segments">'+Array.from({length:5},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')+'</span>'}
-function records(){$("records").innerHTML='<h3>Personal records</h3>'+tiles([["Highest score",rec.score],["Fastest victory",rec.fast===null?"—":time(rec.fast)],["Best victory HP",rec.hp],["All-time wins",rec.wins],["Most kills",rec.kills]])+'<div class="sectionlabel">Top 10 missions · local</div>'+history.map((r,i)=>`<div class="rank"><strong>${String(i+1).padStart(2,'0')}</strong><div><strong>${r.score} pts</strong><br><small>${r.kills} kills · ${time(r.elapsed)}</small></div><small>${r.win?'VICTORY':'DEFEAT'}</small></div>`).join('')}
-function sync(){ $("combo").classList.toggle("active",combo);$("combo").textContent="SLIDE + FOCUS"+(toggle?(combo?": ON":": OFF"):"");$("mode").textContent="COMBO: "+(toggle?"TOGGLE":"HOLD")}
+function records(){$("records").innerHTML='<h3>'+gameText("Personal records")+'</h3>'+tiles([[gameText("Highest score"),rec.score],[gameText("Fastest victory"),rec.fast===null?"—":time(rec.fast)],[gameText("Best victory HP"),rec.hp],[gameText("All-time wins"),rec.wins],[gameText("Most kills"),rec.kills]])+'<div class="sectionlabel">'+gameText("Top 10 missions · local")+'</div>'+history.map((r,i)=>`<div class="rank"><strong>${String(i+1).padStart(2,'0')}</strong><div><strong>${r.score} pts</strong><br><small>${r.kills} ${gameText("kills")} · ${time(r.elapsed)}</small></div><small>${r.win?gameText('VICTORY'):gameText('DEFEAT')}</small></div>`).join('')}
+function sync(){ $("combo").classList.toggle("active",combo);$("combo").textContent=gameText("SLIDE + FOCUS")+(toggle?(combo?": "+gameText("ON"):": "+gameText("OFF")):"");$("mode").textContent=gameText("COMBO")+": "+(toggle?gameText("TOGGLE"):gameText("HOLD"))}
 function clear(){contacts.clear();Object.values(held).forEach(s=>s.clear());keys.clear();sid=null;jx=jy=0;$("knob").style.transform="";combo=false;charging=false;charge=0;sync();document.querySelectorAll(".active").forEach(b=>b.classList.remove("active"))}
 function reset(){paused=false;manualPaused=false;pauseUI();for(let [key,btn] of Object.entries(panels)){$(key).hidden=true;$(btn).setAttribute("aria-expanded","false")}wallet();p={x:65,y:160};E=[];B=[];I=[];F=[];hp=100;heat=kills=score=power=speed=elapsed=delay=0;wave=1;state="play";boss=locked=false;dx=1;dy=0;clear();spawn("sentinel");records()}
 function finish(win){if(state!=="play")return;state=win?"won":"lost";clear();if(win){score+=1000+hp*10;rec.wins++;rec.hp=Math.max(rec.hp,hp);rec.fast=rec.fast===null?elapsed:Math.min(rec.fast,elapsed)}rec.kills=Math.max(rec.kills,kills);rec.score=Math.max(rec.score,score);career.missions++;career.wins+=Number(win);career.kills+=kills;career.seconds+=elapsed;career.xp+=kills*10+(win?250:50);saveCareer();history.push({score,kills,elapsed,hp,win});history.sort((a,b)=>b.score-a.score||a.elapsed-b.elapsed);history=history.slice(0,10);try{localStorage.setItem("snova07history",JSON.stringify(history))}catch{}try{localStorage.setItem("snova06",JSON.stringify(rec))}catch{}records()}
@@ -92,7 +204,7 @@ function enemy(e,dt){let x=p.x-e.x,y=p.y-e.y,d=Math.hypot(x,y)||1;e.angle=Math.a
 function orb(x,y,r,c){g.fillStyle=c;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.fill()}
 function ring(x,y,r,c){g.strokeStyle=c;g.lineWidth=1;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.stroke()}
 function diamond(x,y,r,c){g.fillStyle=c;g.beginPath();g.moveTo(x,y-r);g.lineTo(x+r,y);g.lineTo(x,y+r);g.lineTo(x-r,y);g.closePath();g.fill()}
-function frame(now){let dt=last?Math.min(.04,(now-last)/1000):0;last=now;if(paused||manualPaused||(state==="play"&&idlePause())){if(!paused&&state==="play"){g.save();g.fillStyle="#d9baff";g.font="bold 14px system-ui";g.textAlign="center";g.fillText(manualPaused?"PAUSED — press Resume":"PAUSED — touch controls",180,30);g.restore()}requestAnimationFrame(frame);return}let slide=state==="play"&&!locked&&(combo||held.slide.size||keys.has("Shift")),focus=state==="play"&&!locked&&(combo||held.focus.size||keys.has("q")),slow=focus?.25:1;
+function frame(now){let dt=last?Math.min(.04,(now-last)/1000):0;last=now;if(paused||manualPaused||(state==="play"&&idlePause())){if(!paused&&state==="play"){g.save();g.fillStyle="#d9baff";g.font="bold 14px system-ui";g.textAlign="center";g.fillText(manualPaused?gameText("PAUSED — press Resume"):gameText("PAUSED — touch controls"),180,30);g.restore()}requestAnimationFrame(frame);return}let slide=state==="play"&&!locked&&(combo||held.slide.size||keys.has("Shift")),focus=state==="play"&&!locked&&(combo||held.focus.size||keys.has("q")),slow=focus?.25:1;
 if(state==="play"&&!document.hidden){elapsed+=dt;let x=jx+Number(keys.has("d")||keys.has("ArrowRight"))-Number(keys.has("a")||keys.has("ArrowLeft")),y=jy+Number(keys.has("s")||keys.has("ArrowDown"))-Number(keys.has("w")||keys.has("ArrowUp")),l=Math.hypot(x,y);if(l){dx=x/l;dy=y/l}if(l||slide){let v=(slide?270:100*Math.min(1,l))*(1+.08*speed+.05*progress.velocity);p.x+=dx*dt*v;p.y+=dy*dt*v}p.x=clamp(p.x,12,348);p.y=clamp(p.y,12,308);heat=clamp(heat+dt*(((slide?32:0)+(focus?24:0))/(1+.10*progress.thermal)-(!slide&&!focus?26:0)),0,100);if(heat>=100){locked=true;combo=false;sync()}if(heat<30)locked=false;
 delay-=dt;if(charging)charge=Math.min(2,charge+dt);let t=target();if(t&&!charging&&(auto||held.fire.size||keys.has(" "))&&delay<=0){shoot(p,t,300,true,0,null,10+power*2+progress.damage*2);delay=.2}
 for(let e of E)enemy(e,dt*slow);for(let b of B){let t=dt*(b.own?1:slow);b.x+=b.vx*t;b.y+=b.vy*t;if(b.own){for(let e of E){if(e.h>0&&dist(b,e)<e.r+b.r){e.h-=b.d;b.dead=true;break}}}else if(dist(b,p)<10+b.r){hp=Math.max(0,hp-b.d);b.dead=true}}B=B.filter(b=>!b.dead&&b.x>0&&b.x<W&&b.y>0&&b.y<H);
@@ -104,40 +216,56 @@ g.fillStyle=focus?"#201c3d":"#100d20";g.fillRect(0,0,W,H);g.strokeStyle="#302345
 for(let i of I){if(i.type==="mine"){ring(i.x,i.y,i.fuse===null?32:48,"#ff3344");diamond(i.x,i.y,8,Math.sin(now/80)>0?"#ff3344":"#81152b")}else if(i.type==="health"){g.fillStyle="#7dff85";g.fillRect(i.x-3,i.y-9,6,18);g.fillRect(i.x-9,i.y-3,18,6)}else if(i.type==="coin")orb(i.x,i.y,7,"#ffd65c");else diamond(i.x,i.y,8,i.type==="power"?"#ff70db":"#6affbd")}
 for(let f of F)ring(f.x,f.y,48,"#ff7766");if(slide)for(let i=5;i>0;i--)orb(p.x-dx*i*9,p.y-dy*i*9,9,"rgba(155,90,255,.25)");orb(p.x,p.y,11,"#a76bff");orb(p.x,p.y,5,"#f2d9ff");if(charging)ring(p.x,p.y,15+charge*5,"#eee0ff");
 for(let e of E){if(e.type==="artillery"){g.fillStyle=e.c;g.fillRect(e.x-15,e.y-15,30,30)}else if(e.type==="hunter"){g.save();g.translate(e.x,e.y);g.rotate(e.angle);g.fillStyle=e.c;g.beginPath();g.moveTo(15,0);g.lineTo(-10,-10);g.lineTo(-10,10);g.closePath();g.fill();g.restore()}else{orb(e.x,e.y,e.r,e.c);orb(e.x,e.y,e.r*.45,"#72213d")}g.fillStyle="#35264e";g.fillRect(e.x-e.r,e.y-e.r-8,e.r*2,4);g.fillStyle=e.c;g.fillRect(e.x-e.r,e.y-e.r-8,e.r*2*Math.max(0,e.h)/e.max,4)}
-let t=target();if(t&&state==="play"&&(auto||charging||held.fire.size))ring(t.x,t.y,t.r+6,"#d2afff");for(let b of B)orb(b.x,b.y,b.r,b.c);g.fillStyle="#3d2d55";g.fillRect(10,305,100,5);g.fillStyle=locked?"#ff536b":"#b78aff";g.fillRect(10,305,heat,5);g.fillStyle="#d9baff";g.font="12px system-ui";g.textAlign="right";g.fillText(boss?"CORE GUARDIAN":kills>=50?"CLEAR REMAINING":"WAVE "+wave,350,15);
-$("charge").textContent=charging?"CHARGE "+Math.round(charge*50)+"%":"NOVA CHARGE";for(let [k,v] of Object.entries({Hp:hp,Heat:locked?"HOT":Math.round(heat)+"%",Kills:kills,Time:time(elapsed),Score:score,Power:power+"/5",Speed:speed+"/5",Wave:boss?"CORE":wave}))$("hud"+k).textContent=v;$("barHp").style.width=hp+"%";$("barHeat").style.width=heat+"%";
-if(state!=="play"){g.fillStyle="rgba(10,5,20,.85)";g.fillRect(0,0,W,H);g.fillStyle="#fff";g.textAlign="center";g.font="bold 24px system-ui";g.fillText(state==="won"?"MISSION COMPLETE":"SIGNAL LOST",180,120);g.font="16px system-ui";g.fillText(`Kills ${kills} | HP ${hp} | ${time(elapsed)}`,180,155);g.fillText("Score "+score,180,180);g.fillText("Restart mission to retry",180,210)}requestAnimationFrame(frame)}
+let t=target();if(t&&state==="play"&&(auto||charging||held.fire.size))ring(t.x,t.y,t.r+6,"#d2afff");for(let b of B)orb(b.x,b.y,b.r,b.c);g.fillStyle="#3d2d55";g.fillRect(10,305,100,5);g.fillStyle=locked?"#ff536b":"#b78aff";g.fillRect(10,305,heat,5);g.fillStyle="#d9baff";g.font="12px system-ui";g.textAlign="right";g.fillText(boss?gameText("CORE GUARDIAN"):kills>=50?gameText("CLEAR REMAINING"):gameText("WAVE")+" "+wave,350,15);
+$("charge").textContent=charging?"CHARGE "+Math.round(charge*50)+"%":gameText("NOVA CHARGE");for(let [k,v] of Object.entries({Hp:hp,Heat:locked?"HOT":Math.round(heat)+"%",Kills:kills,Time:time(elapsed),Score:score,Power:power+"/5",Speed:speed+"/5",Wave:boss?"CORE":wave}))$("hud"+k).textContent=v;$("barHp").style.width=hp+"%";$("barHeat").style.width=heat+"%";
+if(state!=="play"){g.fillStyle="rgba(10,5,20,.85)";g.fillRect(0,0,W,H);g.fillStyle="#fff";g.textAlign="center";g.font="bold 24px system-ui";g.fillText(state==="won"?gameText("MISSION COMPLETE"):gameText("SIGNAL LOST"),180,120);g.font="16px system-ui";g.fillText(`${gameText("Kills")} ${kills} | ${gameText("HP")} ${hp} | ${time(elapsed)}`,180,155);g.fillText(gameText("Score")+" "+score,180,180);g.fillText(gameText("Restart mission to retry"),180,210)}requestAnimationFrame(frame)}
 function initialCareer(){return {name:"Player",avatar:"",xp:0,missions:0,wins:0,kills:0,seconds:0}}
 function validCareer(c){return c&&typeof c.name==="string"&&c.name.length<=24&&typeof c.avatar==="string"&&c.avatar.length<400000&&(!c.avatar||/^data:image\/jpeg;base64,/.test(c.avatar))&&[c.xp,c.missions,c.wins,c.kills,c.seconds].every(n=>Number.isFinite(n)&&n>=0)&&c.wins<=c.missions}
 let career=initialCareer();try{let c=JSON.parse(localStorage.getItem("snova10career"));if(validCareer(c))career=c}catch{}
-function saveCareer(){try{localStorage.setItem("snova10career",JSON.stringify(career))}catch{alert("Profile save failed. Export a backup in Settings.")}}
-function renderProfile(){$("displayName").value=career.name;$("avatarPreview").hidden=!career.avatar;if(career.avatar)$("avatarPreview").src=career.avatar;else $("avatarPreview").removeAttribute("src");let level=1+Math.floor(career.xp/500),xp=career.xp%500;$("profileStats").innerHTML=`<div class="levelbox"><b>LEVEL ${level}</b><div class="meter"><i style="width:${xp/5}%"></i></div><small>${xp} / 500 XP</small></div>`+tiles([["Highest score",rec.score],["Nova credits",progress.credits],["All-time wins",rec.wins],["Fastest victory",rec.fast===null?"—":time(rec.fast)]])+'<div class="sectionlabel">Career · since v0.10</div>'+tiles([["Missions",career.missions],["Win rate",(career.missions?Math.round(100*career.wins/career.missions):0)+"%"],["Wins",career.wins],["Defeats",career.missions-career.wins],["Kills",career.kills],["Playtime",time(career.seconds)]])+'<div class="sectionlabel">Permanent upgrades</div>'+upgrades.map(([key,name])=>`<div class="upgrade"><span>${name}<small>${progress[key]}/5</small></span>${segments(progress[key])}</div>`).join('')}
+function saveCareer(){try{localStorage.setItem("snova10career",JSON.stringify(career))}catch{alert(gameText("Profile save failed. Export a backup in Settings."))}}
+function renderProfile(){$("displayName").value=career.name;$("avatarPreview").hidden=!career.avatar;if(career.avatar)$("avatarPreview").src=career.avatar;else $("avatarPreview").removeAttribute("src");let level=1+Math.floor(career.xp/500),xp=career.xp%500;$("profileStats").innerHTML=`<div class="levelbox"><b>${gameText("LEVEL")} ${level}</b><div class="meter"><i style="width:${xp/5}%"></i></div><small>${xp} / 500 XP</small></div>`+tiles([[gameText("Highest score"),rec.score],[gameText("Nova credits"),progress.credits],[gameText("All-time wins"),rec.wins],[gameText("Fastest victory"),rec.fast===null?"—":time(rec.fast)]])+'<div class="sectionlabel">'+gameText("Career · since v0.10")+'</div>'+tiles([[gameText("Missions"),career.missions],[gameText("Win rate"),(career.missions?Math.round(100*career.wins/career.missions):0)+"%"],[gameText("Wins"),career.wins],[gameText("Defeats"),career.missions-career.wins],[gameText("Kills"),career.kills],[gameText("Playtime"),time(career.seconds)]])+'<div class="sectionlabel">'+gameText("Permanent upgrades")+'</div>'+upgrades.map(([key,name])=>`<div class="upgrade"><span>${gameText(name)}<small>${progress[key]}/5</small></span>${segments(progress[key])}</div>`).join('')}
 $("profileBtn").onclick=()=>panel("profile");$("closeProfile").onclick=()=>panel("profile");$("saveName").onclick=()=>{career.name=$("displayName").value.trim().slice(0,24)||"Player";saveCareer();renderProfile()};$("avatarBtn").onclick=()=>$("avatarFile").click();$("removeAvatar").onclick=()=>{career.avatar="";saveCareer();renderProfile()};$("avatarFile").onchange=async()=>{let f=$("avatarFile").files[0];if(!f)return;let url=URL.createObjectURL(f);try{let img=new Image();img.src=url;await img.decode();let c=document.createElement("canvas");c.width=c.height=160;let n=Math.min(img.width,img.height);c.getContext("2d").drawImage(img,(img.width-n)/2,(img.height-n)/2,n,n,0,0,160,160);career.avatar=c.toDataURL("image/jpeg",.85);saveCareer();renderProfile()}catch{alert("Could not read this photo")}finally{URL.revokeObjectURL(url);$("avatarFile").value=""}};
 layout();reset();requestAnimationFrame(frame);
 
 const lobbyText = {
-  en: {lobby:"Online lobby", join:"Join as guest", send:"Send", refresh:"Refresh", unblock:"Unblock all players", close:"Close", help:"Help", controls:"Move with the joystick or WASD. Slide to dodge, use Focus to slow time, and watch your Heat meter.", about:"Play offline anytime. Join the lobby for a guest callsign. You can block or report messages from another player.", message:"Message", block:"Block", report:"Report", reason:"Why are you reporting this message?", reported:"Report sent.", empty:"The lobby is quiet.", failed:"Lobby request failed. Try again.", wait:"Connecting…", challenge:"Complete the verification to join.", blocked:"Player blocked.", unblocked:"Block list cleared.", rate:"Wait five seconds between messages.", muted:"Chat access is temporarily suspended.", duplicate:"You already reported this message."},
-  es: {lobby:"Sala en línea", join:"Entrar como invitado", send:"Enviar", refresh:"Actualizar", unblock:"Desbloquear a todos", close:"Cerrar", help:"Ayuda", controls:"Muévete con el joystick o WASD. Deslízate para esquivar, usa Concentración para ralentizar el tiempo y vigila el calor.", about:"Puedes jugar sin conexión. Entra a la sala para recibir un alias de invitado. Puedes bloquear a otros jugadores o denunciar sus mensajes.", message:"Mensaje", block:"Bloquear", report:"Denunciar", reason:"¿Por qué denuncias este mensaje?", reported:"Denuncia enviada.", empty:"La sala está tranquila.", failed:"No se pudo completar la solicitud. Intenta de nuevo.", wait:"Conectando…", challenge:"Completa la verificación para entrar.", blocked:"Jugador bloqueado.", unblocked:"Lista de bloqueos vacía.", rate:"Espera cinco segundos entre mensajes.", muted:"Tu acceso al chat está suspendido temporalmente.", duplicate:"Ya denunciaste este mensaje."}
+  en: {lobby:"Online lobby", join:"Join as guest", send:"Send", refresh:"Refresh", unblock:"Unblock all players", close:"Close", help:"Help", controls:"Move with the joystick or WASD. Slide to dodge, use Focus to slow time, and watch your Heat meter.", about:"Play offline anytime. Join the lobby for a guest callsign. You can block or report messages from another player.", message:"Message", block:"Block", report:"Report", reason:"Why are you reporting this message?", reported:"Report sent.", empty:"The lobby is quiet.", failed:"Lobby request failed. Try again.", wait:"Connecting…", challenge:"Complete the verification to join.", verified:"Verified. Tap Join as guest to enter.", guestDisabled:"Guest sign-in is disabled in Supabase.", captchaFailed:"Verification could not be validated. Try again.", blocked:"Player blocked.", unblocked:"Block list cleared.", rate:"Wait five seconds between messages.", muted:"Chat access is temporarily suspended.", duplicate:"You already reported this message."},
+  es: {lobby:"Sala en línea", join:"Entrar como invitado", send:"Enviar", refresh:"Actualizar", unblock:"Desbloquear a todos", close:"Cerrar", help:"Ayuda", controls:"Muévete con el joystick o WASD. Deslízate para esquivar, usa Concentración para ralentizar el tiempo y vigila el calor.", about:"Puedes jugar sin conexión. Entra a la sala para recibir un alias de invitado. Puedes bloquear a otros jugadores o denunciar sus mensajes.", message:"Mensaje", block:"Bloquear", report:"Denunciar", reason:"¿Por qué denuncias este mensaje?", reported:"Denuncia enviada.", empty:"La sala está tranquila.", failed:"No se pudo completar la solicitud. Intenta de nuevo.", wait:"Conectando…", challenge:"Completa la verificación para entrar.", verified:"Verificación lista. Toca Entrar como invitado.", guestDisabled:"El acceso como invitado está desactivado en Supabase.", captchaFailed:"No se pudo validar la verificación. Intenta de nuevo.", blocked:"Jugador bloqueado.", unblocked:"Lista de bloqueos vacía.", rate:"Espera cinco segundos entre mensajes.", muted:"Tu acceso al chat está suspendido temporalmente.", duplicate:"Ya denunciaste este mensaje."}
 };
 const lobbyUrl = "https://ulflpzchcrhmbqvmrdhr.supabase.co";
 const lobbyKey = "sb_publishable_gwyDgfvnn8h_a0qNqfcmPw_yVpaWAn6";
 const turnstileSiteKey = document.querySelector('meta[name="snova-turnstile-site-key"]')?.content.trim();
 let lobbyClient, lobbyPlayer, lobbyBusy = false, lobbyTimer, lobbyReadPending = false;
 let challengeWidget, challengeToken;
-const lobbyLanguage = $("lobbyLanguage");
-try { lobbyLanguage.value = localStorage.getItem("snovaLobbyLanguage") === "es" ? "es" : "en"; } catch {}
 const copy = key => lobbyText[lobbyLanguage.value][key];
-const lobbyStatus = key => { $("lobbyStatus").textContent = key ? copy(key) : ""; };
-function translateLobby() {
+let activeLobbyStatus;
+const lobbyStatus = key => {
+  activeLobbyStatus = key;
+  $("lobbyStatus").textContent = key ? copy(key) : "";
+};
+function translateGame() {
+  document.documentElement.lang = lobbyLanguage.value === "es" ? "es-419" : "en";
+  document.querySelectorAll("[data-game-text]").forEach(el => {
+    el.textContent = gameText(el.dataset.gameText);
+  });
+  $("avatarPreview").alt = gameText("Player avatar");
+  $("displayName").placeholder = gameText("Player");
+  $("lobbyMessages").setAttribute("aria-label", gameText("Lobby messages"));
+  layout();
+  wallet();
+  records();
+  if (!$("profile").hidden) renderProfile();
+  if (!$("shop").hidden) shop();
+  lobbyStatus(activeLobbyStatus);
+
   document.querySelectorAll("[data-copy]").forEach(el => { el.textContent = copy(el.dataset.copy); });
   $("lobbyInput").placeholder = copy("message");
   $("lobbyInput").setAttribute("aria-label", copy("message"));
 }
 lobbyLanguage.onchange = () => {
   try { localStorage.setItem("snovaLobbyLanguage", lobbyLanguage.value); } catch {}
-  translateLobby();
+  translateGame();
 };
-translateLobby();
+translateGame();
 async function lobbyResult(request) {
   const {data, error} = await request;
   if (error) throw error;
@@ -156,7 +284,7 @@ async function loadChallenge() {
   if (challengeWidget === undefined) {
     challengeWidget = window.turnstile.render("#guestChallenge", {
       sitekey: turnstileSiteKey,
-      callback: token => { challengeToken = token; },
+      callback: token => { challengeToken = token; if (!lobbyBusy) lobbyStatus("verified"); },
       "expired-callback": () => { challengeToken = undefined; },
       "error-callback": () => { challengeToken = undefined; lobbyStatus("failed"); }
     });
@@ -176,7 +304,7 @@ async function connectLobby() {
     if (!session) {
       if (turnstileSiteKey && !challengeToken) {
         await loadChallenge();
-        lobbyStatus("challenge");
+        lobbyStatus(challengeToken ? "verified" : "challenge");
         return;
       }
       await lobbyResult(lobbyClient.auth.signInAnonymously({options:{captchaToken:challengeToken}}));
@@ -188,8 +316,9 @@ async function connectLobby() {
     $("guestChallenge").hidden = true;
     lobbyStatus();
     startLobbyUpdates();
-  } catch {
-    lobbyStatus("failed");
+  } catch (error) {
+    const errors = {anonymous_provider_disabled:"guestDisabled", captcha_failed:"captchaFailed"};
+    lobbyStatus(errors[error.code] || "failed");
   } finally {
     if (challengeToken && challengeWidget !== undefined) {
       challengeToken = undefined;
