@@ -13,7 +13,7 @@
   #menu button { flex-basis: 29%; }
   body { padding-bottom: calc(162px + env(safe-area-inset-bottom)); }
 }
-.lobby-translation{padding:6px 8px;border-inline-start:2px solid #bc8cff;color:#e5cdff}#shareGameBar{margin:4px 0 7px}#shareGameButton{font-size:12px;min-height:36px;padding:4px 10px}#gameShareLink{display:block;width:100%;margin:6px 0;font-size:16px;user-select:text;-webkit-user-select:text}#profileInviteCode{overflow-wrap:anywhere}#accountPanel{border-block:1px solid #7950bd;padding:8px 0;margin:10px 0}#accountEmail{width:min(220px,100%);font-size:16px;user-select:text;-webkit-user-select:text}#accountStatus:empty{display:none}#controls,#controls *{touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}#profileFriends{border-block-start:1px solid #7950bd;margin-top:12px;padding-top:6px}#profileFriendsList{padding:0;list-style:none;text-align:left}#profileFriendsList li{padding:8px;margin:4px 0;background:#140c27;border-radius:8px;overflow-wrap:anywhere}#profileFriendsList small{display:block;margin-top:4px;color:#d0bce8}#profileFriendsStatus:empty{display:none}.meter.shield i{background:#72dbff}.hud #hudShield{color:#72dbff}.career-rank{display:block;color:#dbc0ff;font-size:12px;letter-spacing:.08em}#coopMatchBar{display:flex;justify-content:center;gap:6px;align-items:center;flex-wrap:wrap;margin:4px 0}#coopMatchBar button{padding:4px 8px}#coopRoomList{padding:0;list-style:none}#coopStatus:empty{display:none}.coop-active #menu{display:none}.coop-active{padding-bottom:10px}.actions button[data-hint]::after{content:attr(data-hint);display:block;font-size:10px;font-weight:500;letter-spacing:0;line-height:1.1;color:#d0b9ef;margin-top:3px}.settings-group{border-top:1px solid #7950bd55;padding:8px 0;text-align:left}.settings-group h4{color:#d9baff;margin:2px 0 8px}.settings-row{display:flex;align-items:center;justify-content:space-between;gap:8px}.settings-row select{max-width:75%;font-size:16px}.settings-group p{font-size:12px;color:#c6b2e3;margin:5px 0 10px}.settings-actions{display:flex;flex-wrap:wrap;gap:4px}.settings-actions button{flex:1 1 42%;margin:0!important}#settings #closeSettings{width:100%;margin:6px 0 0}#menu button{line-height:1.12;text-wrap:balance}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2><span data-game-text="DIGITAL ODYSSEY // NEON INTERFACE">DIGITAL ODYSSEY // NEON INTERFACE</span><div id="shareGameBar"><button type="button" id="shareGameButton" data-copy="shareGame">Share game</button></div><div id="stats"><div class="hud"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div><small data-game-text="Shield">Shield</small><b id="hudShield">0</b><div class="meter shield"><i id="barShield"></i></div></div><div class="hud"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><div id="coopMatchBar" hidden><span id="coopMatchStatus" role="status"></span> <button id="coopLeave" type="button">Leave co-op</button></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span> · <span data-game-text="◆ Shield" style="color:#72dbff">◆ Shield</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div><div id="menu"><button id="pauseBtn" data-game-text="Pause">Pause</button><button id="restart" data-game-text="Restart Mission">Restart Mission</button><button id="settingsBtn" data-game-text="Settings">Settings</button><button id="scoresBtn" data-game-text="Leaderboards">Leaderboards</button><button id="shopBtn" data-game-text="Shop">Shop</button><button id="profileBtn" data-game-text="Profile">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3 data-game-text="Settings">Settings</h3><section class="settings-group"><h4 data-game-text="Mission settings">Mission settings</h4><div class="settings-row"><label for="sectorSelect" data-game-text="Sector">Sector</label><select id="sectorSelect"><option id="sectorOneOption" value="1">1 · Core Awakening</option><option id="sectorTwoOption" value="2" disabled>2 · Meteor Belt</option></select></div><p id="sectorHint"></p><div class="settings-row"><label for="difficulty" data-game-text="Difficulty">Difficulty</label> <select id="difficulty"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select></div><p id="difficultyHint"></p></section><section class="settings-group"><h4 data-game-text="Gameplay controls">Gameplay controls</h4><div class="settings-actions"><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button></div></section><section class="settings-group"><h4 data-game-text="Save data">Save data</h4><div class="settings-actions"><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden></div></section><button id="closeSettings" data-game-text="Resume">Resume</button></div><div id="records" hidden><section id="liveScores">
+.lobby-translation{padding:6px 8px;border-inline-start:2px solid #bc8cff;color:#e5cdff}#shareGameBar{margin:4px 0 7px}#shareGameButton{font-size:12px;min-height:36px;padding:4px 10px}#gameShareLink{display:block;width:100%;margin:6px 0;font-size:16px;user-select:text;-webkit-user-select:text}#profileInviteCode{overflow-wrap:anywhere}#accountPanel{border-block:1px solid #7950bd;padding:8px 0;margin:10px 0}#accountEmail{width:min(220px,100%);font-size:16px;user-select:text;-webkit-user-select:text}#accountStatus:empty{display:none}#controls,#controls *{touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}#profileFriends{border-block-start:1px solid #7950bd;margin-top:12px;padding-top:6px}#profileFriendsList{padding:0;list-style:none;text-align:left}#profileFriendsList li{padding:8px;margin:4px 0;background:#140c27;border-radius:8px;overflow-wrap:anywhere}#profileFriendsList small{display:block;margin-top:4px;color:#d0bce8}#profileFriendsStatus:empty{display:none}.meter.shield i{background:#72dbff}.hud #hudShield{color:#72dbff}.career-rank{display:block;color:#dbc0ff;font-size:12px;letter-spacing:.08em}#coopMatchBar{display:flex;justify-content:center;gap:6px;align-items:center;flex-wrap:wrap;margin:4px 0}#coopMatchBar button{padding:4px 8px}#coopRoomList{padding:0;list-style:none}#coopStatus:empty{display:none}.coop-active #menu{display:none}.coop-active{padding-bottom:10px}.actions button[data-hint]::after{content:attr(data-hint);display:block;font-size:10px;font-weight:500;letter-spacing:0;line-height:1.1;color:#d0b9ef;margin-top:3px}.settings-group{border-top:1px solid #7950bd55;padding:8px 0;text-align:left}.settings-group h4{color:#d9baff;margin:2px 0 8px}.settings-row{display:flex;align-items:center;justify-content:space-between;gap:8px}.settings-row select{max-width:75%;font-size:16px}.settings-group p{font-size:12px;color:#c6b2e3;margin:5px 0 10px}.settings-actions{display:flex;flex-wrap:wrap;gap:4px}.settings-actions button{flex:1 1 42%;margin:0!important}#settings #closeSettings{width:100%;margin:6px 0 0}#menu button{line-height:1.12;text-wrap:balance}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2><span data-game-text="DIGITAL ODYSSEY // NEON INTERFACE">DIGITAL ODYSSEY // NEON INTERFACE</span><div id="shareGameBar"><button type="button" id="shareGameButton" data-copy="shareGame">Share game</button></div><div id="stats"><div class="hud"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div><small data-game-text="Shield">Shield</small><b id="hudShield">0</b><div class="meter shield"><i id="barShield"></i></div></div><div class="hud"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b><small data-game-text="Magnet">Magnet</small><b id="hudMagnet">0/5</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><div id="coopMatchBar" hidden><span id="coopMatchStatus" role="status"></span> <button id="coopLeave" type="button">Leave co-op</button></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span> · <span data-game-text="◆ Shield" style="color:#72dbff">◆ Shield</span> · <span data-game-text="◆ Magnet" style="color:#fff498">◆ Magnet</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div><div id="menu"><button id="pauseBtn" data-game-text="Pause">Pause</button><button id="restart" data-game-text="Restart Mission">Restart Mission</button><button id="settingsBtn" data-game-text="Settings">Settings</button><button id="scoresBtn" data-game-text="Leaderboards">Leaderboards</button><button id="shopBtn" data-game-text="Shop">Shop</button><button id="profileBtn" data-game-text="Profile">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3 data-game-text="Settings">Settings</h3><section class="settings-group"><h4 data-game-text="Mission settings">Mission settings</h4><div class="settings-row"><label for="sectorSelect" data-game-text="Sector">Sector</label><select id="sectorSelect"><option id="sectorOneOption" value="1">1 · Core Awakening</option><option id="sectorTwoOption" value="2" disabled>2 · Meteor Belt</option></select></div><p id="sectorHint"></p><div class="settings-row"><label for="difficulty" data-game-text="Difficulty">Difficulty</label> <select id="difficulty"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select></div><p id="difficultyHint"></p></section><section class="settings-group"><h4 data-game-text="Gameplay controls">Gameplay controls</h4><div class="settings-actions"><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button></div></section><section class="settings-group"><h4 data-game-text="Save data">Save data</h4><div class="settings-actions"><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden></div></section><button id="closeSettings" data-game-text="Resume">Resume</button></div><div id="records" hidden><section id="liveScores">
 <h3 data-copy="liveScores">Live leaderboards</h3>
 <label for="leaderboardMode" data-game-text="Difficulty">Difficulty</label>
 <select id="leaderboardMode"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select>
@@ -31,7 +31,7 @@
 <button type="button" id="cloudRestore" data-copy="accountRestore">Restore cloud save</button>
 </div>
 <p id="accountStatus" role="status"></p>
-</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><section id="profileFriends"><h4 data-copy="friendsTitle">Friends</h4><p id="profileFriendsStatus" role="status"></p><label for="coopMode" data-copy="coopDifficulty">Co-op difficulty</label> <select id="coopMode"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select><ul id="profileFriendsList"></ul><button id="coopRefresh" type="button" data-copy="coopRefresh">Refresh co-op invites</button><p id="coopStatus" role="status"></p><ul id="coopRoomList"></ul></section><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.15.0 — Meteor Belt">Prototype v0.15.0 — Meteor Belt</footer><section id="lobby" class="online-panel" hidden>
+</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><section id="profileFriends"><h4 data-copy="friendsTitle">Friends</h4><p id="profileFriendsStatus" role="status"></p><label for="coopMode" data-copy="coopDifficulty">Co-op difficulty</label> <select id="coopMode"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select><ul id="profileFriendsList"></ul><button id="coopRefresh" type="button" data-copy="coopRefresh">Refresh co-op invites</button><p id="coopStatus" role="status"></p><ul id="coopRoomList"></ul></section><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.15.1 — Meteor Belt">Prototype v0.15.1 — Meteor Belt</footer><section id="lobby" class="online-panel" hidden>
 <header id="lobbyHeader"><h3 data-copy="lobby">Online lobby</h3><button type="button" id="closeLobby" data-copy="close">Close</button></header>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
@@ -90,7 +90,7 @@ const gameSpanish = {
   "Change photo": "Cambiar foto",
   "Remove photo": "Eliminar foto",
   "Close": "Cerrar",
-  "Prototype v0.15.0 — Meteor Belt": "Prototipo v0.15.0 — Cinturón de meteoritos",
+  "Prototype v0.15.1 — Meteor Belt": "Prototipo v0.15.1 — Cinturón de meteoritos",
   "Player avatar": "Avatar del jugador",
   "Player": "Jugador",
   "Lobby messages": "Mensajes de la sala",
@@ -319,6 +319,7 @@ const missionSectors = {
   ]}
 };
 let selectedSector=1, missionSector=1;
+let liveMeteorites=[], magnet=0;
 try { selectedSector=readSector(JSON.parse(localStorage.getItem("snova07prefs"))?.sector); } catch {}
 Object.assign(gameSpanish,{
   "Mission settings":"Ajustes de misión","Gameplay controls":"Controles de juego","Save data":"Datos de partida",
@@ -354,7 +355,7 @@ $("sectorSelect").onchange=()=>{
 function moveInSector(actor,dx,dy,r){
   actor.x=clamp(actor.x+dx,r,W-r);
   actor.y=clamp(actor.y+dy,r,H-r);
-  for(const rock of missionSectors[missionSector].rocks){
+  for(const rock of liveMeteorites){
     const x=actor.x-rock.x,y=actor.y-rock.y, distance=Math.hypot(x,y);
     if(distance>=rock.r+r) continue;
     const angle=distance?Math.atan2(y,x):0;
@@ -364,13 +365,13 @@ function moveInSector(actor,dx,dy,r){
 }
 function rockBlocksShot(x,y,bullet){
   const dx=bullet.x-x,dy=bullet.y-y,length=dx*dx+dy*dy;
-  return missionSectors[missionSector].rocks.some(rock=>{
+  return liveMeteorites.some(rock=>{
     const t=length?clamp(((rock.x-x)*dx+(rock.y-y)*dy)/length,0,1):0;
     return Math.hypot(x+t*dx-rock.x,y+t*dy-rock.y)<=rock.r+bullet.r;
   });
 }
 function drawMeteorites(){
-  for(const [i,rock] of missionSectors[missionSector].rocks.entries()){
+  for(const [i,rock] of liveMeteorites.entries()){
     g.save();g.translate(rock.x,rock.y);g.rotate(i*.72);
     g.beginPath();
     for(let j=0;j<9;j++){
@@ -378,13 +379,13 @@ function drawMeteorites(){
       if(j===0)g.moveTo(radius,0);
       else g.lineTo(Math.cos(angle)*radius,Math.sin(angle)*radius);
     }
-    g.closePath();g.fillStyle="#4b4057";g.fill();g.strokeStyle="#a694ae";g.lineWidth=2;g.stroke();
+    g.closePath();g.fillStyle="#4b4057";g.fill();g.strokeStyle=rock.hp<120?"#cf978b":"#a694ae";g.lineWidth=2;g.stroke();
     orb(-rock.r*.24,-rock.r*.22,rock.r*.24,"#65586e");
     orb(rock.r*.22,rock.r*.19,rock.r*.13,"#352d40");
     g.restore();
   }
 }
-function reset(){if(selectedSector===2&&!sectorUnlocked())selectedSector=1;missionSector=selectedSector;const arena=missionSectors[missionSector];setArenaSize(arena.width,arena.height);renderSector();missionDifficulty=selectedDifficulty;renderDifficulty();paused=false;manualPaused=false;pauseUI();for(let [key,btn] of Object.entries(panels)){$(key).hidden=true;$(btn).setAttribute("aria-expanded","false")}wallet();p={x:65,y:H/2};E=[];B=[];I=[];F=[];hp=100;shield=0;secondsSinceHit=0;heat=kills=score=power=speed=elapsed=delay=0;wave=1;state="play";boss=locked=false;dx=1;dy=0;clear();spawn("sentinel");records()}
+function reset(){if(selectedSector===2&&!sectorUnlocked())selectedSector=1;missionSector=selectedSector;const arena=missionSectors[missionSector];liveMeteorites=arena.rocks.map(rock=>({...rock,hp:120}));magnet=0;setArenaSize(arena.width,arena.height);renderSector();missionDifficulty=selectedDifficulty;renderDifficulty();paused=false;manualPaused=false;pauseUI();for(let [key,btn] of Object.entries(panels)){$(key).hidden=true;$(btn).setAttribute("aria-expanded","false")}wallet();p={x:65,y:H/2};E=[];B=[];I=[];F=[];hp=100;shield=0;secondsSinceHit=0;heat=kills=score=power=speed=elapsed=delay=0;wave=1;state="play";boss=locked=false;dx=1;dy=0;clear();spawn("sentinel");records()}
 function finish(win){if(state!=="play")return;state=win?"won":"lost";clear();if(win){score+=1000+Math.floor(hp)*10;if(missionSector===1)progress.sectorTwoUnlocked=true;}if(missionSector===2){progress.sectorTwoBest=Math.max(progress.sectorTwoBest||0,score);if(win)progress.sectorTwoWins=(progress.sectorTwoWins||0)+1;career.missions++;referralMissionFinished();career.wins+=Number(win);career.kills+=kills;career.seconds+=elapsed;career.xp+=kills*10+(win?250:50);persist();saveCareer();records();return;}if(win){persist();rec.wins++;rec.hp=Math.max(rec.hp,Math.ceil(hp));rec.fast=rec.fast===null?elapsed:Math.min(rec.fast,elapsed)}publishMissionScore(missionDifficulty,score);rec.kills=Math.max(rec.kills,kills);rec.score=Math.max(rec.score,score);career.missions++;referralMissionFinished();career.wins+=Number(win);career.kills+=kills;career.seconds+=elapsed;career.xp+=kills*10+(win?250:50);saveCareer();history.push({score,kills,elapsed,hp,win});history.sort((a,b)=>b.score-a.score||a.elapsed-b.elapsed);history=history.slice(0,10);try{localStorage.setItem("snova07history",JSON.stringify(history))}catch{}try{localStorage.setItem("snova06",JSON.stringify(rec))}catch{}records()}
 document.addEventListener("contextmenu",e=>e.preventDefault());document.addEventListener("selectstart",e=>{if(!e.target.closest("input,textarea"))e.preventDefault()});
 const stick=$("stick");
@@ -465,27 +466,84 @@ function spawn(type){let [h,s,r,c,range,interval]=T[type],x,y,n=0;do{let side=Ma
 function next(){let r=Math.random();return kills<2?"sentinel":kills<5?(r<.6?"sentinel":"hunter"):r<.4?"sentinel":r<.75?"hunter":"artillery"}
 function target(){return E.filter(e=>e.h>0).reduce((a,b)=>!a||dist(p,b)<dist(p,a)?b:a,null)}
 function shoot(a,t,v,own,off=0,c=null,d=10,r=3){let z=Math.atan2(t.y-a.y,t.x-a.x)+off;B.push({x:a.x,y:a.y,vx:Math.cos(z)*v,vy:Math.sin(z)*v,own,c:c||(own?"#d5b0ff":"#ffb353"),d,r})}
-function drop(e){let r=Math.random(),type=r<.15?"power":r<.30?"speed":r<.55?"coin":r<.65?"mine":r<.75?"health":r<.77?"shield":null;if(type)I.push({x:e.x,y:e.y,type,amount:rollPackAmount(type),life:type==="mine"?7:15,fuse:null})}
+function drop(e){let r=Math.random(),type=r<.15?"power":r<.30?"speed":r<.55?"coin":r<.65?"mine":r<.75?"health":r<.77?"shield":r<.85?"magnet":null;if(type)I.push({x:e.x,y:e.y,type,amount:rollPackAmount(type),life:type==="mine"?7:15,fuse:null})}
 function enemy(e,dt){let x=p.x-e.x,y=p.y-e.y,d=Math.hypot(x,y)||1;e.angle=Math.atan2(y,x);e.cd-=dt;let dir=0;if(e.type==="hunter"){dir=d>20?1:0;if(d<24&&e.cd<=0){takeDamage(10);e.cd=e.interval}}else{dir=d>e.range+20?1:d<e.range-30&&e.type!=="sentinel"?-1:0;if(e.cd<=0){let offsets=e.type==="boss"?(missionSector===2&&e.h<e.max/2?[-.85,-.55,-.27,0,.27,.55,.85]:[-.55,-.27,0,.27,.55]):e.type==="artillery"?[-.28,0,.28]:[0];for(let o of offsets)shoot(e,p,e.type==="artillery"?105:125,false,o,e.c,e.type==="boss"?12:10,4);e.cd=e.interval}}moveInSector(e,x/d*e.s*dt*dir,y/d*e.s*dt*dir,e.r);for(let a of E){if(a===e)continue;let x=e.x-a.x,y=e.y-a.y,d=Math.hypot(x,y)||.01,m=e.r+a.r+4;if(d<m){e.x+=x/d*(m-d)*.35;e.y+=y/d*(m-d)*.35}}moveInSector(e,0,0,e.r)}
 function orb(x,y,r,c){g.fillStyle=c;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.fill()}
 function ring(x,y,r,c){g.strokeStyle=c;g.lineWidth=1;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.stroke()}
 function diamond(x,y,r,c){g.fillStyle=c;g.beginPath();g.moveTo(x,y-r);g.lineTo(x+r,y);g.lineTo(x,y+r);g.lineTo(x-r,y);g.closePath();g.fill()}
+const mineTriggerRadius=32, mineBlastRadius=48;
+const magnetRadius=[0,55,85,125,185,Infinity];
+Object.assign(gameSpanish,{Magnet:"Imán","◆ Magnet":"◆ Imán"});
+function pullPickup(pickup,player,level,dt) {
+  if(!level || pickup.type==="mine") return;
+  const distance=dist(pickup,player);
+  if(distance<=0 || distance>magnetRadius[level]) return;
+  const fraction=Math.min(1,(200+35*level)*dt/distance);
+  pickup.x+=(player.x-pickup.x)*fraction;
+  pickup.y+=(player.y-pickup.y)*fraction;
+}
+function blastMine(mine) {
+  mine.dead=true;
+  if(dist(mine,p)<=mineBlastRadius+10) takeDamage(15);
+  for(const enemy of E) {
+    if(enemy.h>0&&dist(mine,enemy)<=mineBlastRadius+enemy.r) enemy.h-=85;
+  }
+  for(const rock of liveMeteorites) {
+    if(dist(mine,rock)<=mineBlastRadius+rock.r) rock.hp-=65;
+  }
+  liveMeteorites=liveMeteorites.filter(rock=>rock.hp>0);
+  for(const nearby of I) {
+    if(nearby.type!=="mine"||nearby.dead||nearby.life<=0||dist(mine,nearby)>mineBlastRadius) continue;
+    nearby.fuse=nearby.fuse===null?.15:Math.min(nearby.fuse,.15);
+  }
+  F.push({x:mine.x,y:mine.y,life:.4});
+}
+function updateMines(dt) {
+  for(const mine of I) {
+    if(mine.type!=="mine"||mine.dead) continue;
+    mine.life-=dt;
+    if(mine.fuse===null&&mine.life>0&&dist(mine,p)<=mineTriggerRadius) mine.fuse=.5;
+    if(mine.fuse!==null) {
+      mine.fuse-=dt;
+      if(mine.fuse<=0) blastMine(mine);
+    }
+  }
+}
+function collectSoloLoot(dt) {
+  for(const item of I) {
+    if(item.type==="mine") continue;
+    item.life-=dt;
+    if(item.life<=0) continue;
+    if(item.type==="health"&&hp>=100&&shield>=100) continue;
+    if(item.type==="shield"&&shield>=100) continue;
+    pullPickup(item,p,magnet,dt);
+    if(dist(item,p)>=23) continue;
+    if(item.type==="power") {if(power<5)power++;else score+=50;}
+    else if(item.type==="speed") {if(speed<5)speed++;else score+=50;}
+    else if(item.type==="magnet") {if(magnet<5)magnet++;else score+=50;}
+    else if(item.type==="health") collectHealth(item.amount);
+    else if(item.type==="shield") shield=Math.min(100,shield+item.amount);
+    else {score+=100;progress.credits+=10;persist();}
+    item.dead=true;
+  }
+}
 function frame(now){let dt=last?Math.min(.04,(now-last)/1000):0;last=now;if(typeof coopTick==="function"&&coopConnection){coopTick(now,dt);requestAnimationFrame(frame);return}if(paused||manualPaused||(state==="play"&&idlePause())){if(!paused&&state==="play"){g.save();g.fillStyle="#d9baff";g.font="bold 14px system-ui";g.textAlign="center";g.fillText(manualPaused?gameText("PAUSED — press Resume"):gameText("PAUSED — touch controls"),W/2,30);g.restore()}requestAnimationFrame(frame);return}let slide=state==="play"&&!locked&&(combo||held.slide.size||keys.has("Shift")),focus=state==="play"&&!locked&&(combo||held.focus.size||keys.has("q")),slow=focus?.25:1;
 if(state==="play"&&!document.hidden){elapsed+=dt;let x=jx+Number(keys.has("d")||keys.has("ArrowRight"))-Number(keys.has("a")||keys.has("ArrowLeft")),y=jy+Number(keys.has("s")||keys.has("ArrowDown"))-Number(keys.has("w")||keys.has("ArrowUp")),l=Math.hypot(x,y);if(l){dx=x/l;dy=y/l}if(l||slide){let v=(slide?270:100*Math.min(1,l))*(1+.10*speed+.08*progress.velocity);moveInSector(p,dx*dt*v,dy*dt*v,12)}heat=clamp(heat+dt*(((slide?32:0)+(focus?24:0))/(1+.20*progress.thermal)-(!slide&&!focus?26+3*progress.thermal:0)),0,100);if(heat>=100){locked=true;combo=false;sync()}if(heat<30)locked=false;
 delay-=dt;if(charging)charge=Math.min(2,charge+dt);let t=target();if(t&&!charging&&(auto||held.fire.size||keys.has(" "))&&delay<=0){shoot(p,t,300,true,0,null,shotDamage());delay=.2}
 if(state==="play") rechargeShield(dt);
 for(let e of E)enemy(e,dt*slow);for(let b of B){let t=dt*(b.own?1:slow);const x=b.x,y=b.y;b.x+=b.vx*t;b.y+=b.vy*t;if(rockBlocksShot(x,y,b)){b.dead=true;continue}if(b.own){for(let e of E){if(e.h>0&&dist(b,e)<e.r+b.r){e.h-=b.d;b.dead=true;break}}}else if(dist(b,p)<10+b.r){takeDamage(b.d);b.dead=true}}B=B.filter(b=>!b.dead&&b.x>0&&b.x<W&&b.y>0&&b.y<H);
+updateMines(dt);
 let defeated=false;for(let e of E){if(e.h<=0){kills++;score+=e.type==="boss"?500:50;if(e.type==="boss")defeated=true;else drop(e)}}E=E.filter(e=>e.h>0);
-for(let i of I){i.life-=dt;let d=dist(i,p);if(i.type==="mine"){if(i.fuse===null&&i.life>0&&d<32)i.fuse=.5;if(i.fuse!==null){i.fuse-=dt;if(i.fuse<=0){if(d<48)takeDamage(15);F.push({x:i.x,y:i.y,life:.4});i.dead=true}}}else if(i.life>0&&d<23){if(i.type==="power"){if(power<5)power++;else score+=50}else if(i.type==="speed"){if(speed<5)speed++;else score+=50}else if(i.type==="health"){if(!collectHealth(i.amount))continue}else if(i.type==="shield"){if(shield>=100)continue;shield=Math.min(100,shield+i.amount)}else{score+=100;progress.credits+=10;persist()}i.dead=true}}
+collectSoloLoot(dt);
 I=I.filter(i=>!i.dead&&(i.life>0||i.fuse!==null));F=F.filter(f=>(f.life-=dt)>0);
 const arena=missionSectors[missionSector];if(hp<=0)finish(false);else if(defeated)finish(true);else if(kills>=arena.goal){if(!E.length&&!boss){boss=true;B=[];spawn("boss")}}else{wave=kills>=arena.waveThree?3:kills>=arena.waveTwo?2:1;while(E.length<Math.min(wave+(missionSector===2?1:0),arena.goal-kills))spawn(next())}}
 g.fillStyle=focus?"#201c3d":"#100d20";g.fillRect(0,0,W,H);g.strokeStyle="#302345";g.lineWidth=.6;for(let x=0;x<W;x+=30){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke()}for(let y=0;y<H;y+=30){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}
 drawMeteorites();
-for(let i of I){if(i.type==="mine"){ring(i.x,i.y,i.fuse===null?32:48,"#ff3344");diamond(i.x,i.y,8,Math.sin(now/80)>0?"#ff3344":"#81152b")}else if(i.type==="health"){g.fillStyle="#7dff85";g.fillRect(i.x-3,i.y-9,6,18);g.fillRect(i.x-9,i.y-3,18,6)}else if(i.type==="shield"){diamond(i.x,i.y,8,"#72dbff");ring(i.x,i.y,11,"#72dbff")}else if(i.type==="coin")orb(i.x,i.y,7,"#ffd65c");else diamond(i.x,i.y,8,i.type==="power"?"#ff70db":"#6affbd")}
+for(let i of I){if(i.type==="mine"){ring(i.x,i.y,i.fuse===null?32:48,"#ff3344");diamond(i.x,i.y,8,Math.sin(now/80)>0?"#ff3344":"#81152b")}else if(i.type==="health"){g.fillStyle="#7dff85";g.fillRect(i.x-3,i.y-9,6,18);g.fillRect(i.x-9,i.y-3,18,6)}else if(i.type==="shield"){diamond(i.x,i.y,8,"#72dbff");ring(i.x,i.y,11,"#72dbff")}else if(i.type==="magnet"){diamond(i.x,i.y,7,"#fff498");ring(i.x,i.y,10,"#fff498")}else if(i.type==="coin")orb(i.x,i.y,7,"#ffd65c");else diamond(i.x,i.y,8,i.type==="power"?"#ff70db":"#6affbd")}
 for(let f of F)ring(f.x,f.y,48,"#ff7766");if(slide)for(let i=5;i>0;i--)orb(p.x-dx*i*9,p.y-dy*i*9,9,"rgba(155,90,255,.25)");if(shield>0)ring(p.x,p.y,13,"#72dbff");orb(p.x,p.y,11,"#a76bff");orb(p.x,p.y,5,"#f2d9ff");if(charging)ring(p.x,p.y,15+charge*5,"#eee0ff");
 for(let e of E){if(e.type==="artillery"){g.fillStyle=e.c;g.fillRect(e.x-15,e.y-15,30,30)}else if(e.type==="hunter"){g.save();g.translate(e.x,e.y);g.rotate(e.angle);g.fillStyle=e.c;g.beginPath();g.moveTo(15,0);g.lineTo(-10,-10);g.lineTo(-10,10);g.closePath();g.fill();g.restore()}else{orb(e.x,e.y,e.r,e.c);orb(e.x,e.y,e.r*.45,"#72213d")}g.fillStyle="#35264e";g.fillRect(e.x-e.r,e.y-e.r-8,e.r*2,4);g.fillStyle=e.c;g.fillRect(e.x-e.r,e.y-e.r-8,e.r*2*Math.max(0,e.h)/e.max,4)}
 let t=target();if(t&&state==="play"&&(auto||charging||held.fire.size))ring(t.x,t.y,t.r+6,"#d2afff");for(let b of B)orb(b.x,b.y,b.r,b.c);g.fillStyle="#3d2d55";g.fillRect(10,305,100,5);g.fillStyle=locked?"#ff536b":"#b78aff";g.fillRect(10,305,heat,5);g.fillStyle="#d9baff";g.font="12px system-ui";g.textAlign="right";g.fillText(boss?(missionSector===2?gameText("Meteor Warden"):gameText("CORE GUARDIAN")):kills>=missionSectors[missionSector].goal?gameText("CLEAR REMAINING"):gameText("WAVE")+" "+wave,W-10,15);
-$("charge").textContent=charging?"CHARGE "+Math.round(charge*50)+"%":gameText("NOVA CHARGE");for(let [k,v] of Object.entries({Hp:Math.ceil(hp),Shield:Math.floor(shield),Heat:locked?"HOT":Math.round(heat)+"%",Kills:kills,Time:time(elapsed),Score:score,Power:power+"/5",Speed:speed+"/5",Wave:boss?"CORE":wave}))$("hud"+k).textContent=v;$("barHp").style.width=hp+"%";$("barShield").style.width=shield+"%";$("barHeat").style.width=heat+"%";
+$("charge").textContent=charging?"CHARGE "+Math.round(charge*50)+"%":gameText("NOVA CHARGE");for(let [k,v] of Object.entries({Hp:Math.ceil(hp),Shield:Math.floor(shield),Heat:locked?"HOT":Math.round(heat)+"%",Kills:kills,Time:time(elapsed),Score:score,Power:power+"/5",Magnet:magnet+"/5",Speed:speed+"/5",Wave:boss?"CORE":wave}))$("hud"+k).textContent=v;$("barHp").style.width=hp+"%";$("barShield").style.width=shield+"%";$("barHeat").style.width=heat+"%";
 if(state!=="play"){g.fillStyle="rgba(10,5,20,.85)";g.fillRect(0,0,W,H);g.fillStyle="#fff";g.textAlign="center";g.font="bold 24px system-ui";g.fillText(state==="won"?gameText("MISSION COMPLETE"):gameText("SIGNAL LOST"),W/2,120);g.font="16px system-ui";g.fillText(`${gameText("Kills")} ${kills} | ${gameText("HP")} ${hp} | ${time(elapsed)}`,W/2,155);g.fillText(gameText("Score")+" "+score,W/2,180);g.fillText(sectorName(missionSector)+" · "+gameText(difficultyLabels[missionDifficulty]),W/2,205);g.fillText(gameText("Restart mission to retry"),W/2,230)}requestAnimationFrame(frame)}
 function initialCareer(){return {name:"Player",avatar:"",xp:0,missions:0,wins:0,kills:0,seconds:0}}
 function validCareer(c){return c&&typeof c.name==="string"&&c.name.length<=24&&typeof c.avatar==="string"&&c.avatar.length<400000&&(!c.avatar||/^data:image\/jpeg;base64,/.test(c.avatar))&&[c.xp,c.missions,c.wins,c.kills,c.seconds].every(n=>Number.isFinite(n)&&n>=0)&&c.wins<=c.missions}
@@ -1328,7 +1386,7 @@ Object.assign(lobbyText.en,{coopDifficulty:"Co-op difficulty",coopRefresh:"Refre
 Object.assign(lobbyText.es,{coopDifficulty:"Dificultad cooperativa",coopRefresh:"Actualizar invitaciones"});
 
 function newCoopPilot(x) {
-  return {x,y:160,hp:100,shield:0,heat:0,power:0,speed:0,delay:0,safe:0,charge:0,locked:false,coins:0,upgrades:{}};
+  return {x,y:160,hp:100,shield:0,heat:0,power:0,speed:0,magnet:0,delay:0,safe:0,charge:0,locked:false,coins:0,upgrades:{}};
 }
 function newCoopArena(mode) {
   return {mode,players:[newCoopPilot(75),newCoopPilot(285)],enemies:[],shots:[],drops:[],wave:1,
@@ -1347,7 +1405,7 @@ function coopPickup(player, drop) {
     player.hp+=healed;
     player.shield=Math.min(100,player.shield+drop.amount-healed);
   } else if(drop.type==="shield") player.shield=Math.min(100,player.shield+drop.amount);
-  else if(drop.type==="power" || drop.type==="speed") player[drop.type]=Math.min(5,player[drop.type]+1);
+  else if(drop.type==="power" || drop.type==="speed" || drop.type==="magnet") player[drop.type]=Math.min(5,player[drop.type]+1);
   else if(drop.type==="coin") player.coins+=drop.amount;
 }
 function coopSpawn(arena, type) {
@@ -1435,13 +1493,18 @@ function updateCoopArena(arena, inputs, dt) {
       arena.drops=[{x:enemy.x,y:enemy.y,type:"coin",amount:100,shared:true,life:3600}];
     } else {
       const roll=Math.random();
-      const type=roll<.16?"power":roll<.30?"speed":roll<.52?"coin":roll<.64?"health":roll<.68?"shield":null;
+      const type=roll<.16?"power":roll<.30?"speed":roll<.52?"coin":roll<.64?"health":roll<.68?"shield":roll<.76?"magnet":null;
       if(type) arena.drops.push({x:enemy.x,y:enemy.y,type,amount:type==="coin"?10:rollPackAmount(type),life:15});
     }
   }
   arena.enemies=arena.enemies.filter(e=>e.hp>0);
   for(const drop of arena.drops) {
     drop.life-=dt;
+    if(!drop.shared) {
+      const attractor=arena.players.filter(player=>player.hp>0&&player.magnet>0&&dist(player,drop)<=magnetRadius[player.magnet])
+        .reduce((nearest,player)=>!nearest||dist(player,drop)<dist(nearest,drop)?player:nearest,null);
+      if(attractor) pullPickup(drop,attractor,attractor.magnet,dt);
+    }
     const collector=arena.players.find(player=>player.hp>0&&dist(player,drop)<23);
     if(!collector) continue;
     if(drop.shared) {
@@ -1618,7 +1681,7 @@ function renderCoop(conn,age) {
   for(let x=0;x<W;x+=30){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke();}
   for(let y=0;y<H;y+=30){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke();}
   for(const drop of arena.drops) {
-    const color={health:"#7dff85",shield:"#72dbff",power:"#ff70db",speed:"#6affbd",coin:"#ffd65c"}[drop.type];
+    const color={health:"#7dff85",shield:"#72dbff",power:"#ff70db",speed:"#6affbd",coin:"#ffd65c",magnet:"#fff498"}[drop.type];
     if(drop.shared){g.fillStyle="#ffd65c44";g.fillRect(drop.x-6,0,12,drop.y);ring(drop.x,drop.y,15,color);}
     diamond(drop.x,drop.y,drop.shared?10:6,color);
   }
@@ -1637,7 +1700,7 @@ function renderCoop(conn,age) {
   const waveLabel=arena.wave>3?gameText("CORE GUARDIAN"):gameText("WAVE")+" "+arena.wave;
   for(const [key,value] of Object.entries({Hp:Math.ceil(local.hp),Shield:Math.floor(local.shield),
     Heat:Math.round(local.heat)+"%",Kills:arena.kills,Time:time(arena.elapsed),Score:arena.kills*50,
-    Power:local.power+"/5",Speed:local.speed+"/5",Wave:arena.wave>3?"CORE":arena.wave})) $("hud"+key).textContent=value;
+    Power:local.power+"/5",Magnet:local.magnet+"/5",Speed:local.speed+"/5",Wave:arena.wave>3?"CORE":arena.wave})) $("hud"+key).textContent=value;
   $("barHp").style.width=local.hp+"%";$("barShield").style.width=local.shield+"%";$("barHeat").style.width=local.heat+"%";
   $("charge").textContent=local.charge>0?"CHARGE "+Math.round(local.charge*50)+"%":gameText("NOVA CHARGE");
   g.font="12px system-ui";g.textAlign="right";g.fillStyle="#d9baff";g.fillText(waveLabel,350,18);
