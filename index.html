@@ -31,22 +31,21 @@
 <button type="button" id="cloudRestore" data-copy="accountRestore">Restore cloud save</button>
 </div>
 <p id="accountStatus" role="status"></p>
-</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.12.8 — Online Lobby Preview">Prototype v0.12.8 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
-<h3 data-copy="lobby">Online lobby</h3>
+</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.12.9 — Online Lobby Preview">Prototype v0.12.9 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
+<header id="lobbyHeader"><h3 data-copy="lobby">Online lobby</h3><button type="button" id="closeLobby" data-copy="close">Close</button></header>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
 <button id="joinLobby" data-copy="retryLobby" hidden>Retry connection</button>
 <div id="lobbyRoom" hidden>
 <p id="lobbyIdentity"></p>
 <ol id="lobbyMessages" aria-label="Lobby messages"></ol>
-<form id="lobbyForm">
+<form id="lobbyForm"><button type="button" id="emojiToggle" aria-expanded="false" aria-controls="emojiPicker" data-copy-label="emojiLabel">😀</button>
 <input id="lobbyInput" maxlength="300" required aria-label="Message" autocomplete="off">
 <button data-copy="send">Send</button>
-</form>
+</form><div id="emojiPicker" role="group" data-copy-label="emojiLabel" hidden></div>
 <button id="refreshLobby" data-copy="refresh">Refresh</button>
 <button id="clearBlocks" data-copy="unblock">Unblock all players</button>
 </div>
-<button id="closeLobby" data-copy="close">Close</button>
 </section>
 <section id="help" class="online-panel" hidden>
 <h3 data-copy="help">Help</h3>
@@ -91,7 +90,7 @@ const gameSpanish = {
   "Change photo": "Cambiar foto",
   "Remove photo": "Eliminar foto",
   "Close": "Cerrar",
-  "Prototype v0.12.8 — Online Lobby Preview": "Prototipo v0.12.8 — Vista previa de la sala en línea",
+  "Prototype v0.12.9 — Online Lobby Preview": "Prototipo v0.12.9 — Vista previa de la sala en línea",
   "Player avatar": "Avatar del jugador",
   "Player": "Jugador",
   "Lobby messages": "Mensajes de la sala",
@@ -443,17 +442,26 @@ async function connectLobby() {
     lobbyBusy = false;
   }
 }
+let scrollLobbyToLatest = true;
 async function refreshLobby() {
   if (!lobbyPlayer || $("lobby").hidden || lobbyReadPending) return;
   lobbyReadPending = true;
   try {
     const messages = await lobbyResult(lobbyClient.from("lobby_messages")
       .select("id,sender_id,body,profiles!lobby_messages_sender_id_fkey(display_name,arcade_id)")
-      .order("id",{ascending:false}).limit(30));
+      .order("id",{ascending:false}).limit(100));
     const list = $("lobbyMessages");
-    if (list.contains(document.activeElement)) return;
+    if ($("lobby").hidden || (!scrollLobbyToLatest && list.contains(document.activeElement))) return;
+    const stickToLatest = scrollLobbyToLatest || list.scrollHeight - list.clientHeight - list.scrollTop < 32;
+    const top = list.scrollTop;
+    const viewportTop = list.getBoundingClientRect().top;
+    const anchor = stickToLatest ? null : Array.from(list.children).find(
+      row => row.getBoundingClientRect().bottom > viewportTop && row.dataset.messageId
+    );
+    const anchorOffset = anchor ? anchor.getBoundingClientRect().top - viewportTop : 0;
     const entries = messages.reverse().map(message => {
       const item = document.createElement("li");
+      item.dataset.messageId = message.id;
       const name = document.createElement("strong");
       const body = document.createElement("p");
       name.textContent = message.profiles ? message.profiles.display_name + " #" + message.profiles.arcade_id : "—";
@@ -477,6 +485,13 @@ async function refreshLobby() {
       entries.push(empty);
     }
     list.replaceChildren(...entries);
+    if (stickToLatest) {
+      list.scrollTop = list.scrollHeight;
+    } else {
+      const nextAnchor = anchor && entries.find(row => row.dataset.messageId === anchor.dataset.messageId);
+      list.scrollTop = nextAnchor ? list.scrollTop + nextAnchor.getBoundingClientRect().top - viewportTop - anchorOffset : top;
+    }
+    scrollLobbyToLatest = false;
   } catch {
     lobbyStatus("failed");
   } finally {
@@ -537,6 +552,7 @@ $("lobbyForm").onsubmit = async event => {
   try {
     await lobbyResult(lobbyClient.rpc("send_lobby_message",{message:body}));
     if (input.value.trim() === body) input.value = "";
+    scrollLobbyToLatest = true;
     lobbyStatus();
     await refreshLobby();
   } catch (error) {
@@ -567,14 +583,39 @@ gameDialogs.textContent = `
   }
   .game-dialog::backdrop { background: #090615bb; }
   .game-dialog #lobby { margin: 0; padding: 0; }
-  .game-dialog #lobbyMessages { max-height: min(280px, 35dvh); }
+  .lobby-dialog {
+    width: min(720px, calc(100% - 16px));
+  }
+  .lobby-dialog:has(#lobbyRoom:not([hidden])) {
+    height: min(750px, calc(100dvh - 20px));
+  }
+  .lobby-dialog #lobby {
+    display: flex; flex-direction: column; height: 100%; max-width: none;
+  }
+  #lobbyHeader { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  #lobbyHeader h3 { margin: 4px 0; text-align: left; }
+  #lobbyStatus:empty { display: none; }
+  #lobbyRoom { display: flex; flex: 1; flex-direction: column; min-height: 0; }
+  #lobbyIdentity { margin: 4px 0; text-align: left; }
+  .lobby-dialog #lobbyMessages {
+    flex: 1; min-height: 72px; max-height: none; margin: 6px 0;
+    overflow-y: auto; overscroll-behavior: contain; overflow-anchor: none;
+  }
+  #lobbyMessages li { margin: 4px 0; padding: 8px 10px; }
+  #lobbyMessages li button { min-height: 32px; font-size: 11px; margin: 2px 4px 0 0; }
+  #lobbyForm { display: flex; align-items: center; gap: 6px; }
+  #lobbyForm button { flex: 0 0 auto; margin: 0; }
+  #lobbyForm #lobbyInput { flex: 1; min-width: 0; width: auto; }
+  #emojiPicker { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 4px; }
+  #emojiPicker button { margin: 0; flex: 0 0 38px; padding: 3px; font-size: 18px; }
+  #lobbyRoom > button { align-self: center; min-height: 32px; font-size: 11px; margin: 2px; }
   .game-dialog button { margin: 4px; min-height: 44px; }
   #supportEmail { color: #e5cdff; overflow-wrap: anywhere; }
 `;
 document.head.append(gameDialogs);
 
 const lobbyDialog = document.createElement("dialog");
-lobbyDialog.className = "game-dialog";
+lobbyDialog.className = "game-dialog lobby-dialog";
 lobbyDialog.setAttribute("aria-labelledby", "lobbyHeading");
 const lobbySection = $("lobby");
 lobbySection.querySelector("h3").id = "lobbyHeading";
@@ -584,6 +625,8 @@ lobbyDialog.append(lobbySection);
 $("lobbyBtn").onclick = () => {
   panel("lobby");
   lobbyDialog.showModal();
+  scrollLobbyToLatest = true;
+  $("lobbyMessages").scrollTop = $("lobbyMessages").scrollHeight;
   if (lobbyPlayer) startLobbyUpdates();
   else connectLobby();
 };
@@ -1051,4 +1094,37 @@ $("leaderboardMode").onchange = () => {
 $("reloadLeaderboard").onclick = loadLeaderboard;
 setInterval(loadLeaderboard,15000);
 translateGame();
+lobbyText.en.emojiLabel = "Choose an emoji";
+lobbyText.es.emojiLabel = "Elige un emoji";
+const emojiPicker = $("emojiPicker");
+const emojiToggle = $("emojiToggle");
+const emojiInput = $("lobbyInput");
+function refreshEmojiLabels() {
+  for (const element of [emojiPicker, emojiToggle]) {
+    element.setAttribute("aria-label", copy("emojiLabel"));
+  }
+}
+function setEmojiPicker(open) {
+  emojiPicker.hidden = !open;
+  emojiToggle.setAttribute("aria-expanded", String(open));
+}
+emojiToggle.onclick = () => setEmojiPicker(emojiPicker.hidden);
+for (const symbol of ["😀","😂","😍","🔥","👏","🙌","👍","💜","🎮","👾","😎","🎉"]) {
+  const emoji = document.createElement("button");
+  emoji.type = "button";
+  emoji.textContent = symbol;
+  emoji.onclick = () => {
+    const start = emojiInput.selectionStart ?? emojiInput.value.length;
+    const end = emojiInput.selectionEnd ?? start;
+    if (emojiInput.value.length - (end - start) + symbol.length <= emojiInput.maxLength) {
+      emojiInput.setRangeText(symbol,start,end,"end");
+    }
+    setEmojiPicker(false);
+    emojiInput.focus();
+  };
+  emojiPicker.append(emoji);
+}
+lobbyLanguage.addEventListener("change",refreshEmojiLabels);
+lobbyDialog.addEventListener("close",() => setEmojiPicker(false));
+refreshEmojiLabels();
 </script></body></html>
