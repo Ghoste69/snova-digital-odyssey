@@ -31,7 +31,7 @@
 <button type="button" id="cloudRestore" data-copy="accountRestore">Restore cloud save</button>
 </div>
 <p id="accountStatus" role="status"></p>
-</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><section id="profileFriends"><h4 data-copy="friendsTitle">Friends</h4><p id="profileFriendsStatus" role="status"></p><label for="coopMode" data-copy="coopDifficulty">Co-op difficulty</label> <select id="coopMode"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select><ul id="profileFriendsList"></ul><button id="coopRefresh" type="button" data-copy="coopRefresh">Refresh co-op invites</button><p id="coopStatus" role="status"></p><ul id="coopRoomList"></ul></section><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.14.0 — Co-op Preview">Prototype v0.14.0 — Co-op Preview</footer><section id="lobby" class="online-panel" hidden>
+</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><section id="profileFriends"><h4 data-copy="friendsTitle">Friends</h4><p id="profileFriendsStatus" role="status"></p><label for="coopMode" data-copy="coopDifficulty">Co-op difficulty</label> <select id="coopMode"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select><ul id="profileFriendsList"></ul><button id="coopRefresh" type="button" data-copy="coopRefresh">Refresh co-op invites</button><p id="coopStatus" role="status"></p><ul id="coopRoomList"></ul></section><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.14.1 — Co-op Preview">Prototype v0.14.1 — Co-op Preview</footer><section id="lobby" class="online-panel" hidden>
 <header id="lobbyHeader"><h3 data-copy="lobby">Online lobby</h3><button type="button" id="closeLobby" data-copy="close">Close</button></header>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
@@ -90,7 +90,7 @@ const gameSpanish = {
   "Change photo": "Cambiar foto",
   "Remove photo": "Eliminar foto",
   "Close": "Cerrar",
-  "Prototype v0.14.0 — Co-op Preview": "Prototipo v0.14.0 — Vista previa cooperativa",
+  "Prototype v0.14.1 — Co-op Preview": "Prototipo v0.14.1 — Vista previa cooperativa",
   "Player avatar": "Avatar del jugador",
   "Player": "Jugador",
   "Lobby messages": "Mensajes de la sala",
@@ -484,7 +484,7 @@ async function loadChallenge() {
       sitekey: turnstileSiteKey,
       callback: token => { challengeToken = token; if (!lobbyBusy && $("joinLobby").hidden && !$("lobby").hidden) connectLobby(); },
       "expired-callback": () => { challengeToken = undefined; },
-      "error-callback": () => { challengeToken = undefined; lobbyStatus("failed"); }
+      "error-callback": () => { challengeToken = undefined; $("joinLobby").hidden = false; lobbyStatus("failed"); }
     });
   }
 }
@@ -668,9 +668,7 @@ gameDialogs.textContent = `
   .game-dialog #lobby { margin: 0; padding: 0; }
   .lobby-dialog {
     width: min(720px, calc(100% - 16px));
-  }
-  .lobby-dialog:has(#lobbyRoom:not([hidden])) {
-    height: min(750px, calc(100dvh - 20px));
+    height: min(750px, calc(100dvh - 24px));
   }
   .lobby-dialog #lobby {
     display: flex; flex-direction: column; height: 100%; max-width: none;
