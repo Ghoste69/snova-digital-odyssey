@@ -13,7 +13,14 @@
   #menu button { flex-basis: 29%; }
   body { padding-bottom: calc(162px + env(safe-area-inset-bottom)); }
 }
-.lobby-translation{padding:6px 8px;border-inline-start:2px solid #bc8cff;color:#e5cdff}#shareGameBar{margin:4px 0 7px}#shareGameButton{font-size:12px;min-height:36px;padding:4px 10px}#gameShareLink{display:block;width:100%;margin:6px 0;font-size:16px;user-select:text;-webkit-user-select:text}#profileInviteCode{overflow-wrap:anywhere}#accountPanel{border-block:1px solid #7950bd;padding:8px 0;margin:10px 0}#accountEmail{width:min(220px,100%);font-size:16px;user-select:text;-webkit-user-select:text}#accountStatus:empty{display:none}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2><span data-game-text="DIGITAL ODYSSEY // NEON INTERFACE">DIGITAL ODYSSEY // NEON INTERFACE</span><div id="shareGameBar"><button type="button" id="shareGameButton" data-copy="shareGame">Share game</button></div><div id="stats"><div class="hud"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div><div id="menu"><button id="pauseBtn" data-game-text="Pause">Pause</button><button id="restart" data-game-text="Restart Mission">Restart Mission</button><button id="settingsBtn" data-game-text="Settings">Settings</button><button id="scoresBtn" data-game-text="Leaderboards">Leaderboards</button><button id="shopBtn" data-game-text="Shop">Shop</button><button id="profileBtn" data-game-text="Profile">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3 data-game-text="Control settings">Control settings</h3><div><label for="difficulty" data-game-text="Difficulty">Difficulty</label> <select id="difficulty"><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option></select><p id="difficultyHint"></p></div><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden><button id="closeSettings" data-game-text="Resume">Resume</button></div><div id="records" hidden></div><div id="shop" hidden><h3 data-game-text="Nova Upgrade Shop">Nova Upgrade Shop</h3><div id="offers"></div><button id="closeShop" data-game-text="Resume">Resume</button></div><div id="profile" hidden><h3 data-game-text="Player Profile">Player Profile</h3><img id="avatarPreview" hidden alt="Player avatar"><div><label><span data-game-text="Display name">Display name</span> <input id="displayName" readonly maxlength="24" placeholder="Player"></label></div><button id="saveName" disabled data-game-text="Save name">Save name</button><button id="avatarBtn" data-game-text="Change photo">Change photo</button><button id="removeAvatar" data-game-text="Remove photo">Remove photo</button><input id="avatarFile" type="file" accept="image/*" hidden><section id="accountPanel">
+.lobby-translation{padding:6px 8px;border-inline-start:2px solid #bc8cff;color:#e5cdff}#shareGameBar{margin:4px 0 7px}#shareGameButton{font-size:12px;min-height:36px;padding:4px 10px}#gameShareLink{display:block;width:100%;margin:6px 0;font-size:16px;user-select:text;-webkit-user-select:text}#profileInviteCode{overflow-wrap:anywhere}#accountPanel{border-block:1px solid #7950bd;padding:8px 0;margin:10px 0}#accountEmail{width:min(220px,100%);font-size:16px;user-select:text;-webkit-user-select:text}#accountStatus:empty{display:none}#controls,#controls *{touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2><span data-game-text="DIGITAL ODYSSEY // NEON INTERFACE">DIGITAL ODYSSEY // NEON INTERFACE</span><div id="shareGameBar"><button type="button" id="shareGameButton" data-copy="shareGame">Share game</button></div><div id="stats"><div class="hud"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div><div id="menu"><button id="pauseBtn" data-game-text="Pause">Pause</button><button id="restart" data-game-text="Restart Mission">Restart Mission</button><button id="settingsBtn" data-game-text="Settings">Settings</button><button id="scoresBtn" data-game-text="Leaderboards">Leaderboards</button><button id="shopBtn" data-game-text="Shop">Shop</button><button id="profileBtn" data-game-text="Profile">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3 data-game-text="Control settings">Control settings</h3><div><label for="difficulty" data-game-text="Difficulty">Difficulty</label> <select id="difficulty"><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option></select><p id="difficultyHint"></p></div><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden><button id="closeSettings" data-game-text="Resume">Resume</button></div><div id="records" hidden><section id="liveScores">
+<h3 data-copy="liveScores">Live leaderboards</h3>
+<label for="leaderboardMode" data-game-text="Difficulty">Difficulty</label>
+<select id="leaderboardMode"><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option></select>
+<button id="reloadLeaderboard" type="button" data-copy="refresh">Refresh</button>
+<p data-copy="scoreNotice">Best scores from online players. Preview scores are reported by the game.</p>
+<p id="leaderboardStatus" role="status"></p><ol id="leaderboardList"></ol>
+</section><section id="personalRecords"></section></div><div id="shop" hidden><h3 data-game-text="Nova Upgrade Shop">Nova Upgrade Shop</h3><div id="offers"></div><button id="closeShop" data-game-text="Resume">Resume</button></div><div id="profile" hidden><h3 data-game-text="Player Profile">Player Profile</h3><img id="avatarPreview" hidden alt="Player avatar"><div><label><span data-game-text="Display name">Display name</span> <input id="displayName" readonly maxlength="24" placeholder="Player"></label></div><button id="saveName" disabled data-game-text="Save name">Save name</button><button id="avatarBtn" data-game-text="Change photo">Change photo</button><button id="removeAvatar" data-game-text="Remove photo">Remove photo</button><input id="avatarFile" type="file" accept="image/*" hidden><section id="accountPanel">
 <h4 data-copy="accountTitle">Online account</h4>
 <label id="accountEmailLabel"><span data-copy="accountEmail">Email address</span> <input id="accountEmail" type="email" required autocomplete="email"></label>
 <div id="accountChallenge"></div>
@@ -24,11 +31,11 @@
 <button type="button" id="cloudRestore" data-copy="accountRestore">Restore cloud save</button>
 </div>
 <p id="accountStatus" role="status"></p>
-</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.12.6 — Online Lobby Preview">Prototype v0.12.6 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
+</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.12.8 — Online Lobby Preview">Prototype v0.12.8 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
 <h3 data-copy="lobby">Online lobby</h3>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
-<button id="joinLobby" data-copy="join">Join as guest</button>
+<button id="joinLobby" data-copy="retryLobby" hidden>Retry connection</button>
 <div id="lobbyRoom" hidden>
 <p id="lobbyIdentity"></p>
 <ol id="lobbyMessages" aria-label="Lobby messages"></ol>
@@ -84,7 +91,7 @@ const gameSpanish = {
   "Change photo": "Cambiar foto",
   "Remove photo": "Eliminar foto",
   "Close": "Cerrar",
-  "Prototype v0.12.6 — Online Lobby Preview": "Prototipo v0.12.6 — Vista previa de la sala en línea",
+  "Prototype v0.12.8 — Online Lobby Preview": "Prototipo v0.12.8 — Vista previa de la sala en línea",
   "Player avatar": "Avatar del jugador",
   "Player": "Jugador",
   "Lobby messages": "Mensajes de la sala",
@@ -218,22 +225,86 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),dist=(a,b)=>Math.hypot(a.x-b.x,a.
 function time(t){return Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0")}
 function tiles(items){return '<div class="tiles">'+items.map(([k,v])=>`<div class="tile"><small>${k}</small><strong>${v}</strong></div>`).join('')+'</div>'}
 function segments(n){return '<span class="segments">'+Array.from({length:5},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')+'</span>'}
-function records(){$("records").innerHTML='<h3>'+gameText("Personal records")+'</h3>'+tiles([[gameText("Highest score"),rec.score],[gameText("Fastest victory"),rec.fast===null?"—":time(rec.fast)],[gameText("Best victory HP"),rec.hp],[gameText("All-time wins"),rec.wins],[gameText("Most kills"),rec.kills]])+'<div class="sectionlabel">'+gameText("Top 10 missions · local")+'</div>'+history.map((r,i)=>`<div class="rank"><strong>${String(i+1).padStart(2,'0')}</strong><div><strong>${r.score} pts</strong><br><small>${r.kills} ${gameText("kills")} · ${time(r.elapsed)}</small></div><small>${r.win?gameText('VICTORY'):gameText('DEFEAT')}</small></div>`).join('')}
+function records(){$("personalRecords").innerHTML='<h3>'+gameText("Personal records")+'</h3>'+tiles([[gameText("Highest score"),rec.score],[gameText("Fastest victory"),rec.fast===null?"—":time(rec.fast)],[gameText("Best victory HP"),rec.hp],[gameText("All-time wins"),rec.wins],[gameText("Most kills"),rec.kills]])+'<div class="sectionlabel">'+gameText("Top 10 missions · local")+'</div>'+history.map((r,i)=>`<div class="rank"><strong>${String(i+1).padStart(2,'0')}</strong><div><strong>${r.score} pts</strong><br><small>${r.kills} ${gameText("kills")} · ${time(r.elapsed)}</small></div><small>${r.win?gameText('VICTORY'):gameText('DEFEAT')}</small></div>`).join('')}
 function sync(){ $("combo").classList.toggle("active",combo);$("combo").textContent=gameText("SLIDE + FOCUS")+(toggle?(combo?": "+gameText("ON"):": "+gameText("OFF")):"");$("mode").textContent=gameText("COMBO")+": "+(toggle?gameText("TOGGLE"):gameText("HOLD"))}
-function clear(){contacts.clear();Object.values(held).forEach(s=>s.clear());keys.clear();sid=null;jx=jy=0;$("knob").style.transform="";combo=false;charging=false;charge=0;sync();document.querySelectorAll(".active").forEach(b=>b.classList.remove("active"))}
+function clear(){chargePointer=null;contacts.clear();Object.values(held).forEach(s=>s.clear());keys.clear();sid=null;jx=jy=0;$("knob").style.transform="";combo=false;charging=false;charge=0;sync();document.querySelectorAll(".active").forEach(b=>b.classList.remove("active"))}
 function reset(){missionDifficulty=selectedDifficulty;renderDifficulty();paused=false;manualPaused=false;pauseUI();for(let [key,btn] of Object.entries(panels)){$(key).hidden=true;$(btn).setAttribute("aria-expanded","false")}wallet();p={x:65,y:160};E=[];B=[];I=[];F=[];hp=100;heat=kills=score=power=speed=elapsed=delay=0;wave=1;state="play";boss=locked=false;dx=1;dy=0;clear();spawn("sentinel");records()}
-function finish(win){if(state!=="play")return;state=win?"won":"lost";clear();if(win){score+=1000+hp*10;rec.wins++;rec.hp=Math.max(rec.hp,hp);rec.fast=rec.fast===null?elapsed:Math.min(rec.fast,elapsed)}rec.kills=Math.max(rec.kills,kills);rec.score=Math.max(rec.score,score);career.missions++;referralMissionFinished();career.wins+=Number(win);career.kills+=kills;career.seconds+=elapsed;career.xp+=kills*10+(win?250:50);saveCareer();history.push({score,kills,elapsed,hp,win});history.sort((a,b)=>b.score-a.score||a.elapsed-b.elapsed);history=history.slice(0,10);try{localStorage.setItem("snova07history",JSON.stringify(history))}catch{}try{localStorage.setItem("snova06",JSON.stringify(rec))}catch{}records()}
+function finish(win){if(state!=="play")return;state=win?"won":"lost";clear();if(win){score+=1000+hp*10;rec.wins++;rec.hp=Math.max(rec.hp,hp);rec.fast=rec.fast===null?elapsed:Math.min(rec.fast,elapsed)}publishMissionScore(missionDifficulty,score);rec.kills=Math.max(rec.kills,kills);rec.score=Math.max(rec.score,score);career.missions++;referralMissionFinished();career.wins+=Number(win);career.kills+=kills;career.seconds+=elapsed;career.xp+=kills*10+(win?250:50);saveCareer();history.push({score,kills,elapsed,hp,win});history.sort((a,b)=>b.score-a.score||a.elapsed-b.elapsed);history=history.slice(0,10);try{localStorage.setItem("snova07history",JSON.stringify(history))}catch{}try{localStorage.setItem("snova06",JSON.stringify(rec))}catch{}records()}
 document.addEventListener("contextmenu",e=>e.preventDefault());document.addEventListener("selectstart",e=>{if(!e.target.closest("input,textarea"))e.preventDefault()});
-const stick=$("stick");function move(e){let b=stick.getBoundingClientRect(),x=e.clientX-b.left-b.width/2,y=e.clientY-b.top-b.height/2,d=Math.hypot(x,y),m=Math.min(1,d/42);jx=d>5?x/d*m:0;jy=d>5?y/d*m:0;$("knob").style.transform=`translate(${jx*42}px,${jy*42}px)`}
-stick.onpointerdown=e=>{e.preventDefault();if(paused||manualPaused)return;if(sid!==null)return;sid=e.pointerId;stick.setPointerCapture(sid);move(e)};stick.onpointermove=e=>{if(e.pointerId===sid)move(e)};stick.onpointerup=stick.onpointercancel=stick.onlostpointercapture=e=>{if(e.pointerId===sid){sid=null;jx=jy=0;$("knob").style.transform=""}};
+const stick=$("stick");
+let chargePointer = null;
+function move(e){let b=stick.getBoundingClientRect(),x=e.clientX-b.left-b.width/2,y=e.clientY-b.top-b.height/2,d=Math.hypot(x,y),m=Math.min(1,d/42);jx=d>5?x/d*m:0;jy=d>5?y/d*m:0;$("knob").style.transform=`translate(${jx*42}px,${jy*42}px)`}
+function resetStick(pointerId) {
+  if (pointerId !== sid) return;
+  sid = null;
+  jx = jy = 0;
+  $("knob").style.transform = "";
+}
+stick.onpointerdown = event => {
+  event.preventDefault();
+  if (paused || manualPaused || state !== "play") return;
+  if (sid !== null && !(event.pointerType === "touch" && event.isPrimary)) return;
+  if (sid !== null) contacts.delete(sid);
+  sid = event.pointerId;
+  try { stick.setPointerCapture(sid); } catch {}
+  move(event);
+};
+window.addEventListener("pointermove", event => {
+  if (event.pointerId === sid) move(event);
+});
+for (const type of ["pointerup", "pointercancel", "lostpointercapture"]) {
+  window.addEventListener(type, event => resetStick(event.pointerId), true);
+}
+const gameplayControls = $("controls");
+for (const type of ["touchstart", "touchmove", "touchend"]) {
+  gameplayControls.addEventListener(type, event => {
+    if (event.cancelable) event.preventDefault();
+  }, {passive:false});
+}
+for (const type of ["touchend", "touchcancel"]) {
+  window.addEventListener(type, event => {
+    if (event.touches.length === 0) {
+      requestAnimationFrame(() => {
+        if (sid === null && chargePointer === null && !contacts.size) return;
+        if (!lastTouchActive) clear();
+      });
+    }
+  }, true);
+}
+let lastTouchActive = false;
+for (const type of ["touchstart", "touchend", "touchcancel"]) {
+  window.addEventListener(type, event => {
+    lastTouchActive = event.touches.length > 0;
+  }, true);
+}
+
 for(const k of Object.keys(held)){let b=$(k);b.onpointerdown=e=>{e.preventDefault();if(paused||manualPaused)return;b.setPointerCapture(e.pointerId);held[k].add(e.pointerId);b.classList.add("active")};b.onpointerup=b.onpointercancel=b.onlostpointercapture=e=>{held[k].delete(e.pointerId);b.classList.toggle("active",held[k].size>0)}}
 $("mode").onclick=()=>{toggle=!toggle;combo=false;sync();savePrefs()};$("combo").onpointerdown=e=>{e.preventDefault();if(paused||manualPaused||locked||state!=="play")return;$("combo").setPointerCapture(e.pointerId);combo=toggle?!combo:true;sync()};$("combo").onpointerup=$("combo").onlostpointercapture=()=>{if(!toggle){combo=false;sync()}};$("combo").onpointercancel=()=>{combo=false;sync()};
 $("auto").onclick=()=>{auto=!auto;layout();savePrefs()};$("restart").onclick=reset;
 function startCharge(){if(!paused&&!manualPaused&&state==="play"&&!charging){charging=true;charge=0;$("charge").classList.add("active")}}
 function cancelCharge(){charging=false;charge=0;$("charge").classList.remove("active")}
 function release(){if(!charging)return;let t=target();if(t&&state==="play"){let q=Math.min(1,charge/2);shoot(p,t,340,true,0,"#eee0ff",Math.round((10+power*2+progress.damage*2)*(1+5*q)),4+8*q);delay=.2}cancelCharge()}
-$("charge").onpointerdown=e=>{e.preventDefault();if(charging)return;$("charge").setPointerCapture(e.pointerId);startCharge()};$("charge").onpointerup=release;$("charge").onpointercancel=$("charge").onlostpointercapture=cancelCharge;
-window.onkeydown=e=>{if(paused||manualPaused||e.target.matches("input,textarea"))return;if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key))e.preventDefault();keys.add(e.key);if(e.key==="e"&&!e.repeat)startCharge()};window.onkeyup=e=>{keys.delete(e.key);if(e.key==="e")release()};window.onblur=clear;document.addEventListener("visibilitychange",()=>{if(document.hidden){clear();last=0}});
+const chargeButton = $("charge");
+chargeButton.onpointerdown = event => {
+  event.preventDefault();
+  if (charging || paused || manualPaused || state !== "play") return;
+  chargePointer = event.pointerId;
+  try { chargeButton.setPointerCapture(chargePointer); } catch {}
+  startCharge();
+};
+window.addEventListener("pointerup", event => {
+  if (event.pointerId !== chargePointer) return;
+  chargePointer = null;
+  release();
+}, true);
+for (const type of ["pointercancel", "lostpointercapture"]) {
+  window.addEventListener(type, event => {
+    if (event.pointerId !== chargePointer) return;
+    chargePointer = null;
+    cancelCharge();
+  }, true);
+}
+window.onkeydown=e=>{if(paused||manualPaused||e.target.matches("input,textarea"))return;if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key))e.preventDefault();keys.add(e.key);if(e.key==="e"&&!e.repeat)startCharge()};window.onkeyup=e=>{keys.delete(e.key);if(e.key==="e"&&chargePointer===null)release()};window.onblur=clear;document.addEventListener("visibilitychange",()=>{if(document.hidden){clear();last=0}});
 function spawn(type){let [h,s,r,c,range,interval]=T[type],x,y,n=0;do{let side=Math.random()*4|0;x=side===0?32:side===1?328:32+Math.random()*296;y=side===2?32:side===3?288:32+Math.random()*256}while(Math.hypot(x-p.x,y-p.y)<140&&++n<30);const modifiers=difficultyModes[missionDifficulty];h*=modifiers.health;E.push({type,x,y,h,max:h,s:s*modifiers.speed,r,c,range,interval:interval*modifiers.interval,cd:(.7+Math.random())*modifiers.interval,angle:0})}
 function next(){let r=Math.random();return kills<2?"sentinel":kills<5?(r<.6?"sentinel":"hunter"):r<.4?"sentinel":r<.75?"hunter":"artillery"}
 function target(){return E.filter(e=>e.h>0).reduce((a,b)=>!a||dist(p,b)<dist(p,a)?b:a,null)}
@@ -295,6 +366,7 @@ function translateGame() {
   records();
   if (!$("profile").hidden) renderProfile();
   if (!$("shop").hidden) shop();
+  if (!$("records").hidden) loadLeaderboard();
   lobbyStatus(activeLobbyStatus);
 
   document.querySelectorAll("[data-copy]").forEach(el => { el.textContent = copy(el.dataset.copy) ?? el.textContent; });
@@ -328,7 +400,7 @@ async function loadChallenge() {
   if (challengeWidget === undefined) {
     challengeWidget = window.turnstile.render("#guestChallenge", {
       sitekey: turnstileSiteKey,
-      callback: token => { challengeToken = token; if (!lobbyBusy) lobbyStatus("verified"); },
+      callback: token => { challengeToken = token; if (!lobbyBusy && $("joinLobby").hidden && !$("lobby").hidden) connectLobby(); },
       "expired-callback": () => { challengeToken = undefined; },
       "error-callback": () => { challengeToken = undefined; lobbyStatus("failed"); }
     });
@@ -337,7 +409,8 @@ async function loadChallenge() {
 async function connectLobby() {
   if (lobbyBusy || lobbyPlayer) return;
   lobbyBusy = true;
-  $("joinLobby").disabled = true;
+  $("joinLobby").hidden = true;
+  let submittedChallenge = false;
   lobbyStatus("wait");
   try {
     await getAccountClient();
@@ -345,9 +418,9 @@ async function connectLobby() {
     if (!session) {
       if (turnstileSiteKey && !challengeToken) {
         await loadChallenge();
-        lobbyStatus(challengeToken ? "verified" : "challenge");
-        return;
+        if (!challengeToken) { lobbyStatus("challenge"); return; }
       }
+      submittedChallenge = true;
       await lobbyResult(lobbyClient.auth.signInAnonymously({options:{captchaToken:challengeToken}}));
     }
     lobbyPlayer = await lobbyResult(lobbyClient.rpc("ensure_guest_profile"));
@@ -360,14 +433,14 @@ async function connectLobby() {
     refreshReferral();
   } catch (error) {
     const errors = {anonymous_provider_disabled:"guestDisabled", captcha_failed:"captchaFailed"};
+    $("joinLobby").hidden = false;
     lobbyStatus(errors[error.code] || "failed");
   } finally {
-    if (challengeToken && challengeWidget !== undefined) {
+    if (submittedChallenge && challengeWidget !== undefined) {
       challengeToken = undefined;
       window.turnstile.reset(challengeWidget);
     }
     lobbyBusy = false;
-    $("joinLobby").disabled = false;
   }
 }
 async function refreshLobby() {
@@ -511,7 +584,8 @@ lobbyDialog.append(lobbySection);
 $("lobbyBtn").onclick = () => {
   panel("lobby");
   lobbyDialog.showModal();
-  startLobbyUpdates();
+  if (lobbyPlayer) startLobbyUpdates();
+  else connectLobby();
 };
 function dismissLobby() {
   panel("lobby");
@@ -929,4 +1003,52 @@ if (location.hash.includes("access_token=") || location.hash.includes("error_cod
   panel("profile");
   runAccount(async () => accountStatus(accountSession?.user.is_anonymous === false ? "accountLinked" : "accountError"));
 }
+Object.assign(lobbyText.en, {"liveScores":"Live leaderboards","scoreNotice":"Best scores from online players. Preview scores are reported by the game.","scoreEmpty":"No scores yet for this difficulty.","scoreLoading":"Loading scores…","scoreError":"Could not load the leaderboard.","retryLobby":"Retry connection"});
+Object.assign(lobbyText.es, {"liveScores":"Clasificación en línea","scoreNotice":"Mejores puntajes de jugadores en línea. En esta vista previa, el juego reporta los puntajes.","scoreEmpty":"Aún no hay puntajes en esta dificultad.","scoreLoading":"Cargando puntajes…","scoreError":"No se pudo cargar la clasificación.","retryLobby":"Volver a conectar"});
+let leaderboardRequest = 0;
+async function loadLeaderboard() {
+  if ($("records").hidden || document.hidden) return;
+  const request = ++leaderboardRequest;
+  const mode = $("leaderboardMode").value;
+  const list = $("leaderboardList");
+  const status = $("leaderboardStatus");
+  if (!list.children.length) status.textContent = copy("scoreLoading");
+  try {
+    const client = await getAccountClient();
+    const rows = await lobbyResult(client.rpc("live_leaderboard", {run_mode:mode}));
+    if (request !== leaderboardRequest || $("records").hidden) return;
+    list.replaceChildren(...rows.map(row => {
+      const line = document.createElement("li");
+      line.textContent = row.display_name + " #" + row.arcade_id + " · " + row.score.toLocaleString(lobbyLanguage.value);
+      return line;
+    }));
+    status.textContent = rows.length ? "" : copy("scoreEmpty");
+  } catch {
+    if (request === leaderboardRequest) status.textContent = copy("scoreError");
+  }
+}
+async function publishMissionScore(mode, points) {
+  try {
+    await getAccountClient();
+    const {session} = await lobbyResult(lobbyClient.auth.getSession());
+    if (!session) return;
+    await lobbyResult(lobbyClient.rpc("ensure_guest_profile"));
+    await lobbyResult(lobbyClient.rpc("submit_leaderboard_score", {run_mode:mode,run_score:points}));
+    loadLeaderboard();
+  } catch (error) { console.warn("Could not publish mission score", error.code || "request failed"); }
+}
+$("scoresBtn").addEventListener("click", () => {
+  if (!$("records").hidden) {
+    $("leaderboardMode").value = missionDifficulty;
+    $("leaderboardList").replaceChildren();
+    loadLeaderboard();
+  }
+});
+$("leaderboardMode").onchange = () => {
+  $("leaderboardList").replaceChildren();
+  loadLeaderboard();
+};
+$("reloadLeaderboard").onclick = loadLeaderboard;
+setInterval(loadLeaderboard,15000);
+translateGame();
 </script></body></html>
