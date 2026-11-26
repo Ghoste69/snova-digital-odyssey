@@ -4,7 +4,31 @@
 #menu{position:relative;z-index:12;background:#090615;display:flex;flex-wrap:wrap;justify-content:center;max-width:600px;margin:auto}#menu button{min-height:36px;padding:6px}#settings,#records,#shop,#profile{position:fixed;z-index:11;top:8px;left:50%;transform:translateX(-50%);width:min(94vw,580px);max-height:65dvh;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;background:#24163e;border:1px solid #9565db;border-radius:12px;padding:14px;margin:0;box-shadow:0 0 0 100vmax #090615bb}#profile input{user-select:text;-webkit-user-select:text;max-width:100%;padding:8px;border-radius:6px}#avatarPreview{width:76px;height:76px;object-fit:cover;border-radius:50%;background:#382354}#profile button{margin:4px}#profileStats{line-height:1.8;white-space:pre-line}#menu button[aria-expanded=true]{background:#7950bd}body:has(#profile:not([hidden])),body:has(#settings:not([hidden])),body:has(#shop:not([hidden])),body:has(#records:not([hidden])){overflow:hidden}#menu{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;padding-bottom:env(safe-area-inset-bottom)}body{padding-bottom:100px}#settings,#records,#shop,#profile{max-height:calc(100dvh - 115px)} @media(max-height:750px){canvas{max-height:38dvh;object-fit:contain}#stick{width:108px;height:108px}#knob{left:31px;top:31px}.actions button{min-height:48px}}
 
 :root{color-scheme:dark;--ink:#f1eaff;--muted:#aaa0c4;--line:#49336c;--panel:#171126;--violet:#b78aff}body{background:radial-gradient(ellipse at 50% 0,#25143d 0, #0a0814 55%);color:var(--ink);padding:0 8px 110px;font-variant-numeric:tabular-nums}h2{font-size:25px;letter-spacing:7px;margin:10px 0 2px;text-shadow:0 0 18px #a76bff88}canvas{border-color:#7950bd;box-shadow:0 0 18px #9b5cff25;display:block;margin:auto}button{background:linear-gradient(160deg,#302145,#1b142b);border-color:#62468b;color:var(--ink);font-size:12px;letter-spacing:.3px}button:disabled{opacity:.45}button.active,#menu button[aria-expanded=true]{background:#6840ad;box-shadow:inset 0 0 12px #c69aff55}#menu{gap:4px;padding:8px 6px calc(8px + env(safe-area-inset-bottom));background:#100c1a;border-top:1px solid var(--line)}#menu button{margin:0;flex:1;min-width:48px;font-size:11px;min-height:42px}#stick{background:radial-gradient(circle,#30204c,#120e20);box-shadow:inset 0 0 16px #a76bff22}#knob{background:radial-gradient(circle at 35% 30%,#d4b5ff,#8550ce);box-shadow:0 0 12px #a76bff77}#stats{max-width:600px;margin:8px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:0} .hud{background:#181225;border:1px solid #38284f;border-radius:6px;padding:5px 2px;min-width:0}.hud small,.tile small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.7px}.hud b{font-size:14px}.meter{height:4px;background:#352844;border-radius:5px;overflow:hidden;margin:4px 5px 0}.meter i{display:block;height:100%;background:#b78aff;border-radius:5px}.hp i{background:#69e6a4}.hot i{background:#ff697e}#wallet{font-size:12px;letter-spacing:1px}#settings,#records,#shop,#profile{top:12px;background:linear-gradient(150deg,#211633,#100d1c);border-color:#7252a1;box-shadow:0 0 0 100vmax #05030bd9,0 0 25px #a76bff44;text-align:left;padding:16px;max-height:calc(100dvh - 125px)}h3{margin:0 0 14px;color:#d4b5ff;letter-spacing:2px;text-transform:uppercase;font-size:15px}#profile{text-align:center}#avatarPreview{width:82px;height:82px;border:2px solid #b78aff;box-shadow:0 0 16px #a76bff55;margin-bottom:8px}#profile input{background:#0d0a16;border:1px solid #62468b;color:white;font-size:16px}#profileStats{white-space:normal;line-height:1.4;text-align:left;margin-top:12px}.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:10px 0}.tile,.upgrade,.rank,.levelbox{background:#110d1d;border:1px solid #3b2b55;border-radius:9px;padding:10px}.tile strong{display:block;font-size:21px;color:#e3ceff}.levelbox b{color:#d4b5ff;font-size:20px}.levelbox .meter{height:7px;margin:8px 0}.sectionlabel{color:#bda6df;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin:15px 0 7px}.upgrade{margin:6px 0;display:flex;align-items:center;justify-content:space-between;gap:8px}.upgrade small{color:var(--muted);display:block}.segments{display:flex;gap:3px;flex-shrink:0}.segments i{width:12px;height:9px;background:#3b2b55;border-radius:2px}.segments i.on{background:#b78aff;box-shadow:0 0 5px #b78aff66}.rank{display:grid;grid-template-columns:30px 1fr auto;align-items:center;margin:5px 0;gap:8px}.rank strong{color:#e3ceff}.rank small{color:var(--muted)}.rank:first-of-type{border-color:#b78aff}#settings{ text-align:center}#settings button{touch-action:manipulation}#profile button,#shop button,#menu button{touch-action:manipulation}footer{font-size:11px;letter-spacing:1px} @media(max-height:750px){#stats{gap:3px}.hud{padding:3px 1px}h2{margin:4px 0;font-size:20px}#controls{margin:3px auto}canvas{max-height:34dvh}} 
-</style></head><body><h2>S-NOVA</h2> DIGITAL ODYSSEY // NEON INTERFACE<div id="stats"><div class="hud"><small>Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud"><small>Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small>Kills</small><b id="hudKills">—</b></div><div class="hud"><small>Time</small><b id="hudTime">—</b></div><div class="hud"><small>Score</small><b id="hudScore">—</b></div><div class="hud"><small>Power</small><b id="hudPower">—</b></div><div class="hud"><small>Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small>Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db">◆ Power</span> · <span style="color:#6affbd">◆ Speed</span> · <span style="color:#ffd65c">● Coin</span> · <span style="color:#ff3344">◆ Mine</span> · <span style="color:#7dff85">✚ Health</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide">SLIDE</button><button id="focus">FOCUS</button><button id="combo" class="wide">SLIDE + FOCUS</button><button id="charge" class="wide">NOVA CHARGE</button><button id="fire" class="wide" hidden>FIRE</button></div></div><div id="menu"><button id="pauseBtn">Pause</button><button id="restart">Restart Mission</button><button id="settingsBtn">Settings</button><button id="scoresBtn">Leaderboards</button><button id="shopBtn">Shop</button><button id="profileBtn">Profile</button></div><div id="settings" hidden><h3>Control settings</h3><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button><button id="exportSave">Export save</button><button id="importSave">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden><button id="closeSettings">Resume</button></div><div id="records" hidden></div><div id="shop" hidden><h3>Nova Upgrade Shop</h3><div id="offers"></div><button id="closeShop">Resume</button></div><div id="profile" hidden><h3>Player Profile</h3><img id="avatarPreview" hidden alt="Player avatar"><div><label>Display name <input id="displayName" maxlength="24" placeholder="Player"></label></div><button id="saveName">Save name</button><button id="avatarBtn">Change photo</button><button id="removeAvatar">Remove photo</button><input id="avatarFile" type="file" accept="image/*" hidden><div id="profileStats"></div><button id="closeProfile">Close</button></div><footer>Prototype v0.11 — Neon Interface</footer><script>
+.online-panel{max-width:600px;margin:8px auto;padding:12px;background:#24163e;border-radius:10px}.online-panel input{user-select:text;-webkit-user-select:text;width:min(72%,300px);font-size:16px}.online-panel button{margin:4px}#lobbyMessages{list-style:none;padding:0;max-height:280px;overflow:auto;text-align:left}#lobbyMessages li{margin:4px;padding:8px;background:#140c27;border-radius:8px;overflow-wrap:anywhere}#lobbyMessages p{margin:4px 0;white-space:pre-wrap}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2> DIGITAL ODYSSEY // NEON INTERFACE<div id="stats"><div class="hud"><small>Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud"><small>Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small>Kills</small><b id="hudKills">—</b></div><div class="hud"><small>Time</small><b id="hudTime">—</b></div><div class="hud"><small>Score</small><b id="hudScore">—</b></div><div class="hud"><small>Power</small><b id="hudPower">—</b></div><div class="hud"><small>Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small>Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db">◆ Power</span> · <span style="color:#6affbd">◆ Speed</span> · <span style="color:#ffd65c">● Coin</span> · <span style="color:#ff3344">◆ Mine</span> · <span style="color:#7dff85">✚ Health</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide">SLIDE</button><button id="focus">FOCUS</button><button id="combo" class="wide">SLIDE + FOCUS</button><button id="charge" class="wide">NOVA CHARGE</button><button id="fire" class="wide" hidden>FIRE</button></div></div><div id="menu"><button id="pauseBtn">Pause</button><button id="restart">Restart Mission</button><button id="settingsBtn">Settings</button><button id="scoresBtn">Leaderboards</button><button id="shopBtn">Shop</button><button id="profileBtn">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3>Control settings</h3><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button><button id="exportSave">Export save</button><button id="importSave">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden><button id="closeSettings">Resume</button></div><div id="records" hidden></div><div id="shop" hidden><h3>Nova Upgrade Shop</h3><div id="offers"></div><button id="closeShop">Resume</button></div><div id="profile" hidden><h3>Player Profile</h3><img id="avatarPreview" hidden alt="Player avatar"><div><label>Display name <input id="displayName" maxlength="24" placeholder="Player"></label></div><button id="saveName">Save name</button><button id="avatarBtn">Change photo</button><button id="removeAvatar">Remove photo</button><input id="avatarFile" type="file" accept="image/*" hidden><div id="profileStats"></div><button id="closeProfile">Close</button></div><footer>Prototype v0.12 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
+<h3 data-copy="lobby">Online lobby</h3>
+<p id="lobbyStatus" role="status"></p>
+<div id="guestChallenge"></div>
+<button id="joinLobby" data-copy="join">Join as guest</button>
+<div id="lobbyRoom" hidden>
+<p id="lobbyIdentity"></p>
+<ol id="lobbyMessages" aria-label="Lobby messages"></ol>
+<form id="lobbyForm">
+<input id="lobbyInput" maxlength="300" required aria-label="Message" autocomplete="off">
+<button data-copy="send">Send</button>
+</form>
+<button id="refreshLobby" data-copy="refresh">Refresh</button>
+<button id="clearBlocks" data-copy="unblock">Unblock all players</button>
+</div>
+<button id="closeLobby" data-copy="close">Close</button>
+</section>
+<section id="help" class="online-panel" hidden>
+<h3 data-copy="help">Help</h3>
+<label for="lobbyLanguage">Language / Idioma</label>
+<select id="lobbyLanguage"><option value="en">English</option><option value="es">Español (Latinoamérica)</option></select>
+<p data-copy="controls">Move with the joystick or WASD. Slide to dodge, use Focus to slow time, and watch your Heat meter.</p>
+<p data-copy="about">Play offline anytime. Join the lobby for a guest callsign. You can block or report messages from another player.</p>
+<button id="closeHelp" data-copy="close">Close</button>
+</section><script>
 const $=id=>document.getElementById(id),g=$("arena").getContext("2d"),W=360,H=320;
 let p,E,B,I,F,hp,heat,kills,score,power,speed,elapsed,wave,state,boss,locked,delay,dx,dy;
 let auto=true,toggle=false,combo=false,charging=false,charge=0,jx=0,jy=0,sid=null,last=0;
@@ -24,8 +48,8 @@ const upgrades=[["damage","Power Amplifier","+2 base damage per level"],["veloci
 function shop(){wallet();let root=$("offers");root.replaceChildren();for(let [key,name,desc] of upgrades){let level=progress[key],row=document.createElement("div"),b=document.createElement("button");row.className="upgrade";row.innerHTML=`<div>${name}<small>${desc} · ${level}/5</small>${segments(level)}</div>`;b.textContent=level===5?"MAX":`Buy: ${prices[level]} NC`;b.disabled=level===5||progress.credits<prices[level];b.onclick=()=>{let n=progress[key];if(n>=5||progress.credits<prices[n])return;progress.credits-=prices[n];progress[key]++;persist();shop()};row.appendChild(b);root.appendChild(row)}}
 function savePrefs(){try{localStorage.setItem("snova07prefs",JSON.stringify({auto,toggle,combined,touchPause}))}catch{}}
 function layout(){pauseUI();$("slide").hidden=combined;$("focus").hidden=combined;$("combo").hidden=!combined;$("fire").hidden=auto;$("combine").textContent="COMBINE: "+(combined?"ON":"OFF");$("auto").textContent="AUTO FIRE: "+(auto?"ON":"OFF");sync()}
-const panels={settings:"settingsBtn",records:"scoresBtn",shop:"shopBtn",profile:"profileBtn"};
-function panel(id){let open=$(id).hidden;clear();for(let [key,btn] of Object.entries(panels)){$(key).hidden=true;$(btn).setAttribute("aria-expanded","false")}$(id).hidden=!open;$(panels[id]).setAttribute("aria-expanded",String(open));paused=open;last=0;if(open&&id==="records")records();if(open&&id==="shop")shop();if(open&&id==="profile")renderProfile()}
+const panels={settings:"settingsBtn",records:"scoresBtn",shop:"shopBtn",profile:"profileBtn",lobby:"lobbyBtn",help:"helpBtn"};
+function panel(id){if(id!=="lobby")stopLobbyUpdates();let open=$(id).hidden;clear();for(let [key,btn] of Object.entries(panels)){$(key).hidden=true;$(btn).setAttribute("aria-expanded","false")}$(id).hidden=!open;$(panels[id]).setAttribute("aria-expanded",String(open));paused=open;last=0;if(open&&id==="records")records();if(open&&id==="shop")shop();if(open&&id==="profile")renderProfile()}
 
 $("settingsBtn").onclick=()=>panel("settings");$("scoresBtn").onclick=()=>panel("records");$("closeSettings").onclick=()=>panel("settings");$("combine").onclick=()=>{clear();combined=!combined;layout();savePrefs()};
 $("pauseMode").onclick=()=>{clear();touchPause=!touchPause;manualPaused=false;pauseUI();savePrefs()};
@@ -90,4 +114,193 @@ function saveCareer(){try{localStorage.setItem("snova10career",JSON.stringify(ca
 function renderProfile(){$("displayName").value=career.name;$("avatarPreview").hidden=!career.avatar;if(career.avatar)$("avatarPreview").src=career.avatar;else $("avatarPreview").removeAttribute("src");let level=1+Math.floor(career.xp/500),xp=career.xp%500;$("profileStats").innerHTML=`<div class="levelbox"><b>LEVEL ${level}</b><div class="meter"><i style="width:${xp/5}%"></i></div><small>${xp} / 500 XP</small></div>`+tiles([["Highest score",rec.score],["Nova credits",progress.credits],["All-time wins",rec.wins],["Fastest victory",rec.fast===null?"—":time(rec.fast)]])+'<div class="sectionlabel">Career · since v0.10</div>'+tiles([["Missions",career.missions],["Win rate",(career.missions?Math.round(100*career.wins/career.missions):0)+"%"],["Wins",career.wins],["Defeats",career.missions-career.wins],["Kills",career.kills],["Playtime",time(career.seconds)]])+'<div class="sectionlabel">Permanent upgrades</div>'+upgrades.map(([key,name])=>`<div class="upgrade"><span>${name}<small>${progress[key]}/5</small></span>${segments(progress[key])}</div>`).join('')}
 $("profileBtn").onclick=()=>panel("profile");$("closeProfile").onclick=()=>panel("profile");$("saveName").onclick=()=>{career.name=$("displayName").value.trim().slice(0,24)||"Player";saveCareer();renderProfile()};$("avatarBtn").onclick=()=>$("avatarFile").click();$("removeAvatar").onclick=()=>{career.avatar="";saveCareer();renderProfile()};$("avatarFile").onchange=async()=>{let f=$("avatarFile").files[0];if(!f)return;let url=URL.createObjectURL(f);try{let img=new Image();img.src=url;await img.decode();let c=document.createElement("canvas");c.width=c.height=160;let n=Math.min(img.width,img.height);c.getContext("2d").drawImage(img,(img.width-n)/2,(img.height-n)/2,n,n,0,0,160,160);career.avatar=c.toDataURL("image/jpeg",.85);saveCareer();renderProfile()}catch{alert("Could not read this photo")}finally{URL.revokeObjectURL(url);$("avatarFile").value=""}};
 layout();reset();requestAnimationFrame(frame);
+
+const lobbyText = {
+  en: {lobby:"Online lobby", join:"Join as guest", send:"Send", refresh:"Refresh", unblock:"Unblock all players", close:"Close", help:"Help", controls:"Move with the joystick or WASD. Slide to dodge, use Focus to slow time, and watch your Heat meter.", about:"Play offline anytime. Join the lobby for a guest callsign. You can block or report messages from another player.", message:"Message", block:"Block", report:"Report", reason:"Why are you reporting this message?", reported:"Report sent.", empty:"The lobby is quiet.", failed:"Lobby request failed. Try again.", wait:"Connecting…", challenge:"Complete the verification to join.", blocked:"Player blocked.", unblocked:"Block list cleared.", rate:"Wait five seconds between messages.", muted:"Chat access is temporarily suspended.", duplicate:"You already reported this message."},
+  es: {lobby:"Sala en línea", join:"Entrar como invitado", send:"Enviar", refresh:"Actualizar", unblock:"Desbloquear a todos", close:"Cerrar", help:"Ayuda", controls:"Muévete con el joystick o WASD. Deslízate para esquivar, usa Concentración para ralentizar el tiempo y vigila el calor.", about:"Puedes jugar sin conexión. Entra a la sala para recibir un alias de invitado. Puedes bloquear a otros jugadores o denunciar sus mensajes.", message:"Mensaje", block:"Bloquear", report:"Denunciar", reason:"¿Por qué denuncias este mensaje?", reported:"Denuncia enviada.", empty:"La sala está tranquila.", failed:"No se pudo completar la solicitud. Intenta de nuevo.", wait:"Conectando…", challenge:"Completa la verificación para entrar.", blocked:"Jugador bloqueado.", unblocked:"Lista de bloqueos vacía.", rate:"Espera cinco segundos entre mensajes.", muted:"Tu acceso al chat está suspendido temporalmente.", duplicate:"Ya denunciaste este mensaje."}
+};
+const lobbyUrl = "https://ulflpzchcrhmbqvmrdhr.supabase.co";
+const lobbyKey = "sb_publishable_gwyDgfvnn8h_a0qNqfcmPw_yVpaWAn6";
+const turnstileSiteKey = document.querySelector('meta[name="snova-turnstile-site-key"]')?.content.trim();
+let lobbyClient, lobbyPlayer, lobbyBusy = false, lobbyTimer, lobbyReadPending = false;
+let challengeWidget, challengeToken;
+const lobbyLanguage = $("lobbyLanguage");
+try { lobbyLanguage.value = localStorage.getItem("snovaLobbyLanguage") === "es" ? "es" : "en"; } catch {}
+const copy = key => lobbyText[lobbyLanguage.value][key];
+const lobbyStatus = key => { $("lobbyStatus").textContent = key ? copy(key) : ""; };
+function translateLobby() {
+  document.querySelectorAll("[data-copy]").forEach(el => { el.textContent = copy(el.dataset.copy); });
+  $("lobbyInput").placeholder = copy("message");
+  $("lobbyInput").setAttribute("aria-label", copy("message"));
+}
+lobbyLanguage.onchange = () => {
+  try { localStorage.setItem("snovaLobbyLanguage", lobbyLanguage.value); } catch {}
+  translateLobby();
+};
+translateLobby();
+async function lobbyResult(request) {
+  const {data, error} = await request;
+  if (error) throw error;
+  return data;
+}
+async function loadChallenge() {
+  if (!window.turnstile) {
+    await new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+      script.onload = resolve;
+      script.onerror = () => { script.remove(); reject(new Error("Turnstile unavailable")); };
+      document.head.append(script);
+    });
+  }
+  if (challengeWidget === undefined) {
+    challengeWidget = window.turnstile.render("#guestChallenge", {
+      sitekey: turnstileSiteKey,
+      callback: token => { challengeToken = token; },
+      "expired-callback": () => { challengeToken = undefined; },
+      "error-callback": () => { challengeToken = undefined; lobbyStatus("failed"); }
+    });
+  }
+}
+async function connectLobby() {
+  if (lobbyBusy || lobbyPlayer) return;
+  lobbyBusy = true;
+  $("joinLobby").disabled = true;
+  lobbyStatus("wait");
+  try {
+    if (!lobbyClient) {
+      const {createClient} = await import("https://esm.sh/@supabase/supabase-js@2.89.0");
+      lobbyClient = createClient(lobbyUrl, lobbyKey);
+    }
+    const {session} = await lobbyResult(lobbyClient.auth.getSession());
+    if (!session) {
+      if (turnstileSiteKey && !challengeToken) {
+        await loadChallenge();
+        lobbyStatus("challenge");
+        return;
+      }
+      await lobbyResult(lobbyClient.auth.signInAnonymously({options:{captchaToken:challengeToken}}));
+    }
+    lobbyPlayer = await lobbyResult(lobbyClient.rpc("ensure_guest_profile"));
+    $("lobbyIdentity").textContent = lobbyPlayer.display_name + " #" + lobbyPlayer.arcade_id;
+    $("joinLobby").hidden = true;
+    $("lobbyRoom").hidden = false;
+    $("guestChallenge").hidden = true;
+    lobbyStatus();
+    startLobbyUpdates();
+  } catch {
+    lobbyStatus("failed");
+  } finally {
+    if (challengeToken && challengeWidget !== undefined) {
+      challengeToken = undefined;
+      window.turnstile.reset(challengeWidget);
+    }
+    lobbyBusy = false;
+    $("joinLobby").disabled = false;
+  }
+}
+async function refreshLobby() {
+  if (!lobbyPlayer || $("lobby").hidden || lobbyReadPending) return;
+  lobbyReadPending = true;
+  try {
+    const messages = await lobbyResult(lobbyClient.from("lobby_messages")
+      .select("id,sender_id,body,profiles!lobby_messages_sender_id_fkey(display_name,arcade_id)")
+      .order("id",{ascending:false}).limit(30));
+    const list = $("lobbyMessages");
+    if (list.contains(document.activeElement)) return;
+    const entries = messages.reverse().map(message => {
+      const item = document.createElement("li");
+      const name = document.createElement("strong");
+      const body = document.createElement("p");
+      name.textContent = message.profiles ? message.profiles.display_name + " #" + message.profiles.arcade_id : "—";
+      body.textContent = message.body;
+      item.append(name, body);
+      if (message.sender_id !== lobbyPlayer.id) {
+        for (const action of ["block","report"]) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.textContent = copy(action);
+          button.onclick = () => moderateLobby(action, message, button);
+          item.append(button);
+        }
+      }
+      return item;
+    });
+    if (!entries.length) {
+      const empty = document.createElement("li");
+      empty.textContent = copy("empty");
+      entries.push(empty);
+    }
+    list.replaceChildren(...entries);
+  } catch {
+    lobbyStatus("failed");
+  } finally {
+    lobbyReadPending = false;
+  }
+}
+async function moderateLobby(action, message, button) {
+  const reason = action === "report" ? prompt(copy("reason"))?.trim().slice(0,300) : null;
+  if (action === "report" && !reason) return;
+  button.disabled = true;
+  try {
+    if (action === "block") {
+      await lobbyResult(lobbyClient.from("lobby_blocks").upsert({owner_id:lobbyPlayer.id,blocked_id:message.sender_id},{ignoreDuplicates:true}));
+      button.blur();
+      lobbyStatus("blocked");
+      await refreshLobby();
+    } else {
+      await lobbyResult(lobbyClient.from("lobby_reports").insert({reporter_id:lobbyPlayer.id,message_id:message.id,reason}));
+      lobbyStatus("reported");
+    }
+  } catch (error) {
+    lobbyStatus(error.code === "23505" ? "duplicate" : "failed");
+  } finally { button.disabled = false; }
+}
+function stopLobbyUpdates() {
+  clearInterval(lobbyTimer);
+  lobbyTimer = undefined;
+}
+function startLobbyUpdates() {
+  if (!lobbyPlayer || $("lobby").hidden || document.hidden) return;
+  stopLobbyUpdates();
+  refreshLobby();
+  lobbyTimer = setInterval(refreshLobby, 8000);
+}
+function toggleOnlinePanel(id) {
+  panel(id);
+  if ($("lobby").hidden) stopLobbyUpdates();
+  else startLobbyUpdates();
+}
+$("lobbyBtn").onclick = $("closeLobby").onclick = () => toggleOnlinePanel("lobby");
+$("helpBtn").onclick = $("closeHelp").onclick = () => toggleOnlinePanel("help");
+$("joinLobby").onclick = connectLobby;
+$("refreshLobby").onclick = () => { lobbyStatus(); refreshLobby(); };
+$("clearBlocks").onclick = async () => {
+  try {
+    await lobbyResult(lobbyClient.from("lobby_blocks").delete().eq("owner_id",lobbyPlayer.id));
+    lobbyStatus("unblocked");
+    refreshLobby();
+  } catch { lobbyStatus("failed"); }
+};
+$("lobbyForm").onsubmit = async event => {
+  event.preventDefault();
+  const input = $("lobbyInput");
+  const button = event.submitter || $("lobbyForm").querySelector("button");
+  const body = input.value.trim();
+  if (button.disabled || !body) return;
+  button.disabled = true;
+  try {
+    await lobbyResult(lobbyClient.rpc("send_lobby_message",{message:body}));
+    if (input.value.trim() === body) input.value = "";
+    lobbyStatus();
+    await refreshLobby();
+  } catch (error) {
+    const messages = {"Please wait five seconds between messages":"rate","Chat access temporarily suspended":"muted"};
+    lobbyStatus(messages[error.message] || "failed");
+  } finally { button.disabled = false; }
+};
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) stopLobbyUpdates();
+  else startLobbyUpdates();
+});
 </script></body></html>
