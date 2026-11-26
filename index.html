@@ -13,7 +13,18 @@
   #menu button { flex-basis: 29%; }
   body { padding-bottom: calc(162px + env(safe-area-inset-bottom)); }
 }
-.lobby-translation{padding:6px 8px;border-inline-start:2px solid #bc8cff;color:#e5cdff}#shareGameBar{margin:4px 0 7px}#shareGameButton{font-size:12px;min-height:36px;padding:4px 10px}#gameShareLink{display:block;width:100%;margin:6px 0;font-size:16px;user-select:text;-webkit-user-select:text}#profileInviteCode{overflow-wrap:anywhere}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2><span data-game-text="DIGITAL ODYSSEY // NEON INTERFACE">DIGITAL ODYSSEY // NEON INTERFACE</span><div id="shareGameBar"><button type="button" id="shareGameButton" data-copy="shareGame">Share game</button></div><div id="stats"><div class="hud"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div><div id="menu"><button id="pauseBtn" data-game-text="Pause">Pause</button><button id="restart" data-game-text="Restart Mission">Restart Mission</button><button id="settingsBtn" data-game-text="Settings">Settings</button><button id="scoresBtn" data-game-text="Leaderboards">Leaderboards</button><button id="shopBtn" data-game-text="Shop">Shop</button><button id="profileBtn" data-game-text="Profile">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3 data-game-text="Control settings">Control settings</h3><div><label for="difficulty" data-game-text="Difficulty">Difficulty</label> <select id="difficulty"><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option></select><p id="difficultyHint"></p></div><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden><button id="closeSettings" data-game-text="Resume">Resume</button></div><div id="records" hidden></div><div id="shop" hidden><h3 data-game-text="Nova Upgrade Shop">Nova Upgrade Shop</h3><div id="offers"></div><button id="closeShop" data-game-text="Resume">Resume</button></div><div id="profile" hidden><h3 data-game-text="Player Profile">Player Profile</h3><img id="avatarPreview" hidden alt="Player avatar"><div><label><span data-game-text="Display name">Display name</span> <input id="displayName" maxlength="24" placeholder="Player"></label></div><button id="saveName" data-game-text="Save name">Save name</button><button id="avatarBtn" data-game-text="Change photo">Change photo</button><button id="removeAvatar" data-game-text="Remove photo">Remove photo</button><input id="avatarFile" type="file" accept="image/*" hidden><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.12.5 — Online Lobby Preview">Prototype v0.12.5 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
+.lobby-translation{padding:6px 8px;border-inline-start:2px solid #bc8cff;color:#e5cdff}#shareGameBar{margin:4px 0 7px}#shareGameButton{font-size:12px;min-height:36px;padding:4px 10px}#gameShareLink{display:block;width:100%;margin:6px 0;font-size:16px;user-select:text;-webkit-user-select:text}#profileInviteCode{overflow-wrap:anywhere}#accountPanel{border-block:1px solid #7950bd;padding:8px 0;margin:10px 0}#accountEmail{width:min(220px,100%);font-size:16px;user-select:text;-webkit-user-select:text}#accountStatus:empty{display:none}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body><h2>S-NOVA</h2><span data-game-text="DIGITAL ODYSSEY // NEON INTERFACE">DIGITAL ODYSSEY // NEON INTERFACE</span><div id="shareGameBar"><button type="button" id="shareGameButton" data-copy="shareGame">Share game</button></div><div id="stats"><div class="hud"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div><div id="wallet"></div><canvas id="arena" width="360" height="320"></canvas><div style="font-size:11px"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div><div id="menu"><button id="pauseBtn" data-game-text="Pause">Pause</button><button id="restart" data-game-text="Restart Mission">Restart Mission</button><button id="settingsBtn" data-game-text="Settings">Settings</button><button id="scoresBtn" data-game-text="Leaderboards">Leaderboards</button><button id="shopBtn" data-game-text="Shop">Shop</button><button id="profileBtn" data-game-text="Profile">Profile</button><button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button><button id="helpBtn" data-copy="help" aria-expanded="false">Help</button></div><div id="settings" hidden><h3 data-game-text="Control settings">Control settings</h3><div><label for="difficulty" data-game-text="Difficulty">Difficulty</label> <select id="difficulty"><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option></select><p id="difficultyHint"></p></div><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden><button id="closeSettings" data-game-text="Resume">Resume</button></div><div id="records" hidden></div><div id="shop" hidden><h3 data-game-text="Nova Upgrade Shop">Nova Upgrade Shop</h3><div id="offers"></div><button id="closeShop" data-game-text="Resume">Resume</button></div><div id="profile" hidden><h3 data-game-text="Player Profile">Player Profile</h3><img id="avatarPreview" hidden alt="Player avatar"><div><label><span data-game-text="Display name">Display name</span> <input id="displayName" readonly maxlength="24" placeholder="Player"></label></div><button id="saveName" disabled data-game-text="Save name">Save name</button><button id="avatarBtn" data-game-text="Change photo">Change photo</button><button id="removeAvatar" data-game-text="Remove photo">Remove photo</button><input id="avatarFile" type="file" accept="image/*" hidden><section id="accountPanel">
+<h4 data-copy="accountTitle">Online account</h4>
+<label id="accountEmailLabel"><span data-copy="accountEmail">Email address</span> <input id="accountEmail" type="email" required autocomplete="email"></label>
+<div id="accountChallenge"></div>
+<button type="button" id="accountLink" data-copy="accountLink" hidden>Link guest account</button>
+<button type="button" id="accountSignIn" data-copy="accountSignIn">Email me a sign-in link</button>
+<div id="accountCloud" hidden>
+<button type="button" id="cloudUpload" data-copy="accountUpload">Save to cloud</button>
+<button type="button" id="cloudRestore" data-copy="accountRestore">Restore cloud save</button>
+</div>
+<p id="accountStatus" role="status"></p>
+</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><div id="profileStats"></div><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.12.6 — Online Lobby Preview">Prototype v0.12.6 — Online Lobby Preview</footer><section id="lobby" class="online-panel" hidden>
 <h3 data-copy="lobby">Online lobby</h3>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
@@ -73,7 +84,7 @@ const gameSpanish = {
   "Change photo": "Cambiar foto",
   "Remove photo": "Eliminar foto",
   "Close": "Cerrar",
-  "Prototype v0.12.5 — Online Lobby Preview": "Prototipo v0.12.5 — Vista previa de la sala en línea",
+  "Prototype v0.12.6 — Online Lobby Preview": "Prototipo v0.12.6 — Vista previa de la sala en línea",
   "Player avatar": "Avatar del jugador",
   "Player": "Jugador",
   "Lobby messages": "Mensajes de la sala",
@@ -301,7 +312,7 @@ async function lobbyResult(request) {
   if (error) throw error;
   return data;
 }
-async function loadChallenge() {
+async function loadTurnstileLibrary() {
   if (!window.turnstile) {
     await new Promise((resolve, reject) => {
       const script = document.createElement("script");
@@ -311,6 +322,9 @@ async function loadChallenge() {
       document.head.append(script);
     });
   }
+}
+async function loadChallenge() {
+  await loadTurnstileLibrary();
   if (challengeWidget === undefined) {
     challengeWidget = window.turnstile.render("#guestChallenge", {
       sitekey: turnstileSiteKey,
@@ -326,10 +340,7 @@ async function connectLobby() {
   $("joinLobby").disabled = true;
   lobbyStatus("wait");
   try {
-    if (!lobbyClient) {
-      const {createClient} = await import("https://esm.sh/@supabase/supabase-js@2.89.0");
-      lobbyClient = createClient(lobbyUrl, lobbyKey);
-    }
+    await getAccountClient();
     const {session} = await lobbyResult(lobbyClient.auth.getSession());
     if (!session) {
       if (turnstileSiteKey && !challengeToken) {
@@ -693,10 +704,7 @@ async function refreshReferral() {
   referralBusy = true;
   $("referralError").hidden = true;
   try {
-    if (!lobbyClient) {
-      const {createClient} = await import("https://esm.sh/@supabase/supabase-js@2.89.0");
-      lobbyClient ??= createClient(lobbyUrl, lobbyKey);
-    }
+    await getAccountClient();
     const {session} = await lobbyResult(lobbyClient.auth.getSession());
     if (!session) return;
     if (pendingReferral?.played) {
@@ -768,4 +776,157 @@ $("profileBtn").addEventListener("click", () => {
 });
 translateGame();
 renderReferral();
+Object.assign(lobbyText.en, {"accountTitle":"Online account","accountEmail":"Email address","accountLink":"Link guest account","accountSignIn":"Email me a sign-in link","accountUpload":"Save to cloud","accountRestore":"Restore cloud save","accountWorking":"Connecting…","accountError":"Account request failed. Check your email or try again.","accountLinked":"Email account connected.","accountNoGuest":"Join the online lobby first to create a guest account, or sign in to your existing email account.","accountGuest":"Link an email to keep this guest profile and unlock cloud saves.","accountLinkSent":"Check your email and open the verification link in this browser. Then open Profile and save to cloud.","accountSignInSent":"Check your email for the sign-in link. Open it in this browser.","accountChallenge":"Complete verification, then tap to send the sign-in link.","accountChallengeReady":"Verified. Tap to send the sign-in link.","accountSwitch":"Signing in to another account replaces this browser’s guest session. Continue?","accountNameSaved":"Online display name saved.","accountOverwrite":"Replace the existing cloud save with the progress from this browser?","accountConflict":"The cloud save changed while you were saving. Try again.","accountSaved":"Cloud save updated.","accountEmpty":"This account has no cloud save yet.","accountRestoreConfirm":"Replace this browser’s progress with your cloud save?"});
+Object.assign(lobbyText.es, {"accountTitle":"Cuenta en línea","accountEmail":"Correo electrónico","accountLink":"Vincular cuenta de invitado","accountSignIn":"Enviarme un enlace de acceso","accountUpload":"Guardar en la nube","accountRestore":"Restaurar partida de la nube","accountWorking":"Conectando…","accountError":"No se pudo completar la solicitud. Revisa tu correo o intenta de nuevo.","accountLinked":"Cuenta de correo vinculada.","accountNoGuest":"Entra primero a la sala para crear una cuenta de invitado, o inicia sesión con tu correo.","accountGuest":"Vincula tu correo para conservar este perfil y guardar en la nube.","accountLinkSent":"Revisa tu correo y abre el enlace de verificación en este navegador. Luego abre Perfil y guarda en la nube.","accountSignInSent":"Revisa tu correo y abre el enlace de acceso en este navegador.","accountChallenge":"Completa la verificación y toca el botón para enviar el enlace.","accountChallengeReady":"Verificación lista. Toca el botón para enviar el enlace.","accountSwitch":"Iniciar sesión en otra cuenta reemplazará la sesión de invitado de este navegador. ¿Continuar?","accountNameSaved":"Nombre en línea guardado.","accountOverwrite":"¿Reemplazar la partida de la nube con el progreso de este navegador?","accountConflict":"La partida de la nube cambió mientras guardabas. Intenta de nuevo.","accountSaved":"Partida guardada en la nube.","accountEmpty":"Esta cuenta aún no tiene una partida guardada en la nube.","accountRestoreConfirm":"¿Reemplazar el progreso de este navegador con tu partida de la nube?"});
+translateGame();
+const accountUrl = "https://ghoste69.github.io/snova-digital-odyssey/";
+let accountClientPromise;
+let accountSession, accountBusy = false, accountWidget, accountToken;
+let cloudRevision;
+const accountStatus = key => { $("accountStatus").textContent = key ? copy(key) : ""; };
+function getAccountClient() {
+  if (lobbyClient) return Promise.resolve(lobbyClient);
+  accountClientPromise ??= import("https://esm.sh/@supabase/supabase-js@2.89.0")
+    .then(({createClient}) => lobbyClient ??= createClient(lobbyUrl, lobbyKey))
+    .catch(error => { accountClientPromise = undefined; throw error; });
+  return accountClientPromise;
+}
+async function refreshAccount() {
+  const client = await getAccountClient();
+  const {session} = await lobbyResult(client.auth.getSession());
+  if (session?.user.id !== accountSession?.user.id) cloudRevision = undefined;
+  accountSession = session;
+  const linked = Boolean(session && session.user.is_anonymous === false);
+  $("accountLink").hidden = !session?.user.is_anonymous;
+  $("accountSignIn").hidden = linked;
+  $("accountEmailLabel").hidden = linked;
+  $("accountCloud").hidden = !linked;
+  $("saveName").disabled = !linked;
+  $("displayName").readOnly = !linked;
+  if (session) {
+    const profile = await lobbyResult(client.rpc("ensure_guest_profile"));
+    $("displayName").value = profile.display_name;
+    if (lobbyPlayer?.id === profile.id) lobbyPlayer = profile;
+  }
+  return client;
+}
+async function runAccount(action) {
+  if (accountBusy) return;
+  accountBusy = true;
+  accountStatus("accountWorking");
+  try { await action(await refreshAccount()); }
+  catch { accountStatus("accountError"); }
+  finally { accountBusy = false; }
+}
+$("profileBtn").addEventListener("click", () => {
+  if (!$("profile").hidden) runAccount(async () => {
+    accountStatus(accountSession ? accountSession.user.is_anonymous ? "accountGuest" : "accountLinked" : "accountNoGuest");
+  });
+});
+async function ensureAccountChallenge() {
+  await loadTurnstileLibrary();
+  if (accountWidget === undefined) {
+    accountWidget = window.turnstile.render("#accountChallenge", {
+      sitekey: turnstileSiteKey,
+      callback: token => { accountToken = token; accountStatus("accountChallengeReady"); },
+      "expired-callback": () => { accountToken = undefined; accountStatus("accountChallenge"); },
+      "error-callback": () => { accountToken = undefined; accountStatus("accountError"); }
+    });
+  }
+}
+$("accountLink").onclick = () => runAccount(async client => {
+  const input = $("accountEmail");
+  if (!input.reportValidity() || !accountSession?.user.is_anonymous) { accountStatus(); return; }
+  await lobbyResult(client.auth.updateUser({email: input.value.trim()}, {emailRedirectTo: accountUrl}));
+  accountStatus("accountLinkSent");
+});
+$("accountSignIn").onclick = () => runAccount(async client => {
+  const input = $("accountEmail");
+  if (!input.reportValidity()) { accountStatus(); return; }
+  if (turnstileSiteKey && !accountToken) {
+    await ensureAccountChallenge();
+    accountStatus(accountToken ? "accountChallengeReady" : "accountChallenge");
+    return;
+  }
+  if (accountSession?.user.is_anonymous && !confirm(copy("accountSwitch"))) { accountStatus(); return; }
+  try {
+    await lobbyResult(client.auth.signInWithOtp({
+      email: input.value.trim(),
+      options: {shouldCreateUser:false, emailRedirectTo:accountUrl, captchaToken:accountToken}
+    }));
+    accountStatus("accountSignInSent");
+  } finally {
+    accountToken = undefined;
+    if (accountWidget !== undefined) window.turnstile.reset(accountWidget);
+  }
+});
+$("saveName").onclick = () => {
+  const name = $("displayName").value.trim().slice(0,24);
+  if (!name) return;
+  runAccount(async client => {
+    if (!accountSession || accountSession.user.is_anonymous !== false) return;
+    await lobbyResult(client.from("profiles").update({display_name:name}).eq("id",accountSession.user.id).select("display_name").single());
+    career.name = name;
+    saveCareer();
+    renderProfile();
+    if (lobbyPlayer?.id === accountSession.user.id) {
+      lobbyPlayer.display_name = name;
+      $("lobbyIdentity").textContent = name + " #" + lobbyPlayer.arcade_id;
+    }
+    accountStatus("accountNameSaved");
+  });
+};
+function cloudSnapshot() {
+  return {version:1, progress, prefs:{auto,toggle,combined,touchPause,difficulty:selectedDifficulty,language:lobbyLanguage.value},history,rec,career};
+}
+function validCloudSnapshot(data) {
+  const nonnegative = value => typeof value === "number" && Number.isFinite(value) && value >= 0;
+  return data?.version === 1 && validProgress(data.progress) && validCareer(data.career) &&
+    data.prefs && [data.prefs.auto,data.prefs.toggle,data.prefs.combined].every(v => typeof v === "boolean") &&
+    Array.isArray(data.history) && data.history.length <= 10 &&
+    data.history.every(h => h && [h.score,h.kills,h.elapsed,h.hp].every(nonnegative) && typeof h.win === "boolean") &&
+    data.rec && [data.rec.kills,data.rec.hp,data.rec.score,data.rec.wins].every(nonnegative) &&
+    (data.rec.fast === null || nonnegative(data.rec.fast));
+}
+function restoreCloudSnapshot(data, onlineName) {
+  const snapshot = {
+    snova08progress:data.progress, snova07prefs:data.prefs, snova07history:data.history,
+    snova06:data.rec, snova10career:{...data.career,name:onlineName}
+  };
+  for (const [key,value] of Object.entries(snapshot)) localStorage.setItem(key,JSON.stringify(value));
+  localStorage.setItem("snovaLobbyLanguage",data.prefs.language === "es" ? "es" : "en");
+  location.reload();
+}
+function getCloudSave(client) {
+  return lobbyResult(client.from("cloud_saves").select("save_data,updated_at").eq("player_id", accountSession.user.id).maybeSingle());
+}
+$("cloudUpload").onclick = () => runAccount(async client => {
+  if (!accountSession || accountSession.user.is_anonymous !== false) return;
+  const id = accountSession.user.id;
+  const existing = await getCloudSave(client);
+  if (existing && existing.updated_at !== cloudRevision && !confirm(copy("accountOverwrite"))) {
+    accountStatus();
+    return;
+  }
+  const save = {save_data:cloudSnapshot(),updated_at:new Date().toISOString()};
+  const request = existing
+    ? client.from("cloud_saves").update(save).eq("player_id",id).eq("updated_at",existing.updated_at)
+    : client.from("cloud_saves").insert({...save,player_id:id});
+  const written = await lobbyResult(request.select("updated_at").maybeSingle());
+  if (!written) { accountStatus("accountConflict"); return; }
+  cloudRevision = written.updated_at;
+  accountStatus("accountSaved");
+});
+$("cloudRestore").onclick = () => runAccount(async client => {
+  if (!accountSession || accountSession.user.is_anonymous !== false) return;
+  const existing = await getCloudSave(client);
+  if (!existing) { accountStatus("accountEmpty"); return; }
+  if (!validCloudSnapshot(existing.save_data)) throw new Error("Invalid cloud save");
+  if (!confirm(copy("accountRestoreConfirm"))) { accountStatus(); return; }
+  restoreCloudSnapshot(existing.save_data, $("displayName").value);
+});
+if (location.hash.includes("access_token=") || location.hash.includes("error_code=") || new URLSearchParams(location.search).has("code")) {
+  panel("profile");
+  runAccount(async () => accountStatus(accountSession?.user.is_anonymous === false ? "accountLinked" : "accountError"));
+}
 </script></body></html>
