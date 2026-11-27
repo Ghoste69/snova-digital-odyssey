@@ -5883,7 +5883,7 @@ dragonCastArt21=function(dragon,clock,nightmare){
   const warning=dragon.attack, cast=dragon.cast21;
   const recent=cast&&clock-cast.at<(cast.kind==="inferno"?1.4:.95)?cast:null;
   const effect=warning||recent;
-  if(effect?.kind==="inferno"){ drawInferno22(clock,warning,recent); return; 
+  if(effect?.kind==="inferno"){ drawInferno22(clock,warning,recent); return; }
   if(!effect||raidMoves22.indexOf(effect.kind)<5){
     baseCast22(dragon,clock,nightmare);return;
   }
