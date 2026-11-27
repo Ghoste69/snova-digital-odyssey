@@ -65,7 +65,7 @@ body:not(.home-active) footer{display:none}
 #lobbyDockDialog #lobbyInput{min-height:36px}
 #lobbyDockDialog #lobbyForm button{min-height:36px}
 @media(max-height:490px){.brand span,body:not(.home-active) #missionView>div[style]{display:none}.home-active footer{display:none}}
-#missionView{position:relative}#missionView #stats,#missionView #wallet{display:none}body.show-match-stats #missionView #stats{display:flex;position:absolute;top:0;left:0;right:0;z-index:3;pointer-events:none}body.show-match-stats #missionView #wallet{display:block;position:absolute;z-index:3;right:8px;top:66px;padding:2px 5px;border-radius:4px;background:#171126cf;pointer-events:none}#missionView #stats .hud{background:#171126e8}#arena{object-fit:fill}#pauseStatSummary{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0}#pauseStatSummary span{background:#171126;border-radius:5px;padding:4px;font-size:11px}.home-active #pauseStatSummary{display:none}.custom-background{border-top:1px solid #7950bd;margin-top:12px;padding-top:10px}.custom-background select{max-width:100%;font-size:16px}.background-upload{display:block;margin:8px 0 4px}#backgroundFile{max-width:100%;font-size:13px}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body class="home-active"><header id="gameHeader">
+#missionView{position:relative}#missionView #stats,#missionView #wallet{display:none}body.show-match-stats #missionView #stats{display:flex;position:absolute;top:0;left:0;right:0;z-index:3;pointer-events:none}body.show-match-stats #missionView #wallet{display:block;position:absolute;z-index:3;right:8px;top:66px;padding:2px 5px;border-radius:4px;background:#171126cf;pointer-events:none}#missionView #stats .hud{background:#171126e8}#arena{object-fit:fill}#pauseStatSummary{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0}#pauseStatSummary span{background:#171126;border-radius:5px;padding:4px;font-size:11px}.home-active #pauseStatSummary{display:none}.custom-background{border-top:1px solid #7950bd;margin-top:12px;padding-top:10px}.custom-background select{max-width:100%;font-size:16px}.background-upload{display:block;margin:8px 0 4px}#backgroundFile{max-width:100%;font-size:13px}.leaderboard-header{position:sticky;top:-14px;z-index:2;display:flex;gap:8px;justify-content:space-between;align-items:center;background:#24163e;padding:1px 0}.leaderboard-header h3{margin:6px 0;text-align:left}.leaderboard-header button{min-height:36px}#controls{padding-inline:clamp(17px,5vw,30px) 6px}#addFriend{border:1px solid #7950bd66;border-radius:8px;margin:8px 0;padding:6px;text-align:left}#addFriend summary{cursor:pointer;font-weight:700;padding:4px}#friendRequestForm{display:grid;grid-template-columns:minmax(0,1fr) minmax(65px,.55fr);gap:5px}#friendRequestForm input{width:100%;min-width:0;font-size:16px}#friendRequestForm button{grid-column:1/-1}#friendRequestList{padding:0;list-style:none}#friendRequestList li{display:flex;flex-wrap:wrap;align-items:center;gap:3px}#friendRequestList li span{flex:1;min-width:80px;overflow-wrap:anywhere}#friendRequestStatus:empty{display:none}</style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body class="home-active"><header id="gameHeader">
   <div class="brand"><h2>S-NOVA</h2><span>Digital Odyssey</span></div>
   <button type="button" id="profileBtn" aria-expanded="false"><span id="badgeInitial" aria-hidden="true"></span><img id="badgeAvatar" hidden alt=""><span id="badgeName"></span></button>
   <button type="button" id="missionSettings" aria-controls="settings" aria-expanded="false" data-copy="missionPause">Pause</button>
@@ -89,7 +89,7 @@ body:not(.home-active) footer{display:none}
 <div class="mission-setting settings-actions"><button id="restart" data-game-text="Restart Mission">Restart Mission</button><button id="openMainScreen" type="button" data-copy="mainMenu">Main menu</button></div>
 <button id="closeSettings" data-copy="close">Close</button>
 </div><div id="records" hidden><section id="liveScores">
-<h3 data-copy="liveScores">Live leaderboards</h3>
+<header class="leaderboard-header"><h3 data-copy="topTen">Live top 10</h3><button id="closeLeaderboards" type="button" data-copy="close">Close</button></header>
 <label for="leaderboardMode" data-game-text="Difficulty">Difficulty</label>
 <select id="leaderboardMode"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select>
 <button id="reloadLeaderboard" type="button" data-copy="refresh">Refresh</button>
@@ -107,11 +107,11 @@ body:not(.home-active) footer{display:none}
 <button type="button" id="cloudRestore" data-copy="accountRestore">Restore cloud save</button>
 </div>
 <p id="accountStatus" role="status"></p>
-</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><section id="profileFriends"><h4 data-copy="friendsTitle">Friends</h4><p id="profileFriendsStatus" role="status"></p><label for="coopMode" data-copy="coopDifficulty">Co-op difficulty</label> <select id="coopMode"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select><ul id="profileFriendsList"></ul><button id="coopRefresh" type="button" data-copy="coopRefresh">Refresh co-op invites</button><p id="coopStatus" role="status"></p><ul id="coopRoomList"></ul></section></section><section id="profileCustomize" hidden><img id="avatarPreview" hidden alt="Player avatar"><div><label><span data-game-text="Display name">Display name</span> <input id="displayName" readonly maxlength="24" placeholder="Player"></label></div><button id="saveName" disabled data-game-text="Save name">Save name</button><button id="avatarBtn" data-game-text="Change photo">Change photo</button><button id="removeAvatar" data-game-text="Remove photo">Remove photo</button><input id="avatarFile" type="file" accept="image/*" hidden><div class="custom-background">
+</section><div id="profileReferrals"><button type="button" id="profileShare">Share game</button><p id="profileInviteCode"></p><p data-copy="inviteRewards"></p><p id="profileInvitePending" hidden></p><p id="referralError" data-copy="inviteUnavailable" role="status" hidden></p></div><section id="profileFriends"><h4 data-copy="friendsTitle">Friends</h4><details id="addFriend"><summary data-copy="addFriend">Add friend</summary><form id="friendRequestForm"><label><span data-copy="friendName">Display name</span><input id="friendRequestName" required maxlength="24" autocomplete="off"></label><label><span data-copy="friendTag">Arcade tag</span><input id="friendRequestTag" required maxlength="4" autocomplete="off" placeholder="#ABC"></label><button type="submit" data-copy="sendRequest">Send request</button></form><button id="refreshFriendRequests" type="button" data-copy="refreshRequests">Refresh requests</button><p id="friendRequestStatus" role="status"></p><ul id="friendRequestList"></ul></details><p id="profileFriendsStatus" role="status"></p><label for="coopMode" data-copy="coopDifficulty">Co-op difficulty</label> <select id="coopMode"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select><ul id="profileFriendsList"></ul><button id="coopRefresh" type="button" data-copy="coopRefresh">Refresh co-op invites</button><p id="coopStatus" role="status"></p><ul id="coopRoomList"></ul></section></section><section id="profileCustomize" hidden><img id="avatarPreview" hidden alt="Player avatar"><div><label><span data-game-text="Display name">Display name</span> <input id="displayName" readonly maxlength="24" placeholder="Player"></label></div><button id="saveName" disabled data-game-text="Save name">Save name</button><button id="avatarBtn" data-game-text="Change photo">Change photo</button><button id="removeAvatar" data-game-text="Remove photo">Remove photo</button><input id="avatarFile" type="file" accept="image/*" hidden><div class="custom-background">
 <label for="backgroundChoice" data-copy="backgroundLabel">Main menu background</label>
 <select id="backgroundChoice"><option value="rotate" data-copy="backgroundRotate">Rotate artwork</option><option value="cover" data-copy="backgroundCover">Odyssey artwork</option><option value="tiger" data-copy="backgroundTiger">Tiger emblem</option><option value="custom" data-copy="backgroundCustom">Uploaded photo</option></select>
 <label class="background-upload" data-copy="backgroundUpload" for="backgroundFile">Upload background</label>
-<input id="backgroundFile" type="file" accept="image/*"><p id="backgroundStatus" role="status"></p></div></section><section id="profileNumbers" hidden><div id="profileCombatStats"></div><div id="profileStats"></div></section><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.15.4 — Mission Debrief">Prototype v0.15.4 — Mission Debrief</footer><section id="lobby" class="online-panel" hidden>
+<input id="backgroundFile" type="file" accept="image/*"><p id="backgroundStatus" role="status"></p></div></section><section id="profileNumbers" hidden><div id="profileCombatStats"></div><div id="profileStats"></div></section><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.15.5 — Mission Debrief">Prototype v0.15.5 — Mission Debrief</footer><section id="lobby" class="online-panel" hidden>
 <header id="lobbyHeader"><h3 data-copy="lobby">Online lobby</h3><button type="button" id="closeLobby" data-copy="close">Close</button></header>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
@@ -170,7 +170,7 @@ const gameSpanish = {
   "Change photo": "Cambiar foto",
   "Remove photo": "Eliminar foto",
   "Close": "Cerrar",
-  "Prototype v0.15.4 — Mission Debrief": "Prototipo v0.15.4 — Informe de misión",
+  "Prototype v0.15.5 — Mission Debrief": "Prototipo v0.15.5 — Informe de misión",
   "Player avatar": "Avatar del jugador",
   "Player": "Jugador",
   "Lobby messages": "Mensajes de la sala",
@@ -475,7 +475,7 @@ function finish(win){if(state!=="play")return;state=win?"won":"lost";clear();if(
 document.addEventListener("contextmenu",e=>e.preventDefault());document.addEventListener("selectstart",e=>{if(!e.target.closest("input,textarea"))e.preventDefault()});
 const stick=$("stick");
 let chargePointer = null;
-function move(e){let b=stick.getBoundingClientRect(),x=e.clientX-b.left-b.width/2,y=e.clientY-b.top-b.height/2,d=Math.hypot(x,y),m=Math.min(1,d/42);jx=d>5?x/d*m:0;jy=d>5?y/d*m:0;$("knob").style.transform=`translate(${jx*42}px,${jy*42}px)`}
+function move(e){let b=stick.getBoundingClientRect(),x=e.clientX-b.left-b.width/2,y=e.clientY-b.top-b.height/2,d=Math.hypot(x,y),travel=b.width*.29,m=Math.min(1,d/travel);jx=d>5?x/d*m:0;jy=d>5?y/d*m:0;$("knob").style.transform=`translate(${jx*travel}px,${jy*travel}px)`}
 function resetStick(pointerId) {
   if (pointerId !== sid) return;
   sid = null;
@@ -1243,7 +1243,10 @@ async function runAccount(action) {
   accountBusy = true;
   accountStatus("accountWorking");
   try { await action(await refreshAccount()); }
-  catch { accountStatus("accountError"); }
+  catch(error) {
+    const messages={otp_disabled:"accountNoLinkedEmail",email_address_not_authorized:"accountEmailTestOnly",over_email_send_rate_limit:"accountEmailRate",email_exists:"accountExistingEmail"};
+    accountStatus(messages[error.code]||"accountError");
+  }
   finally { accountBusy = false; }
 }
 $("profileBtn").addEventListener("click", () => {
@@ -2093,4 +2096,64 @@ setInterval(()=>{
 lobbyLanguage.addEventListener("change",()=>{if(!$("settings").hidden)renderPauseStats();});
 translateGame();
 displayHomeArtwork();
+
+Object.assign(lobbyText.en,{topTen:"Live top 10",addFriend:"Add friend",friendName:"Display name",friendTag:"Arcade tag",
+ sendRequest:"Send request",refreshRequests:"Refresh requests",friendNeedsOnline:"Join the online lobby first.",
+ friendRequestSent:"Friend request pending.",friendRequestError:"Could not update requests. Check the player name and tag.",
+ friendNoRequests:"No pending requests.",friendAccept:"Accept",friendDecline:"Decline",friendCancel:"Cancel",
+ accountNoLinkedEmail:"Sign-in links are for linked accounts. To start, join the lobby and choose Link guest account.",
+ accountEmailTestOnly:"Email linking is currently limited to project testers. You can still play as a guest.",
+ accountEmailRate:"Too many email requests. Wait a minute before trying again.",
+ accountExistingEmail:"This email is already linked. Use Email me a sign-in link."});
+Object.assign(lobbyText.es,{topTen:"Los 10 mejores en línea",addFriend:"Agregar amigo",friendName:"Nombre visible",friendTag:"Código arcade",
+ sendRequest:"Enviar solicitud",refreshRequests:"Actualizar solicitudes",friendNeedsOnline:"Primero entra a la sala en línea.",
+ friendRequestSent:"Solicitud de amistad pendiente.",friendRequestError:"No se pudo actualizar. Revisa el nombre y el código del jugador.",
+ friendNoRequests:"No hay solicitudes pendientes.",friendAccept:"Aceptar",friendDecline:"Rechazar",friendCancel:"Cancelar",
+ accountNoLinkedEmail:"Los enlaces de acceso son para cuentas vinculadas. Entra a la sala y elige Vincular cuenta de invitado.",
+ accountEmailTestOnly:"Por ahora, solo los participantes de prueba pueden vincular su correo. Puedes jugar como invitado.",
+ accountEmailRate:"Demasiadas solicitudes. Espera un minuto antes de intentarlo de nuevo.",
+ accountExistingEmail:"Este correo ya está vinculado. Usa Enviarme un enlace de acceso."});
+let requestBusy=false;
+async function openFriendRequests(op="list",name,tag) {
+  if(requestBusy)return;
+  requestBusy=true;
+  const status=$("friendRequestStatus"),list=$("friendRequestList");
+  try {
+    const client=await getAccountClient();
+    const {session}=await lobbyResult(client.auth.getSession());
+    if(!session){list.replaceChildren();status.textContent=copy("friendNeedsOnline");return;}
+    await lobbyResult(client.rpc("ensure_guest_profile"));
+    const args={op};
+    if(name!==undefined){args.friend_name=name;args.friend_tag=tag;}
+    const rows=await lobbyResult(client.rpc("manage_friend_request",args));
+    list.replaceChildren(...rows.map(row=>{
+      const item=document.createElement("li"),label=document.createElement("span");
+      label.textContent=row.name+" #"+row.tag;item.append(label);
+      const actions=row.incoming?[["accept","friendAccept"],["decline","friendDecline"]]:[["cancel","friendCancel"]];
+      for(const [action,key] of actions){
+        const button=document.createElement("button");button.type="button";button.textContent=copy(key);
+        button.onclick=()=>openFriendRequests(action,row.name,row.tag);item.append(button);
+      }
+      return item;
+    }));
+    if(op==="send"){
+      status.textContent=rows.length?copy("friendRequestSent"):copy("friendNoRequests");
+      $("friendRequestForm").reset();
+    } else status.textContent=rows.length?"":copy("friendNoRequests");
+    if(op==="accept")refreshFriends();
+  } catch {status.textContent=copy("friendRequestError");}
+  finally {requestBusy=false;}
+}
+$("closeLeaderboards").onclick=()=>{panel("records");$("scoresBtn").focus({preventScroll:true});};
+$("friendRequestForm").onsubmit=event=>{
+  event.preventDefault();
+  const name=$("friendRequestName").value.trim();
+  const tag=$("friendRequestTag").value.trim().replace(/^#/,"").toUpperCase();
+  if(!name||!/^[A-Z0-9]{3}$/.test(tag)){$("friendRequestStatus").textContent=copy("friendRequestError");return;}
+  openFriendRequests("send",name,tag);
+};
+$("refreshFriendRequests").onclick=()=>openFriendRequests();
+$("addFriend").addEventListener("toggle",()=>{if($("addFriend").open)openFriendRequests();});
+lobbyLanguage.addEventListener("change",()=>{if(!$("profile").hidden&&$("addFriend").open)openFriendRequests();});
+translateGame();
 </script></body></html>
