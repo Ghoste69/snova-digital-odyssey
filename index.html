@@ -5587,4 +5587,344 @@ lobbyLanguage.addEventListener("change",()=>{
 $("raidPracticeTier21").addEventListener("change",()=>renderRaidTierStats21($("raidPracticeTier21").value));
 translateGame();renderProgression21();renderReleaseInbox();
 try{if(localStorage.getItem("snovaLastSeenUpdate")!=="0.21.0")openUpdates21(true);}catch{}
+</script>
+<script>
+(function(){
+"use strict";
+
+function xpForLevel22(level){
+  const steps=Math.max(0,level-1);
+  const early=Math.min(49,steps);
+  const late=Math.max(0,steps-49);
+  return early*720+7*early*(early-1)+late*1406+55*late*(late-1)+
+    13*late*(late-1)*(2*late-1)/6;
+}
+function pilotProgress22(rawXp){
+  const xp=Math.min(Number.MAX_SAFE_INTEGER,Math.max(0,Math.floor(Number(rawXp)||0)));
+  let lower=1,upper=2;
+  while(xpForLevel22(upper)<=xp)upper*=2;
+  while(upper-lower>1){
+    const middle=Math.floor((upper+lower)/2);
+    if(xpForLevel22(middle)<=xp)lower=middle;else upper=middle;
+  }
+  const floor=xpForLevel22(lower);
+  return {xp,level:lower,into:xp-floor,need:xpForLevel22(lower+1)-floor};
+}
+pilotLevel=()=>pilotProgress22(career.xp).level;
+const baseProfile22=renderProfile;
+renderProfile=function(){
+  baseProfile22();
+  const stats=$("profileStats").querySelector(".levelbox");
+  const p=pilotProgress22(career.xp);
+  if(!stats)return;
+  stats.querySelector("b").textContent=gameText("LEVEL")+" "+p.level;
+  stats.querySelector(".career-rank").textContent=gameText(rankTitle(p.level));
+  stats.querySelector(".meter i").style.width=(100*p.into/p.need)+"%";
+  stats.querySelector("small").textContent=p.into.toLocaleString(lobbyLanguage.value)+" / "+p.need.toLocaleString(lobbyLanguage.value)+" "+copy("xpShort");
+};
+const baseProgress22=renderProgression21;
+renderProgression21=function(){
+  baseProgress22();
+  const p=pilotProgress22(career.xp), number=value=>value.toLocaleString(lobbyLanguage.value);
+  $("pilotXpText").textContent=number(p.into)+" / "+number(p.need)+" "+copy("xpShort")+" · "+number(p.xp)+" "+copy("xpShort");
+  $("pilotXpMeter").max=p.need;
+  $("pilotXpMeter").value=p.into;
+};
+const baseLoadout22=renderChipFolder;
+renderChipFolder=function(previous){
+  baseLoadout22(previous);
+  const p=pilotProgress22(career.xp);
+  $("loadoutRank").textContent=copy("gearRank")+" "+p.level+" · "+p.into.toLocaleString(lobbyLanguage.value)+"/"+
+    p.need.toLocaleString(lobbyLanguage.value)+" "+copy("xpShort");
+};
+renderShieldUpgrade=function(root){
+  const row=document.createElement("div"), info=document.createElement("div");
+  row.className="upgrade";
+  const name=document.createElement("strong"), detail=document.createElement("small");
+  const canBuy=pilotLevel()>=5&&!progress.shieldRegen&&progress.credits>=shieldRegenCost;
+  name.textContent=gameText("Shield Regenerator");
+  detail.textContent=pilotLevel()>=5||progress.shieldRegen?gameText("Regenerates 15 shield per second after 7 seconds without taking damage."):
+    gameText("Unlocks at player level 5");
+  const button=gearAction(progress.shieldRegen?gameText("Owned"):gameText("Buy")+" · "+shieldRegenCost+" NC",()=>{
+    if(progress.shieldRegen||pilotLevel()<5||progress.credits<shieldRegenCost)return;
+    const worn=equippedChips();
+    progress.credits-=shieldRegenCost;progress.shieldRegen=true;
+    if(worn.length<chipSlotsAvailable())progress.equippedChips=[...worn,"shieldRegen"];
+    persist();
+    if($("petChips").open)renderChipFolder();else shop();
+  },!canBuy);
+  info.append(name,detail);row.append(info,button);root.append(row);
+};
+
+let musicBus22;
+const baseTone22=tone;
+tone=function(frequency,duration,gain,type,end=frequency,channel="effects"){
+  if(channel!=="music"){baseTone22(frequency,duration,gain,type,end);return;}
+  if(!cosmicAudio||cosmicAudio.state!=="running"||!gain||document.hidden)return;
+  if(musicBus22?.context!==cosmicAudio){
+    musicBus22=cosmicAudio.createDynamicsCompressor();
+    musicBus22.threshold.value=-15;
+    musicBus22.knee.value=10;
+    musicBus22.ratio.value=5;
+    musicBus22.attack.value=.004;
+    musicBus22.release.value=.15;
+    musicBus22.connect(cosmicAudio.destination);
+  }
+  const now=cosmicAudio.currentTime,osc=cosmicAudio.createOscillator(),amp=cosmicAudio.createGain();
+  osc.type=type;
+  osc.frequency.setValueAtTime(frequency,now);
+  osc.frequency.exponentialRampToValueAtTime(end,now+duration);
+  amp.gain.setValueAtTime(.0001,now);
+  amp.gain.exponentialRampToValueAtTime(gain,now+.012);
+  amp.gain.exponentialRampToValueAtTime(.0001,now+duration);
+  osc.connect(amp);amp.connect(musicBus22);
+  osc.onended=()=>{osc.disconnect();amp.disconnect();};
+  osc.start(now);osc.stop(now+duration+.015);
+};
+scheduleMusic=function(){
+  const track=cosmicTracks[gamePrefs.track],volume=Math.pow(clamp(gamePrefs.volume/100,0,1),1.35)*.48;
+  if(track&&volume&&!document.hidden){
+    const step=musicBeat++;
+    if(step%4===0)tone(115,.16,volume*.62,"sine",54,"music");
+    if(step%2===0){
+      const bass=track.bass[Math.floor(step/8)%track.bass.length];
+      tone(bass*2,.18,volume*.54,"triangle",bass*2,"music");
+    }
+    const lead=track.lead[step%track.lead.length];
+    if(lead)tone(lead,.16,volume*.38,"triangle",lead,"music");
+  }
+  musicTimer=setTimeout(scheduleMusic,track?.step||450);
+};
+if(musicTimer){clearTimeout(musicTimer);scheduleMusic();}
+
+const raidNames22=[
+  ["I","Nightmare","Pesadilla"],["II","Cataclysm","Cataclismo"],["III","Extinction","Extinción"],
+  ["IV","Rift","Fisura"],["V","Voidstorm","Tormenta del vacío"],["VI","Gravity Well","Pozo gravitatorio"],
+  ["VII","Cometfall","Caída de cometas"],["VIII","Solar Lattice","Red solar"],["IX","Starbreaker","Quebrantador estelar"],
+  ["X","Cosmic Inferno","Infierno cósmico"]
+];
+const raidMoves22=["breath","stars","nova","cross","spiral","gravity","comets","lattice","starbreaker","inferno"];
+const raidRoutes22=raidNames22.map((_,i)=>i===0?"raid":"raid"+(i+1));
+for(const [index,route] of raidRoutes22.entries()){
+  const level=index+1, title="gauntletTier"+level, [roman,en,es]=raidNames22[index];
+  lobbyText.en[title]="Tier "+roman+" · "+en;
+  lobbyText.es[title]="Nivel "+roman+" · "+es;
+  const limit=130+10*index+(level===10?20:0);
+  raidTiers21[route]={title,level,hp:level===10?1000000:Math.round(17000*(1000000/17000)**(index/9)/100)*100,
+    enrage:Math.floor(limit*.79),limit,damage:1.1*1.18**index,coins:Math.round(750*1.31**index/50)*50,
+    xp:Math.round(1500*1.35**index/100)*100};
+}
+isRaidRoute=route=>typeof route==="string"&&Object.hasOwn(raidTiers21,route);
+for(const id of ["crewRoute","raidPracticeTier21"]){
+  const select=$(id);
+  for(const option of [...select.options])if(isRaidRoute(option.value))option.remove();
+  raidRoutes22.forEach((route,i)=>{
+    const option=new Option(raidTitle21(route),route);
+    option.dataset.copy=raidTiers21[route].title;
+    if(id==="crewRoute")select.add(option,i);else select.add(option);
+  });
+  select.value="raid";
+}
+
+const basePattern22=advanceDragonPattern;
+function gauntletPattern22(arena,dragon,live){
+  const tier=tierForRaid(arena),now=arena.elapsed,enraged=now>=tier.enrage;
+  const pressure=(enraged?1.3:1)*Math.min(1.25,1+(tier.level-1)*.028);
+  const damage=9*tier.damage*(enraged?1.52:1);
+  if(!dragon.attack&&now>=dragon.nextFlare){
+    const kind=raidMoves22[dragon.attackIndex%tier.level];
+    const target=live[dragon.attackIndex%live.length];
+    dragon.attackIndex++;
+    dragon.attack={kind,aim:{x:target.x,y:target.y},fire:now+(kind==="inferno"?2.4:.94/Math.sqrt(pressure))};
+    return;
+  }
+  if(!dragon.attack||now<dragon.attack.fire)return;
+  const {kind,aim}=dragon.attack;
+  const fire=(origin,target,speed,offset,color,hit=damage)=>{
+    if(arena.shots.length>=180)return;
+    const angle=Math.atan2(target.y-origin.y,target.x-origin.x)+offset;
+    arena.shots.push({x:origin.x,y:origin.y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,
+      enemy:true,color,damage:hit,r:5,life:4,dragonShot21:kind});
+  };
+  if(raidMoves22.indexOf(kind)<5){
+    basePattern22(dragon,now,aim,true,arena.width,arena.height,damage,pressure,fire,dragon.hp);
+    return;
+  }
+  const width=arena.width,height=arena.height;
+  if(kind==="gravity"){
+    for(let i=0;i<12;i++){
+      const a=i*Math.PI/6;
+      fire({x:aim.x+Math.cos(a)*97,y:aim.y+Math.sin(a)*77},aim,108,0,"#ac83ff");
+    }
+  }else if(kind==="comets"){
+    for(let i=0;i<10;i++){
+      const side=i%2?width-12:12,y=50+Math.floor(i/2)*(height-95)/5;
+      fire({x:side,y},{x:width-side,y:y+32},142+10*(i%3),0,"#ffd678");
+    }
+  }else if(kind==="lattice"){
+    for(let i=0;i<9;i++){
+      const x=(i+.5)*width/9;
+      if(Math.abs(x-aim.x)<width/10)continue;
+      fire({x,y:height-9},{x,y:0},142,0,"#88f7ff");
+    }
+    for(const y of [height*.35,height*.66])
+      fire({x:9,y},{x:width,y},164,0,"#88f7ff");
+  }else if(kind==="starbreaker"){
+    for(const offset of [-.74,-.52,-.31,-.11,.11,.31,.52,.74]){
+      fire(dragon,aim,198,offset,"#ff90cc");
+      fire({x:width/2,y:height-12},{x:aim.x,y:Math.min(aim.y,height-45)},134,offset*.76,"#ffdafe");
+    }
+  }else{
+    // The arena-wide hit resolves once for every living pilot. Shields and armor absorb it.
+    for(const pilot of live)coopDamage(pilot,enraged?355:290);
+  }
+  dragon.cast21={kind,aim,at:now};
+  dragon.attack=null;
+  dragon.nextFlare=now+(kind==="inferno"?2.1:1.2/pressure);
+  sfx("charge");
+}
+updateRaidDragon=function(arena,dragon){
+  const live=arena.players.filter(pilot=>pilot.hp>0&&!pilot.departed);
+  if(live.length)gauntletPattern22(arena,dragon,live);
+};
+
+const baseCast22=dragonCastArt21;
+dragonCastArt21=function(dragon,clock,nightmare){
+  const warning=dragon.attack, cast=dragon.cast21;
+  const recent=cast&&clock-cast.at<.95?cast:null;
+  const effect=warning||recent;
+  if(!effect||raidMoves22.indexOf(effect.kind)<5){
+    baseCast22(dragon,clock,nightmare);return;
+  }
+  const motion=motionAllowed(), age=warning?0:clock-effect.at;
+  const alpha=warning?.6:Math.max(0,1-age/.95);
+  const {kind,aim}=effect;
+  const colors={gravity:"#ac83ff",comets:"#ffd678",lattice:"#88f7ff",starbreaker:"#ff90cc",inferno:"#ff854f"};
+  const color=colors[kind];
+  g.save();
+  g.globalAlpha=alpha;g.strokeStyle=color;g.fillStyle=color;g.lineWidth=2;
+  if(warning)g.setLineDash([6,4]);
+  if(kind==="gravity"){
+    for(let ringIndex=0;ringIndex<3;ringIndex++){
+      const phase=motion?(clock*3+ringIndex/3)%1:ringIndex/3;
+      g.beginPath();g.ellipse(aim.x,aim.y,98-70*phase,77-57*phase,0,0,Math.PI*2);g.stroke();
+    }
+  }else if(kind==="comets"){
+    for(let i=0;i<5;i++){
+      const y=50+i*(H-95)/5;
+      g.beginPath();g.moveTo(12,y);g.lineTo(W-12,y+32);g.stroke();
+      g.beginPath();g.moveTo(W-12,y);g.lineTo(12,y+32);g.stroke();
+    }
+  }else if(kind==="lattice"){
+    for(let i=0;i<9;i++){
+      const x=(i+.5)*W/9;
+      if(Math.abs(x-aim.x)<W/10)continue;
+      g.beginPath();g.moveTo(x,H-9);g.lineTo(x,0);g.stroke();
+    }
+    for(const y of [H*.35,H*.66]){g.beginPath();g.moveTo(9,y);g.lineTo(W,y);g.stroke();}
+  }else if(kind==="starbreaker"){
+    for(const y of [52,H-12]){
+      const radius=motion?18+Math.sin(clock*9)*6:18;
+      for(let i=0;i<10;i++){
+        const a=i*Math.PI/5;
+        g.beginPath();g.moveTo(W/2,y);g.lineTo(W/2+radius*Math.cos(a),y+radius*Math.sin(a));g.stroke();
+      }
+    }
+  }else{
+    const wave=warning?(motion?(.5+.5*Math.sin(clock*8))*H:H/2):motion?Math.min(H,age*H/.6):H/2;
+    const tint=g.createLinearGradient(0,Math.max(0,wave-45),0,wave+45);
+    tint.addColorStop(0,"#ff502300");tint.addColorStop(.5,"#ffc08bcc");tint.addColorStop(1,"#ff502300");
+    g.fillStyle=tint;g.fillRect(0,0,W,H);
+    g.strokeRect(4,4,W-8,H-8);
+    if(warning){
+      const warningText=lobbyLanguage.value==="es"?"FUEGO CÓSMICO · TODA LA ARENA":"COSMIC FIRE · FIELD-WIDE HIT";
+      g.fillStyle="#fff0b8";g.font="bold 14px system-ui";g.textAlign="center";g.fillText(warningText,W/2,H*.52);
+    }
+  }
+  g.restore();
+};
+const baseDrawDragon22=drawGrandDragon;
+drawGrandDragon=function(dragon,now,clock=elapsed,nightmare=missionDifficulty==="nightmare",health=dragon.h){
+  const warning=dragon.attack;
+  if(warning&&raidMoves22.indexOf(warning.kind)>=5){
+    const cast=dragon.cast21;
+    dragon.attack=null;dragon.cast21=null;
+    try{baseDrawDragon22(dragon,now,clock,nightmare,health);}
+    finally{dragon.attack=warning;dragon.cast21=cast;}
+    dragonCastArt21(dragon,clock,nightmare);
+  }else baseDrawDragon22(dragon,now,clock,nightmare,health);
+  if(!motionAllowed())return;
+  const time=now/860;
+  g.save();
+  g.globalAlpha=.55;
+  for(let i=0;i<19;i++){
+    const offset=i*2.4+time, x=W/2+Math.sin(offset)*(W*.39), y=35+Math.sin(offset*1.6+i)*24;
+    orb(x,y,1.1+(.5+.5*Math.sin(i+time))*1.6,i%4===0?"#ffc68e":"#d6abff");
+  }
+  g.restore();
+};
+
+const styles22=document.createElement("style");
+styles22.textContent=[
+  "#homeDragonWrap{position:relative;isolation:isolate;overflow:hidden}",
+  "#homeDragonWrap img{transform-origin:52% 45%;will-change:transform}",
+  "body.game-motion #homeDragonWrap img{animation:dragon-home-22 8s ease-in-out infinite alternate}",
+  "#homeDragonWrap::before,#homeDragonWrap::after{content:'';position:absolute;pointer-events:none;inset:0;z-index:1}",
+  "#homeDragonWrap::before{background:radial-gradient(ellipse at 54% 58%,#d683fd68,transparent 54%);mix-blend-mode:screen;opacity:.4}",
+  "#homeDragonWrap::after{background:radial-gradient(circle,#eacaed 0 1px,transparent 2px) 0 0/38px 33px,radial-gradient(circle,#f9d0a5 0 1px,transparent 2px) 14px 9px/59px 43px;opacity:.36}",
+  "body.game-motion #homeDragonWrap::before{animation:dragon-aura-22 5s ease-in-out infinite alternate}",
+  "body.game-motion #homeDragonWrap::after{animation:dragon-stars-22 14s linear infinite}",
+  "@keyframes dragon-home-22{0%{transform:scale(1.03) translate(-.8%,1%)}50%{transform:scale(1.11) translate(.8%,-2%)}100%{transform:scale(1.06) translate(1%,1%)}}",
+  "@keyframes dragon-aura-22{to{opacity:.85;transform:translateX(8%) scale(1.23)}}",
+  "@keyframes dragon-stars-22{to{background-position:76px 33px,73px -34px}}",
+  "@media(prefers-reduced-motion:reduce){#homeDragonWrap img{will-change:auto}}"
+].join("\n");
+document.head.append(styles22);
+
+Object.assign(lobbyText.en,{
+  xpRules:"Earn 10 XP per enemy in solo missions, plus 250 for a win or 50 for a loss. Raid clears award tier-specific XP. Each pilot level requires more XP, with steeper increases after level 50.",
+  gauntlet22:"Dragon Gauntlet",
+  gauntletBody22:"Ten Dragon raid tiers, a steeper XP curve, a louder music mix, and new Dragon animations."
+});
+Object.assign(lobbyText.es,{
+  xpRules:"En misiones individuales ganas 10 EXP por enemigo, más 250 al ganar o 50 al perder. Las incursiones dan EXP según el nivel. Cada nivel de piloto requiere más EXP, con un aumento mayor después del nivel 50.",
+  gauntlet22:"Desafío del Dragón",
+  gauntletBody22:"Diez niveles de incursión, una curva de EXP más exigente, música más audible y animaciones nuevas del Dragón."
+});
+const buildFooter22=document.querySelector('footer[data-game-text*="0.21.0"]');
+if(buildFooter22)buildFooter22.removeAttribute("data-game-text");
+releases.unshift({version:"0.22.0",title:"gauntlet22",body:"gauntletBody22",credits:100});
+changelog21.unshift(["0.22.0","Dragon Gauntlet",[
+  ["XP requirements increase every level and steepen after level 50. Lifetime XP is preserved.","La EXP requerida aumenta con cada nivel y se acelera después del nivel 50. Se conserva la EXP acumulada."],
+  ["Ten raid tiers add one attack each. Tier X has one million HP and a field-wide cosmic fire sweep.","Diez niveles de incursión añaden un ataque cada uno. El nivel X tiene un millón de PV y fuego en toda la arena."],
+  ["Louder music, animated Dragon art on the main screen, and new attack animations.","Música más audible, Dragón animado en el inicio y nuevas animaciones de ataque."]
+]]);
+const oldTranslate22=translateGame;
+translateGame=function(){
+  oldTranslate22();
+  setFooter22();
+};
+function setFooter22(){
+  if(buildFooter22)buildFooter22.textContent=coopText("Prototype v0.22.0 — Dragon Gauntlet","Prototipo v0.22.0 — Desafío del Dragón");
+}
+lobbyLanguage.addEventListener("change",setFooter22);
+const oldUpdates22=renderUpdates21;
+renderUpdates21=function(latestOnly){
+  oldUpdates22(latestOnly);
+  const heading=$("updateEntries21").querySelector("summary");
+  if(heading)heading.textContent="v0.22.0 · "+copy("gauntlet22");
+};
+const baseTierStats22=renderRaidTierStats21;
+renderRaidTierStats21=function(route){
+  baseTierStats22(route);
+  if(isRaidRoute(route))$("raidTierStats21").append(" · "+raidTiers21[route].level+" "+coopText("attack patterns","patrones de ataque"));
+};
+const updateDialog22=$("updateDialog21");
+let seen22=false;
+try{seen22=localStorage.getItem("snovaSeenGauntlet22")==="yes";}catch{}
+if(seen22&&updateDialog22.open)updateDialog22.close();
+if(!seen22)openUpdates21(true);
+updateDialog22.addEventListener("close",()=>{try{localStorage.setItem("snovaSeenGauntlet22","yes");}catch{}});
+translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
+})();
 </script></body></html>
