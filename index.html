@@ -146,16 +146,14 @@ body:not(.home-active) footer{display:none}
 #novaDeck{position:relative;flex:0 0 clamp(48px,12dvh,105px);width:100%;max-width:600px;margin:0 auto;overflow:hidden;pointer-events:none;
   border:1px solid #6b4bb1;border-radius:10px;background:linear-gradient(180deg,#1d1640,#100d24);box-shadow:inset 0 -4px #4c3185}
 #novaDeck::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 30px,#d3b2ff12 30px 31px);opacity:.7}
-#novaActor{position:absolute;bottom:5px;left:9px;width:42px;height:44px;transform:translateX(0)}
-#novaActor .novaSprite{clip-path:polygon(2% 80%,7% 58%,14% 43%,17% 27%,36% 10%,68% 8%,87% 26%,92% 51%,85% 68%,93% 90%,87% 99%,10% 99%)}
-.novaProp{position:absolute;right:0;bottom:11px;font-size:15px;line-height:1;opacity:0}
+#novaActor{position:absolute;width:48px;height:56px}
+.novaWalk{position:absolute;inset:0;transform:scale(.88);transform-origin:bottom center}
+.novaWalk>span{position:absolute;inset:0;background:var(--nova-art) -28px -181px/420px 280px;image-rendering:pixelated}
+.novaWalkBody{clip-path:polygon(15% 57%,25% 46%,25% 27%,32% 17%,46% 10%,70% 10%,82% 17%,89% 24%,94% 36%,91% 49%,89% 57%,92% 64%,88% 72%,79% 76%,70% 75%,61% 72%,52% 75%,40% 74%,29% 79%,21% 75%,15% 67%)}
+.novaWalkBack{clip-path:polygon(38% 68%,60% 69%,60% 75%,54% 79%,54% 90%,47% 93%,34% 91%,34% 83%,39% 79%);transform-origin:48% 72%}
+.novaWalkFront{clip-path:polygon(57% 68%,74% 68%,76% 76%,80% 79%,80% 84%,84% 86%,84% 92%,61% 92%,59% 85%,62% 81%,59% 77%);transform-origin:66% 72%}
 #novaRate{position:absolute;right:8px;top:5px;font-size:10px;color:#ffc497;font-variant-numeric:tabular-nums}
 #novaLine{position:absolute;top:5px;left:58px;right:88px;max-width:max-content;text-align:left;margin:0;padding:3px 6px;color:#f0dcff;background:#17102eea;border:1px solid #8761cc;border-radius:7px;font-size:clamp(10px,2.3vw,13px);line-height:1.15}
-.novaPlant{position:absolute;bottom:5px;right:14%;width:23px;height:26px}
-.novaPlant i{position:absolute;bottom:0;left:5px;width:14px;height:9px;background:#ca86f0;clip-path:polygon(0 0,100% 0,80% 100%,20% 100%)}
-.novaPlant b{position:absolute;bottom:9px;left:10px;width:3px;height:14px;background:#84f7b5}
-.novaPlant b::before,.novaPlant b::after{content:"";position:absolute;bottom:2px;left:-6px;width:8px;height:5px;background:#65e5a0;border-radius:8px 0}
-.novaPlant b::after{left:2px;bottom:8px;transform:scaleX(-1)}
 @media(max-width:580px){
   #petFace{grid-template-rows:minmax(178px,min(40dvh,330px)) auto auto auto}
   #petFace #petLobbyCorner{grid-column:1/-1;grid-row:3;position:relative;inset:auto;width:auto;min-height:44px}
@@ -165,18 +163,11 @@ body:not(.home-active) footer{display:none}
 }
 @media(max-height:540px){
   #novaDeck{flex-basis:45px}
-  #novaActor{bottom:0}
   #lootLegend{display:none}
 }
 @media(max-height:420px){#novaDeck{display:none}}
 @media(prefers-reduced-motion:no-preference){
-  #novaActor{left:0;animation:nova-stroll 36s ease-in-out infinite}
-  #novaActor .novaSprite{animation:nova-bob 36s ease-in-out infinite}
-  .novaPhone{animation:nova-phone 36s step-end infinite}.novaWater{animation:nova-water 36s step-end infinite}
-  @keyframes nova-phone{0%,49%,100%{opacity:0}34%{opacity:1}}
-  @keyframes nova-water{0%,77%,100%{opacity:0;transform:translateY(0)}65%,70%,75%{opacity:1;transform:translateY(0)}67%,72%{opacity:1;transform:translateY(7px)}}
-  @keyframes nova-stroll{0%,12%,88%,100%{left:9px}34%,49%{left:39%}64%,77%{left:calc(86% - 48px)}}
-  @keyframes nova-bob{0%,12%,34%,49%,64%,77%,88%,100%{transform:translateY(0)}23%,57%,83%{transform:translateY(-3px)}}
+
 }
 #profile .profile-tabs{flex-wrap:wrap;z-index:2}
 #profile .profile-tabs button{flex:1 1 96px;white-space:normal;margin:2px;min-height:40px}
@@ -201,7 +192,7 @@ body:not(.home-active) footer{display:none}
 #novaDeck{flex:0 0 58px;max-width:760px}
 #novaDeck::before{inset:auto 0 0;height:15px;opacity:1;background:repeating-linear-gradient(90deg,#49327e 0 2px,#22193f 2px 22px);border-top:2px solid #7b62c3}
 .novaVista{position:absolute;inset:0;background:radial-gradient(circle at 9px 15px,#cdb9ff 1px,transparent 2px) 0 0/43px 36px,radial-gradient(ellipse at 50% 110%,#513596 0 49%,transparent 51%) 0 100%/105px 38px repeat-x}
-#novaActor{left:44%;bottom:9px;z-index:1}
+#novaActor{left:calc(44% - 3px);bottom:7px;z-index:1}
 #novaLine{left:calc(44% + 45px);right:5px;max-width:calc(56% - 50px);z-index:2;font-size:10px}
 #novaRate{left:6px;right:auto}
 .home-active #novaRate{display:none}
@@ -215,11 +206,18 @@ body:not(.home-active) footer{display:none}
 #multiplayerFriends li,#multiplayerInvites li{display:flex;justify-content:space-between;align-items:center;gap:5px;margin:4px 0;padding:5px;background:#281c47;border-radius:7px;overflow-wrap:anywhere}
 #multiplayerStatus{font-size:12px}
 @media(prefers-reduced-motion:no-preference){
- #novaActor{animation:none}
- #novaActor .novaSprite{animation:nova-step .44s ease-in-out infinite alternate}
+ .novaWalkBody{animation:nova-walk-body .42s steps(3,end) infinite}
+ .novaWalkBack,.novaWalkFront{animation:nova-stride .84s steps(4,end) infinite}
+ .novaWalkBack{animation-delay:-.42s}
  #novaDeck::before{animation:nova-path .54s linear infinite}
  .novaVista{animation:nova-vista 9s linear infinite}
- @keyframes nova-step{to{transform:translateY(-3px) rotate(-3deg)}}
+ @keyframes nova-walk-body{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
+ @keyframes nova-stride{
+  0%,100%{transform:translate(1px,0) rotate(-21deg)}
+  47%{transform:translate(-2px,0) rotate(21deg)}
+  69%{transform:translate(-1px,-4px) rotate(14deg)}
+  85%{transform:translate(2px,-4px) rotate(-10deg)}
+ }
  @keyframes nova-path{to{background-position:-22px 0}}
  @keyframes nova-vista{to{background-position:-129px 0,-105px 100%}}
 }
@@ -254,7 +252,13 @@ body:not(.home-active) footer{display:none}
 <button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button>
 </nav><section id="novaDeck" aria-label="Nova companion">
   <div class="novaVista" aria-hidden="true"></div>
-  <div id="novaActor" aria-hidden="true"><span class="novaSprite"></span></div>
+  <div id="novaActor" aria-hidden="true">
+    <span class="novaWalk">
+      <span class="novaWalkBack"></span>
+      <span class="novaWalkFront"></span>
+      <span class="novaWalkBody"></span>
+    </span>
+  </div>
   <p id="novaLine"></p><span id="novaRate"></span>
 </section><div id="settings" hidden><h3 id="settingsTitle" data-game-text="Settings">Settings</h3><div id="pauseStatSummary" class="mission-setting"></div>
 <div class="settings-row home-setting"><label for="lobbyLanguage" data-copy="languageSetting">Language</label><select id="lobbyLanguage"><option value="en">English</option><option value="es">Español (Latinoamérica)</option></select></div>
@@ -300,7 +304,7 @@ body:not(.home-active) footer{display:none}
 <label for="backgroundChoice" data-copy="backgroundLabel">Main menu background</label>
 <select id="backgroundChoice"><option value="none" data-copy="backgroundNone">None · show background</option><option value="rotate" data-copy="backgroundRotate">Rotate artwork</option><option value="cover" data-copy="backgroundCover">Odyssey artwork</option><option value="tiger" data-copy="backgroundTiger">Tiger emblem</option><option value="pet" data-copy="backgroundPet">PET interface</option><option value="netnavi" data-copy="backgroundNetNavi">NetNavi design sheet</option><option value="custom" data-copy="backgroundCustom">Uploaded photo</option></select>
 <label class="background-upload" data-copy="backgroundUpload" for="backgroundFile">Upload background</label>
-<input id="backgroundFile" type="file" accept="image/*"><p id="backgroundStatus" role="status"></p></div></section><section id="profileNumbers" hidden><div id="profileCombatStats"></div><div id="profileStats"></div></section><section id="profileMatchHistory" aria-labelledby="profileHistoryTab" hidden><p id="matchHistoryNotice"></p><div id="matchHistoryList"></div></section><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.17.0 — Infinite Rotation">Prototype v0.17.0 — Infinite Rotation</footer><section id="lobby" class="online-panel" hidden>
+<input id="backgroundFile" type="file" accept="image/*"><p id="backgroundStatus" role="status"></p></div></section><section id="profileNumbers" hidden><div id="profileCombatStats"></div><div id="profileStats"></div></section><section id="profileMatchHistory" aria-labelledby="profileHistoryTab" hidden><p id="matchHistoryNotice"></p><div id="matchHistoryList"></div></section><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.17.1 — Nova Walk Cycle">Prototype v0.17.1 — Nova Walk Cycle</footer><section id="lobby" class="online-panel" hidden>
 <header id="lobbyHeader"><h3 data-copy="lobby">Online lobby</h3><button type="button" id="closeLobby" data-copy="close">Close</button></header>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
@@ -397,7 +401,7 @@ const gameSpanish = {
   "Change photo": "Cambiar foto",
   "Remove photo": "Eliminar foto",
   "Close": "Cerrar",
-  "Prototype v0.17.0 — Infinite Rotation": "Prototipo v0.17.0 — Rotación infinita",
+  "Prototype v0.17.1 — Nova Walk Cycle": "Prototipo v0.17.1 — Ciclo de caminata",
   "Player avatar": "Avatar del jugador",
   "Player": "Jugador",
   "Lobby messages": "Mensajes de la sala",
