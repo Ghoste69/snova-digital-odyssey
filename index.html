@@ -180,19 +180,22 @@ body:not(.home-active) footer{display:none}
 }
 #profile .profile-tabs{flex-wrap:wrap;z-index:2}
 #profile .profile-tabs button{flex:1 1 96px;white-space:normal;margin:2px;min-height:40px}
-#profileMatchHistory,#loadoutPreviewStats{width:100%}
+#profileMatchHistory{width:100%}
 #matchHistoryList details{background:#1d1536;border:1px solid #7657a2;border-radius:8px;margin:6px 0;padding:8px;text-align:left}
 #matchHistoryList summary{cursor:pointer;white-space:normal;line-height:1.35}
 #matchHistoryList summary small{display:block;margin:4px 0 0;color:#d1bce8}
 #matchHistoryList h4{margin:8px 0}
-#matchHistoryList .tiles,#loadoutPreviewStats .tiles{grid-template-columns:repeat(auto-fit,minmax(102px,1fr))}
-#petChips #loadoutPreviewHeading{margin:.45em 0}
-#petChips h4+p,#petChips #loadoutPreviewStats+p{margin:5px 0;color:#d1bce8;font-size:12px}
-#practiceTools{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 8px;padding:4px;color:#e4d5fa}
-#practiceTools select{font-size:16px;margin:0}
-#practiceTools button{min-height:35px;margin:0;font-size:11px}
-#practiceTelemetry{flex-basis:100%;font-size:12px;font-variant-numeric:tabular-nums;color:#ffce96}
-.practice-active #missionSettings,.practice-active #profileBtn,.practice-active #menu,.practice-active #novaDeck{display:none}
+#matchHistoryList .tiles{grid-template-columns:repeat(auto-fit,minmax(102px,1fr))}
+#chipStats{position:sticky;top:-14px;z-index:1;margin:6px 0;padding:6px 7px;border:1px solid #6d5aae;border-radius:9px;background:#211840;text-align:left}
+#chipStats h4{margin:0 0 4px;font-size:11px;color:#d7c1f8}
+#chipStatStrip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px 6px;margin:0}
+#chipStatStrip>div{min-width:0;background:#181232;border-radius:4px;padding:3px 4px}
+#chipStatStrip dt{font-size:9px;color:#d0bce9;line-height:1.15}
+#chipStatStrip dd{margin:0;display:flex;align-items:baseline;gap:3px;flex-wrap:wrap;font-size:12px;line-height:1.2;font-variant-numeric:tabular-nums}
+#chipStatStrip .chip-stat-delta{font-size:10px;font-weight:700}
+#chipStatStrip [data-effect="buff"]{color:#92f6ba}
+#chipStatStrip [data-effect="debuff"]{color:#ffa1ac}
+#petChips #chipStatus{margin:5px 0}
 </style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body class="home-active"><header id="gameHeader">
   <div class="brand"><h2>S-NOVA</h2><span>Digital Odyssey</span></div>
   <button type="button" id="profileBtn" aria-expanded="false"><span id="badgeInitial" aria-hidden="true"></span><img id="badgeAvatar" hidden alt=""><span id="badgeName"></span></button>
@@ -214,14 +217,7 @@ body:not(.home-active) footer{display:none}
 <div id="homeSelectors"><div><label for="sectorSelect" data-game-text="Sector">Sector</label><select id="sectorSelect"><option id="campaignOption" value="0" data-copy="campaignName">Level 1 campaign</option><option id="sectorOneOption" value="1">1 · Core Awakening</option><option id="sectorTwoOption" value="2" disabled>2 · Meteor Belt</option><option id="sectorThreeOption" value="3" disabled>3 · Derelict Station</option></select></div><button id="homePlay" type="button" data-copy="petPlay">Play</button><div><label for="difficulty" data-game-text="Difficulty">Difficulty</label> <select id="difficulty"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select></div></div>
 </div><div class="petFooter"><p id="homeWallet" class="wallet-balance"></p><button id="peekPetArt" type="button" aria-pressed="false">View background</button></div>
 </main>
-<div id="missionView"><div id="stats"><div class="hud-gauges"><div class="hud gauge"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud gauge"><small data-game-text="Shield">Shield</small><b id="hudShield">0</b><div class="meter shield"><i id="barShield"></i></div></div><div class="hud gauge"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div></div><div class="hud-strip"><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Magnet">Magnet</small><b id="hudMagnet">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div></div><div id="wallet"></div><div id="coopMatchBar" hidden><span id="coopMatchStatus" role="status"></span> <button id="coopLeave" type="button">Leave co-op</button></div><section id="practiceTools" aria-labelledby="practiceHeading" hidden>
-  <strong id="practiceHeading" data-copy="tryLoadout">Try Loadout</strong>
-  <label><span data-copy="practiceTargets">Targets</span> <select id="practiceTargets"><option value="1">1</option><option value="2">2</option></select></label>
-  <label><span data-game-text="Power">Power</span> <select id="practicePower"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
-  <label><span data-game-text="Fire Rate">Fire Rate</span> <select id="practiceRapid"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
-  <button id="practiceExit" type="button" data-copy="backToChips">Back to chips</button>
-  <span id="practiceTelemetry"></span>
-</section><div id="arenaWrap"><canvas id="arena" width="360" height="320"></canvas></div><div id="lootLegend"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span> · <span data-game-text="◆ Shield" style="color:#72dbff">◆ Shield</span> · <span data-game-text="◆ Magnet" style="color:#fff498">◆ Magnet</span> · <span data-game-text="◆ Fire Rate" style="color:#ffae72">◆ Fire Rate</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div>
+<div id="missionView"><div id="stats"><div class="hud-gauges"><div class="hud gauge"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud gauge"><small data-game-text="Shield">Shield</small><b id="hudShield">0</b><div class="meter shield"><i id="barShield"></i></div></div><div class="hud gauge"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div></div><div class="hud-strip"><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Magnet">Magnet</small><b id="hudMagnet">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div></div><div id="wallet"></div><div id="coopMatchBar" hidden><span id="coopMatchStatus" role="status"></span> <button id="coopLeave" type="button">Leave co-op</button></div><div id="arenaWrap"><canvas id="arena" width="360" height="320"></canvas></div><div id="lootLegend"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span> · <span data-game-text="◆ Shield" style="color:#72dbff">◆ Shield</span> · <span data-game-text="◆ Magnet" style="color:#fff498">◆ Magnet</span> · <span data-game-text="◆ Fire Rate" style="color:#ffae72">◆ Fire Rate</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div>
 <section id="novaDeck" aria-label="Nova companion">
   <div class="novaPlant" aria-hidden="true"><i></i><b></b></div>
   <div id="novaActor" aria-hidden="true"><span class="novaSprite"></span><span class="novaProp novaPhone">📱</span><span class="novaProp novaWater">💧</span></div>
@@ -233,7 +229,7 @@ body:not(.home-active) footer{display:none}
 <button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button>
 </nav><div id="settings" hidden><h3 id="settingsTitle" data-game-text="Settings">Settings</h3><div id="pauseStatSummary" class="mission-setting"></div>
 <div class="settings-row home-setting"><label for="lobbyLanguage" data-copy="languageSetting">Language</label><select id="lobbyLanguage"><option value="en">English</option><option value="es">Español (Latinoamérica)</option></select></div>
-<details class="settings-group"><summary data-game-text="Gameplay controls">Gameplay controls</summary><div class="settings-actions"><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: MANUAL</button></div></details>
+<details class="settings-group"><summary data-game-text="Gameplay controls">Gameplay controls</summary><div class="settings-actions"><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: TOUCH</button></div></details>
 <details class="settings-group mission-setting"><summary data-game-text="Save data">Save data</summary><div class="settings-actions"><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden></div></details>
 <details class="settings-group"><summary data-copy="help">Help</summary><p data-copy="controls">Move with the joystick or WASD. Slide to dodge, use Focus to slow time, and watch your Heat meter.</p>
 <p data-copy="about">Play offline anytime. Join the lobby for a guest callsign. You can block or report messages from another player.</p>
@@ -275,7 +271,7 @@ body:not(.home-active) footer{display:none}
 <label for="backgroundChoice" data-copy="backgroundLabel">Main menu background</label>
 <select id="backgroundChoice"><option value="none" data-copy="backgroundNone">None · show background</option><option value="rotate" data-copy="backgroundRotate">Rotate artwork</option><option value="cover" data-copy="backgroundCover">Odyssey artwork</option><option value="tiger" data-copy="backgroundTiger">Tiger emblem</option><option value="pet" data-copy="backgroundPet">PET interface</option><option value="netnavi" data-copy="backgroundNetNavi">NetNavi design sheet</option><option value="custom" data-copy="backgroundCustom">Uploaded photo</option></select>
 <label class="background-upload" data-copy="backgroundUpload" for="backgroundFile">Upload background</label>
-<input id="backgroundFile" type="file" accept="image/*"><p id="backgroundStatus" role="status"></p></div></section><section id="profileNumbers" hidden><div id="profileCombatStats"></div><div id="profileStats"></div></section><section id="profileMatchHistory" aria-labelledby="profileHistoryTab" hidden><p id="matchHistoryNotice"></p><div id="matchHistoryList"></div></section><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.16.2 — Pilot Records">Prototype v0.16.2 — Pilot Records</footer><section id="lobby" class="online-panel" hidden>
+<input id="backgroundFile" type="file" accept="image/*"><p id="backgroundStatus" role="status"></p></div></section><section id="profileNumbers" hidden><div id="profileCombatStats"></div><div id="profileStats"></div></section><section id="profileMatchHistory" aria-labelledby="profileHistoryTab" hidden><p id="matchHistoryNotice"></p><div id="matchHistoryList"></div></section><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.16.3 — Chip Stats">Prototype v0.16.3 — Chip Stats</footer><section id="lobby" class="online-panel" hidden>
 <header id="lobbyHeader"><h3 data-copy="lobby">Online lobby</h3><button type="button" id="closeLobby" data-copy="close">Close</button></header>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
@@ -293,12 +289,9 @@ body:not(.home-active) footer{display:none}
 </section>
 <dialog class="game-dialog pet-panel" id="petChips" aria-labelledby="chipHeading">
   <header><h3 id="chipHeading" data-game-text="Chip Folder">Chip Folder</h3><button type="button" data-close-pet="petChips" data-copy="close">Close</button></header>
-  <p data-copy="chipHelp">Equip up to three owned chips before you launch.</p>
-  <section aria-labelledby="loadoutPreviewHeading">
-    <h4 id="loadoutPreviewHeading" data-copy="loadoutPreview">Loadout preview</h4>
-    <div id="loadoutPreviewStats"></div>
-    <p data-copy="loadoutBaseHint">Starting stats before pickups. Twin Pulse damage assumes both bolts hit.</p>
-    <button id="tryLoadout" type="button" data-copy="tryLoadout">Try Loadout</button>
+  <section id="chipStats" aria-labelledby="chipStatsHeading">
+    <h4 id="chipStatsHeading" data-copy="chipStartingStats">Starting stats</h4>
+    <dl id="chipStatStrip" aria-live="polite" aria-atomic="true"></dl>
   </section>
   <p id="chipStatus" role="status"></p><ul id="chipFolderList"></ul>
 </dialog>
@@ -355,7 +348,7 @@ const gameSpanish = {
   "Change photo": "Cambiar foto",
   "Remove photo": "Eliminar foto",
   "Close": "Cerrar",
-  "Prototype v0.16.2 — Pilot Records": "Prototipo v0.16.2 — Historial de piloto",
+  "Prototype v0.16.3 — Chip Stats": "Prototipo v0.16.3 — Estadísticas de chips",
   "Player avatar": "Avatar del jugador",
   "Player": "Jugador",
   "Lobby messages": "Mensajes de la sala",
@@ -427,15 +420,14 @@ const $=id=>document.getElementById(id),g=$("arena").getContext("2d");
 let W=360,H=320;
 let p,E,B,I,F,hp,heat,kills,score,power,speed,elapsed,wave,state,boss,locked,delay,dx,dy;
 let auto=true,toggle=false,combo=false,charging=false,charge=0,jx=0,jy=0,sid=null,last=0;
-let combined=true,paused=false,history=[],touchPause=false,manualPaused=false;
-let practice=null;
+let combined=true,paused=false,history=[],touchPause=true,manualPaused=false;
 const matchHistoryKey="snovaMatchHistory", matchHistoryLimit=30;
 let matchHistory=[],matchHistoryWriteFailed=false;
 try{matchHistory=normalizeMatchHistory(JSON.parse(localStorage.getItem(matchHistoryKey)));}catch{}
 const contacts=new Set();
 function idlePause(){return touchPause&&contacts.size===0&&![...keys].some(k=>["w","a","s","d","ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Shift","q","e"," "].includes(k))}
 function pauseUI(){ $("pauseMode").textContent=gameText("PAUSE")+": "+(touchPause?gameText("TOUCH"):gameText("MANUAL")); }
-try{let prefs=JSON.parse(localStorage.getItem("snova07prefs"))||{};auto=prefs.auto??true;toggle=prefs.toggle??false;combined=prefs.combined??true;touchPause=prefs.touchPause===true;history=JSON.parse(localStorage.getItem("snova07history"))||[];if(!Array.isArray(history))history=[]}catch{}
+try{let prefs=JSON.parse(localStorage.getItem("snova07prefs"))||{};auto=prefs.auto??true;toggle=prefs.toggle??false;combined=prefs.combined??true;touchPause=prefs.touchPause!==false;history=JSON.parse(localStorage.getItem("snova07history"))||[];if(!Array.isArray(history))history=[]}catch{}
 let progress={version:1,credits:0,damage:0,velocity:0,thermal:0};
 function validProgress(v){return v&&v.version===1&&Number.isSafeInteger(v.credits)&&v.credits>=0&&[v.damage,v.velocity,v.thermal].every(n=>Number.isInteger(n)&&n>=0&&n<=5)}
 try{let v=JSON.parse(localStorage.getItem("snova08progress"));if(validProgress(v))progress=v}catch{}
@@ -549,7 +541,7 @@ for(const event of ["pointerup","pointercancel","lostpointercapture"])window.add
 $("shopBtn").onclick=()=>panel("shop");$("closeShop").onclick=()=>panel("shop");
 $("exportSave").onclick=()=>{let data={version:1,progress,prefs:{auto,toggle,combined,touchPause,difficulty:selectedDifficulty,sector:selectedSector},history,matchHistory,rec,career};let url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));let a=document.createElement("a");a.href=url;a.download="snova-save.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),3000)};
 $("importSave").onclick=()=>$("saveFile").click();
-$("saveFile").onchange=async()=>{try{let f=$("saveFile").files[0];if(!f)return;let v=JSON.parse(await f.text());let nonneg=n=>typeof n==="number"&&Number.isFinite(n)&&n>=0;if(v.version!==1||!validProgress(v.progress)||!v.prefs||![v.prefs.auto,v.prefs.toggle,v.prefs.combined].every(n=>typeof n==="boolean")||!Array.isArray(v.history)||v.history.length>10||!v.history.every(h=>h&&[h.score,h.kills,h.elapsed,h.hp].every(nonneg)&&typeof h.win==="boolean")||!validMatchHistory(v.matchHistory)||!v.rec||![v.rec.kills,v.rec.hp,v.rec.score,v.rec.wins].every(nonneg)||!(v.rec.fast===null||nonneg(v.rec.fast)))throw Error(gameText("Invalid save"));if(!confirm(gameText("Replace current wallet, upgrades, settings and records with this backup? Current mission will restart.")))return;progress=v.progress;({auto,toggle,combined}=v.prefs);touchPause=v.prefs.touchPause===true;selectedDifficulty=readDifficulty(v.prefs.difficulty);selectedSector=readSector(v.prefs.sector);history=v.history;if(v.matchHistory!==undefined)replaceMatchHistory(v.matchHistory);rec=v.rec;career=validCareer(v.career)?v.career:initialCareer();saveCareer();persist();savePrefs();localStorage.setItem("snova07history",JSON.stringify(history));localStorage.setItem("snova06",JSON.stringify(rec));const wasHome=state==="home";state="home";layout();reset();if(wasHome)showMainScreen();alert(gameText("Save imported"))}catch(e){alert(gameText("Import failed")+": "+e.message)}finally{$("saveFile").value=""}};
+$("saveFile").onchange=async()=>{try{let f=$("saveFile").files[0];if(!f)return;let v=JSON.parse(await f.text());let nonneg=n=>typeof n==="number"&&Number.isFinite(n)&&n>=0;if(v.version!==1||!validProgress(v.progress)||!v.prefs||![v.prefs.auto,v.prefs.toggle,v.prefs.combined].every(n=>typeof n==="boolean")||!Array.isArray(v.history)||v.history.length>10||!v.history.every(h=>h&&[h.score,h.kills,h.elapsed,h.hp].every(nonneg)&&typeof h.win==="boolean")||!validMatchHistory(v.matchHistory)||!v.rec||![v.rec.kills,v.rec.hp,v.rec.score,v.rec.wins].every(nonneg)||!(v.rec.fast===null||nonneg(v.rec.fast)))throw Error(gameText("Invalid save"));if(!confirm(gameText("Replace current wallet, upgrades, settings and records with this backup? Current mission will restart.")))return;progress=v.progress;({auto,toggle,combined}=v.prefs);touchPause=v.prefs.touchPause!==false;selectedDifficulty=readDifficulty(v.prefs.difficulty);selectedSector=readSector(v.prefs.sector);history=v.history;if(v.matchHistory!==undefined)replaceMatchHistory(v.matchHistory);rec=v.rec;career=validCareer(v.career)?v.career:initialCareer();saveCareer();persist();savePrefs();localStorage.setItem("snova07history",JSON.stringify(history));localStorage.setItem("snova06",JSON.stringify(rec));const wasHome=state==="home";state="home";layout();reset();if(wasHome)showMainScreen();alert(gameText("Save imported"))}catch(e){alert(gameText("Import failed")+": "+e.message)}finally{$("saveFile").value=""}};
 const held={slide:new Set(),focus:new Set(),fire:new Set()},keys=new Set();
 const T={sentinel:[100,38,15,"#ff486d",65,.85],hunter:[60,105,11,"#ff9d42",0,.8],artillery:[120,24,16,"#4bcde8",145,2.2],boss:[1500,35,30,"#ff286a",125,1.1]};
 let rec={fast:null,kills:0,hp:0,score:0,wins:0};try{Object.assign(rec,JSON.parse(localStorage.getItem("snova06"))||{})}catch{}
@@ -784,7 +776,7 @@ function reset(advanceTo=0) {
   clear();spawn("sentinel");records();
 }
 function finish(win){
-  if(practice||state!=="play")return;
+  if(state!=="play")return;
   const twinUsed=Boolean(activeUpgrade("twinPulse"));
   state=win?"won":"lost";
   clear();
@@ -981,7 +973,7 @@ function collectSoloLoot(dt) {
   }
 }
 function frame(now){let dt=last?Math.min(.04,(now-last)/1000):0;last=now;if(typeof coopTick==="function"&&coopConnection){coopTick(now,dt);requestAnimationFrame(frame);return}if(state==="home"){requestAnimationFrame(frame);return}const awaitingInput=state==="play"&&idlePause();document.body.classList.toggle("show-match-stats",state==="play"&&awaitingInput&&!paused);let slide=state==="play"&&!locked&&(combo||held.slide.size||keys.has("Shift")),focus=state==="play"&&!locked&&(combo||held.focus.size||keys.has("q")),slow=focus?.25:1;
-if(state==="play"&&!paused&&!manualPaused&&!awaitingInput&&!document.hidden){elapsed+=dt;updateStationCover();moveInSector(p,0,0,12);if(!practice&&elapsed>=10&&pendingReferral&&!pendingReferral.played)referralMissionFinished();let x=jx+Number(keys.has("d")||keys.has("ArrowRight"))-Number(keys.has("a")||keys.has("ArrowLeft")),y=jy+Number(keys.has("s")||keys.has("ArrowDown"))-Number(keys.has("w")||keys.has("ArrowUp")),l=Math.hypot(x,y);if(l){dx=x/l;dy=y/l}if(l||slide){let v=(slide?270:100*Math.min(1,l))*(1+.10*speed+.08*activeUpgrade("velocity"));moveInSector(p,dx*dt*v,dy*dt*v,12)}heat=clamp(heat+dt*(((slide?32:0)+(focus?24:0))/(1+.20*activeUpgrade("thermal"))-(!slide&&!focus?26+3*activeUpgrade("thermal"):0)),0,100);if(heat>=100){locked=true;combo=false;sync()}if(heat<30)locked=false;
+if(state==="play"&&!paused&&!manualPaused&&!awaitingInput&&!document.hidden){elapsed+=dt;updateStationCover();moveInSector(p,0,0,12);if(elapsed>=10&&pendingReferral&&!pendingReferral.played)referralMissionFinished();let x=jx+Number(keys.has("d")||keys.has("ArrowRight"))-Number(keys.has("a")||keys.has("ArrowLeft")),y=jy+Number(keys.has("s")||keys.has("ArrowDown"))-Number(keys.has("w")||keys.has("ArrowUp")),l=Math.hypot(x,y);if(l){dx=x/l;dy=y/l}if(l||slide){let v=(slide?270:100*Math.min(1,l))*(1+.10*speed+.08*activeUpgrade("velocity"));moveInSector(p,dx*dt*v,dy*dt*v,12)}heat=clamp(heat+dt*(((slide?32:0)+(focus?24:0))/(1+.20*activeUpgrade("thermal"))-(!slide&&!focus?26+3*activeUpgrade("thermal"):0)),0,100);if(heat>=100){locked=true;combo=false;sync()}if(heat<30)locked=false;
 delay=Math.max(-dt,delay-dt);
 if(charging)charge=Math.min(2,charge+dt);
 const aimed=target();
@@ -990,19 +982,18 @@ if(aimed&&!charging&&(auto||held.fire.size||keys.has(" "))&&delay<=0){
   delay+=fireInterval(rapidLevel);
 }
 if(state==="play") rechargeShield(dt);
-if(!practice) for(let e of E)enemy(e,dt*slow);for(let b of B){let t=dt*(b.own?1:slow);const x=b.x,y=b.y;b.x+=b.vx*t;b.y+=b.vy*t;if(rockBlocksShot(x,y,b)){b.dead=true;continue}if(b.own){for(let e of E){if(e.h>0&&dist(b,e)<e.r+b.r){if(practice)recordPracticeHit(e,b.d);else e.h-=b.d*stationArmor(e);b.dead=true;break}}}else if(dist(b,p)<10+b.r){takeDamage(b.d);b.dead=true}}B=B.filter(b=>!b.dead&&b.x>0&&b.x<W&&b.y>0&&b.y<H);
-if(!practice){
+for(let e of E)enemy(e,dt*slow);for(let b of B){let t=dt*(b.own?1:slow);const x=b.x,y=b.y;b.x+=b.vx*t;b.y+=b.vy*t;if(rockBlocksShot(x,y,b)){b.dead=true;continue}if(b.own){for(let e of E){if(e.h>0&&dist(b,e)<e.r+b.r){e.h-=b.d*stationArmor(e);b.dead=true;break}}}else if(dist(b,p)<10+b.r){takeDamage(b.d);b.dead=true}}B=B.filter(b=>!b.dead&&b.x>0&&b.x<W&&b.y>0&&b.y<H);
 updateMines(dt);
 let defeated=false;for(let e of E){if(e.h<=0){kills++;score+=e.type==="boss"?500:50;if(e.type==="boss")defeated=true;else drop(e)}}E=E.filter(e=>e.h>0);
 collectSoloLoot(dt);
 I=I.filter(i=>!i.dead&&(i.life>0||i.fuse!==null));F=F.filter(f=>(f.life-=dt)>0);
-const arena=missionSectors[missionSector];if(hp<=0)finish(false);else if(defeated)finish(true);else if(kills>=arena.goal){if(!E.length&&!boss){boss=true;B=[];spawn("boss")}}else{wave=kills>=arena.waveThree?3:kills>=arena.waveTwo?2:1;while(E.length<Math.min(wave+(missionSector===2?1:0),arena.goal-kills))spawn(next())}}}
+const arena=missionSectors[missionSector];if(hp<=0)finish(false);else if(defeated)finish(true);else if(kills>=arena.goal){if(!E.length&&!boss){boss=true;B=[];spawn("boss")}}else{wave=kills>=arena.waveThree?3:kills>=arena.waveTwo?2:1;while(E.length<Math.min(wave+(missionSector===2?1:0),arena.goal-kills))spawn(next())}}
 g.fillStyle=focus?"#201c3d":"#100d20";g.fillRect(0,0,W,H);g.strokeStyle="#302345";g.lineWidth=.6;for(let x=0;x<W;x+=30){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke()}for(let y=0;y<H;y+=30){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}
 drawMeteorites();
 for(let i of I){if(i.type==="mine"){ring(i.x,i.y,i.fuse===null?32:48,"#ff3344");diamond(i.x,i.y,8,Math.sin(now/80)>0?"#ff3344":"#81152b")}else if(i.type==="health"){g.fillStyle="#7dff85";g.fillRect(i.x-3,i.y-9,6,18);g.fillRect(i.x-9,i.y-3,18,6)}else if(i.type==="shield"){diamond(i.x,i.y,8,"#72dbff");ring(i.x,i.y,11,"#72dbff")}else if(i.type==="magnet"){diamond(i.x,i.y,7,"#fff498");ring(i.x,i.y,10,"#fff498")}else if(i.type==="coin")orb(i.x,i.y,7,"#ffd65c");else if(i.type==="rapid"){diamond(i.x,i.y,8,"#ffae72");orb(i.x,i.y,3,"#592e4c")}else diamond(i.x,i.y,8,i.type==="power"?"#ff70db":"#6affbd")}
 for(let f of F)ring(f.x,f.y,48,"#ff7766");if(slide)for(let i=5;i>0;i--)orb(p.x-dx*i*9,p.y-dy*i*9,9,"rgba(155,90,255,.25)");if(shield>0)ring(p.x,p.y,13,"#72dbff");orb(p.x,p.y,11,"#a76bff");orb(p.x,p.y,5,"#f2d9ff");if(charging)ring(p.x,p.y,15+charge*5,"#eee0ff");drawPilotBars(p,hp,shield);
 for(let e of E){if(e.type==="artillery"){g.fillStyle=e.c;g.fillRect(e.x-15,e.y-15,30,30)}else if(e.type==="hunter"){g.save();g.translate(e.x,e.y);g.rotate(e.angle);g.fillStyle=e.c;g.beginPath();g.moveTo(15,0);g.lineTo(-10,-10);g.lineTo(-10,10);g.closePath();g.fill();g.restore()}else{orb(e.x,e.y,e.r,e.c);orb(e.x,e.y,e.r*.45,"#72213d");if(missionSector===3&&e.type==="boss")ring(e.x,e.y,e.r+4,e.exposed?"#ffda68":"#75dcff")}g.fillStyle="#35264e";g.fillRect(e.x-e.r,e.y-e.r-8,e.r*2,4);g.fillStyle=e.c;g.fillRect(e.x-e.r,e.y-e.r-8,e.r*2*Math.max(0,e.h)/e.max,4)}
-let t=target();if(t&&state==="play"&&(auto||charging||held.fire.size))ring(t.x,t.y,t.r+6,"#d2afff");for(let b of B)orb(b.x,b.y,b.r,b.c);g.fillStyle="#3d2d55";g.fillRect(10,H-15,100,5);g.fillStyle=locked?"#ff536b":"#b78aff";g.fillRect(10,H-15,heat,5);g.fillStyle="#d9baff";g.font="12px system-ui";g.textAlign="right";g.fillText(practice?copy("practiceRange"):boss?(missionSector===3?stationBossLabel():missionSector===2?gameText("Meteor Warden"):gameText("CORE GUARDIAN")):kills>=missionSectors[missionSector].goal?gameText("CLEAR REMAINING"):gameText("WAVE")+" "+wave,W-10,15);
+let t=target();if(t&&state==="play"&&(auto||charging||held.fire.size))ring(t.x,t.y,t.r+6,"#d2afff");for(let b of B)orb(b.x,b.y,b.r,b.c);g.fillStyle="#3d2d55";g.fillRect(10,H-15,100,5);g.fillStyle=locked?"#ff536b":"#b78aff";g.fillRect(10,H-15,heat,5);g.fillStyle="#d9baff";g.font="12px system-ui";g.textAlign="right";g.fillText(boss?(missionSector===3?stationBossLabel():missionSector===2?gameText("Meteor Warden"):gameText("CORE GUARDIAN")):kills>=missionSectors[missionSector].goal?gameText("CLEAR REMAINING"):gameText("WAVE")+" "+wave,W-10,15);
 $("charge").textContent=charging?"CHARGE "+Math.round(charge*50)+"%":gameText("NOVA CHARGE");for(let [k,v] of Object.entries({Hp:Math.ceil(hp),Shield:Math.floor(shield),Heat:locked?"HOT":Math.round(heat)+"%",Kills:kills,Time:time(elapsed),Score:score,Power:power+"/5",Magnet:magnet+"/5",Speed:speed+"/5",Wave:boss?"CORE":wave}))$("hud"+k).textContent=v;$("barHp").style.width=hp+"%";$("barShield").style.width=shield+"%";$("barHeat").style.width=heat+"%";
 drawFeedback(soloFeedback);ageFeedback(soloFeedback,dt);
 updateNovaDeck(elapsed,wave,boss,rapidLevel);
@@ -2101,7 +2092,7 @@ function coopIncomingUpgrades(value) {
   return {damage:level("damage"),velocity:level("velocity"),thermal:level("thermal"),shieldRegen:value?.shieldRegen===true,twinPulse:value?.twinPulse===true};
 }
 async function joinCoopRoom(room) {
-  if(practice||coopJoining||coopConnection) return;
+  if(coopJoining||coopConnection) return;
   coopJoining=true;
   try {
     const channel=coopClient.channel("snova-coop:"+room.id,{config:{private:true,broadcast:{self:false}}});
@@ -2264,9 +2255,6 @@ function renderHomeMission() {
   renderDifficulty();
 }
 function showMainScreen() {
-  practice=null;
-  $("practiceTools").hidden=true;
-  document.body.classList.remove("practice-active");
   clearSectorTimer();
   clear();
   stopLobbyUpdates();
@@ -2459,7 +2447,6 @@ function feedbackLabel(kind,value) {
   if(kind==="speed")return amount+"% "+(lobbyLanguage.value==="es"?"VEL":"SPD");
   if(kind==="coin")return amount+" NC";
   if(kind==="rapid")return amount+"% "+gameText("Fire Rate");
-  if(kind==="damage")return String(value);
   if(kind==="shield")return amount+" "+gameText("Shield");
   if(kind==="score")return amount+" "+gameText("Score");
   return amount+" "+gameText("HP");
@@ -2706,8 +2693,8 @@ function renderCampaignBadges(){
     list.append(badge);
   }
 }
-function renderChipFolder(){
-  renderLoadoutPreview();
+function renderChipFolder(previousStats){
+  renderChipStats(previousStats);
   const equipped=equippedChips();
   const list=$("chipFolderList");
   list.replaceChildren();
@@ -2724,11 +2711,12 @@ function renderChipFolder(){
     action.setAttribute("aria-pressed",String(isOn));
     action.onclick=()=>{
       if(!isOn&&equipped.length>=3){$("chipStatus").textContent=copy("chipFull");return;}
+      const previousStats=readChipStats();
       progress.equippedChips=isOn?equipped.filter(chip=>chip!==key):[...equipped,key];
       persist();
       const index=Array.from(list.children).indexOf(row);
-      renderChipFolder();
-      list.children[index]?.querySelector("button").focus();
+      renderChipFolder(previousStats);
+      list.children[index]?.querySelector("button").focus({preventScroll:true});
     };
     if(key==="twinPulse"){
       const info=document.createElement("small");info.textContent=copy("twinHint");name.append(info);
@@ -2959,17 +2947,25 @@ Object.assign(lobbyText.en,{
   matchHistory:"Match History",historyEmpty:"Finish a mission to start your match history.",
   historyLimit:"Last 30 finished missions · newest first",historyLegacy:"Earlier Sector 1 scores",
   historyWriteFailed:"This device could not save the latest changes. Export a backup to keep them.",
-  soloMatch:"Solo",loadoutPreview:"Loadout preview",loadoutBaseHint:"Starting stats before pickups. Twin Pulse damage assumes both bolts hit.",
-  combinedDps:"DPS · both bolts",secondaryDps:"DPS · extra bolt",tryLoadout:"Try Loadout",practiceTargets:"Targets",
-  practiceRange:"PRACTICE",backToChips:"Back to chips",practiceHits:"Hits",practiceDamage:"Damage",practiceLast:"Last hit"
+  soloMatch:"Solo",combinedDps:"DPS · both bolts",secondaryDps:"DPS · extra bolt",
+  chipStartingStats:"Starting stats",chipAttack:"ATK",chipDps:"DPS",chipMove:"Move speed",
+  chipHeat:"Heat cost",chipCooling:"Cooling",chipShield:"Shield regen",
+  chipAttackHelp:"Damage per primary shot before pickups.",
+  chipDpsHelp:"Regular fire before pickups. Includes Twin Pulse if both bolts hit.",
+  chipHeatHelp:"Ability heat cost relative to base. Lower is better.",
+  chipShieldHelp:"Shield per second after seven seconds without damage."
 });
 Object.assign(lobbyText.es,{
   matchHistory:"Historial",historyEmpty:"Termina una misión para empezar tu historial.",
   historyLimit:"Últimas 30 misiones terminadas · más recientes primero",historyLegacy:"Puntajes anteriores del sector 1",
   historyWriteFailed:"Este dispositivo no pudo guardar los cambios. Exporta una copia para conservarlos.",
-  soloMatch:"En solitario",loadoutPreview:"Vista previa de equipo",loadoutBaseHint:"Estadísticas iniciales sin mejoras de misión. El daño de Pulso doble supone que ambos disparos aciertan.",
-  combinedDps:"DPS · ambos disparos",secondaryDps:"DPS · segundo disparo",tryLoadout:"Probar equipo",practiceTargets:"Blancos",
-  practiceRange:"PRÁCTICA",backToChips:"Volver a chips",practiceHits:"Impactos",practiceDamage:"Daño",practiceLast:"Último impacto"
+  soloMatch:"En solitario",combinedDps:"DPS · ambos disparos",secondaryDps:"DPS · segundo disparo",
+  chipStartingStats:"Estadísticas iniciales",chipAttack:"ATQ",chipDps:"DPS",chipMove:"Movimiento",
+  chipHeat:"Costo térmico",chipCooling:"Enfriamiento",chipShield:"Regen. escudo",
+  chipAttackHelp:"Daño por disparo principal antes de recoger mejoras.",
+  chipDpsHelp:"Daño de disparos normales antes de recoger mejoras. Incluye Pulso doble si ambos disparos aciertan.",
+  chipHeatHelp:"Costo térmico en comparación con el valor base. Un valor menor es mejor.",
+  chipShieldHelp:"Escudo por segundo tras siete segundos sin recibir daño."
 });
 function validMatchRecord(record){
   if(!record||typeof record.win!=="boolean"||typeof record.coop!=="boolean"||typeof record.twin!=="boolean")return false;
@@ -3052,63 +3048,52 @@ function renderMatchHistory(){
     list.append(details);
   }
 }
-function renderLoadoutPreview(){
+function readChipStats(){
   const attack=amplifierDamage[activeUpgrade("damage")];
-  const twin=Boolean(activeUpgrade("twinPulse"));
-  const stats=weaponEstimate(attack,0,twin);
   const thermal=activeUpgrade("thermal");
-  const values=[[copy("reportAtk"),attack],[copy("cadenceStat"),stats.cadence.toFixed(1)],[copy("dpsStat"),stats.primary]];
-  if(twin)values.push([copy("combinedDps"),stats.primary+stats.secondary]);
-  values.push([copy("reportSpd"),Math.round((1+.08*activeUpgrade("velocity"))*100)+"%"],
-    [copy("cooldownStat"),26+3*thermal],[copy("regenStat"),gameText(activeUpgrade("shieldRegen")?"ON":"OFF")],
-    [copy("twinStat"),gameText(twin?"ON":"OFF")]);
-  $("loadoutPreviewStats").innerHTML=tiles(values);
+  const weapon=weaponEstimate(attack,0,Boolean(activeUpgrade("twinPulse")));
+  return {
+    attack,
+    dps:weapon.primary+weapon.secondary,
+    move:Math.round((1+.08*activeUpgrade("velocity"))*100),
+    heat:Math.round(100/(1+.20*thermal)),
+    cooling:26+3*thermal,
+    shield:activeUpgrade("shieldRegen")?15:0
+  };
 }
-function renderPracticeTelemetry(){
-  if(!practice)return;
-  $("practiceTelemetry").textContent=copy("practiceHits")+" "+practice.hits+" · "+copy("practiceDamage")+" "+practice.damage+
-    " · "+copy("practiceLast")+" "+practice.last+" · "+shotsPerSecond(rapidLevel).toFixed(1)+" / s";
+const chipStatColumns=[
+  ["attack","chipAttack","","chipAttackHelp"],
+  ["dps","chipDps","","chipDpsHelp"],
+  ["move","chipMove","%"],
+  ["heat","chipHeat","%","chipHeatHelp"],
+  ["cooling","chipCooling","/s"],
+  ["shield","chipShield","/s","chipShieldHelp"]
+];
+function renderChipStats(previousStats){
+  const current=readChipStats();
+  const strip=$("chipStatStrip");
+  strip.replaceChildren(...chipStatColumns.map(([key,label,unit,hint])=>{
+    const cell=document.createElement("div");
+    const name=document.createElement("dt");
+    name.textContent=copy(label);
+    if(hint)name.title=copy(hint);
+    const stat=document.createElement("dd");
+    stat.textContent=current[key]+unit;
+    const delta=previousStats?current[key]-previousStats[key]:0;
+    if(delta){
+      const badge=document.createElement("span");
+      badge.className="chip-stat-delta";
+      badge.dataset.effect=(key==="heat"?delta<0:delta>0)?"buff":"debuff";
+      badge.textContent=(delta>0?"+":"−")+Math.abs(delta)+(unit==="%"?" pp":unit);
+      stat.append(badge);
+    }
+    cell.append(name,stat);
+    return cell;
+  }));
 }
-function recordPracticeHit(enemy, damage){
-  practice.hits++;practice.damage+=damage;practice.last=damage;
-  enemy.h-=damage;
-  if(enemy.h<=0)enemy.h=enemy.max;
-  addFeedback(soloFeedback,enemy,"damage",damage);
-  renderPracticeTelemetry();
-}
-function adjustPractice(){
-  if(!practice)return;
-  power=Number($("practicePower").value);
-  rapidLevel=Number($("practiceRapid").value);
-  const count=Number($("practiceTargets").value);
-  E=Array.from({length:count},(_,index)=>({type:"training",x:W*.76,y:H*(count===1 ? .5 : index===0 ? .26 : .74),h:10000,max:10000,r:21,c:"#ffae72"}));
-  B=[];soloFeedback=[];delay=0;
-  Object.assign(practice,{hits:0,damage:0,last:0});
-  renderPracticeTelemetry();
-}
-$("tryLoadout").onclick=()=>{
-  if(coopConnection||coopJoining||state!=="home")return;
-  $("petChips").close();
-  reset(1);
-  practice={hits:0,damage:0,last:0};
-  $("practiceTargets").value="1";$("practicePower").value=$("practiceRapid").value="0";
-  $("practiceTools").hidden=false;
-  document.body.classList.add("practice-active");
-  adjustPractice();
-  $("practiceTargets").focus({preventScroll:true});
-};
-for(const id of ["practiceTargets","practicePower","practiceRapid"])$(id).onchange=adjustPractice;
-$("practiceExit").onclick=()=>{
-  showMainScreen();
-  renderChipFolder();
-  $("petChips").showModal();
-  syncPetTabs();
-  $("tryLoadout").focus({preventScroll:true});
-};
 lobbyLanguage.addEventListener("change",()=>{
   if(!$("profileMatchHistory").hidden)renderMatchHistory();
-  if($("petChips").open)renderLoadoutPreview();
-  renderPracticeTelemetry();
+  if($("petChips").open)renderChipStats();
 });
 lobbyLanguage.addEventListener("change",translatePet);
 translateGame();
