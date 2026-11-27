@@ -301,6 +301,27 @@ body.game-motion :is(#homeModes,#extraModes,#controls) button:active{transform:s
 .release-panel{display:block;text-align:left;margin:8px 0}
 .release-panel p{margin:3px 0;font-size:.86rem}
 #releaseStatus{color:#ffe59a}
+#petChips .loadout-tabs{position:static;display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:6px 0}
+#petChips .loadout-tabs button{margin:0;padding:4px 8px;font-size:.8rem;min-height:38px}
+#petChips .loadout-tabs button[aria-pressed=true]{border-color:#e6b0ff;background:#52347a}
+#petChips h4{margin:7px 0}
+#petChips #chipStats{position:relative;top:auto}
+.loadout-identity{display:flex;align-items:center;justify-content:center;gap:9px;color:#ead5ff}
+.loadout-identity .novaSprite{position:static;width:48px;height:48px;flex:none}
+.loadout-identity small{display:block;color:#ffe9a5;margin-top:2px;text-align:left}
+.inventory-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:6px}
+#gearSlots,#chipSlotsGrid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.inventory-grid .inventory-tile{display:flex;flex-flow:column;align-items:center;justify-content:center;text-align:center;gap:4px;min-height:64px;margin:0;padding:4px;border-radius:8px;overflow-wrap:anywhere}
+.inventory-tile b{font-size:1.18rem;color:#efcaff}
+.inventory-tile span{line-height:1.13;font-size:.72rem}
+.inventory-tile small{font-size:.63rem;color:#e7d6f5}
+.inventory-tile[aria-pressed=true]{border-color:#f2b1ff;background:#4b306f}
+#gearDetail:not(:empty){border:1px solid #7d60b2;border-radius:8px;margin-top:6px;padding:6px;color:#f3dcff}
+#gearDetail button{min-height:36px;font-size:.76rem;margin:2px;padding:4px 6px}
+#gearDetail p{margin:4px 0}
+#raidQuota{color:#ffe9b1;font-size:.78rem}
+#raidPracticeHint{display:block;font-size:.78rem}
+
 </style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body class="home-active"><header id="gameHeader">
   <div class="brand"><h2>S-NOVA</h2><span>Digital Odyssey</span></div>
   <button type="button" id="profileBtn" aria-expanded="false"><span id="badgeInitial" aria-hidden="true"></span><img id="badgeAvatar" hidden alt=""><span id="badgeName"></span></button>
@@ -314,7 +335,7 @@ body.game-motion :is(#homeModes,#extraModes,#controls) button:active{transform:s
     <button type="button" data-pet="Mail" aria-controls="petMail" aria-expanded="false"><i aria-hidden="true">✉</i><span data-game-text="Mail">Mail</span></button>
     <button type="button" data-pet="Network" data-target="scoresBtn" aria-controls="records" aria-expanded="false"><i aria-hidden="true">⌘</i><span data-game-text="Network">Network</span></button>
     <button type="button" data-pet="Programs" data-target="shopBtn" aria-controls="shop" aria-expanded="false"><i aria-hidden="true">▣</i><span data-game-text="Programs">Programs</span></button>
-    <button type="button" data-pet="Chip Folder" aria-controls="petChips" aria-expanded="false"><i aria-hidden="true">▤</i><span data-game-text="Chip Folder">Chip Folder</span></button>
+    <button type="button" data-pet="Chip Folder" aria-controls="petChips" aria-expanded="false"><i aria-hidden="true">▤</i><span data-copy="gearLoadout">Nova loadout</span></button>
     <button type="button" data-pet="Options" data-target="settingsBtn" aria-controls="settings" aria-expanded="false"><i aria-hidden="true">⚙</i><span data-game-text="Options">Options</span></button>
   </nav>
   <aside id="petInfo" aria-live="polite"><strong id="petInfoTitle">S-Nova</strong><p id="petInfoText"></p></aside>
@@ -322,7 +343,7 @@ body.game-motion :is(#homeModes,#extraModes,#controls) button:active{transform:s
 <div id="homeSelectors"><div><label for="sectorSelect" data-game-text="Sector">Sector</label><select id="sectorSelect"><option id="campaignOption" value="0" data-copy="campaignName">Level 1 campaign</option><option id="sectorOneOption" value="1">1 · Core Awakening</option><option id="sectorTwoOption" value="2" disabled>2 · Meteor Belt</option><option id="sectorThreeOption" value="3" disabled>3 · Derelict Station</option></select></div><button id="homePlay" type="button" data-copy="petPlay">Play</button><div><label for="difficulty" data-game-text="Difficulty">Difficulty</label> <select id="difficulty"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select></div></div>
 </div><div id="homeModes"><button id="homeInfinite" type="button" data-copy="infiniteMode">∞ Infinite</button><button id="homeMultiplayer" type="button" data-copy="multiplayer">Multiplayer</button></div><details id="extraModes"><summary data-copy="moreModes">More modes</summary><div>
 
-<button id="playPractice" type="button"></button><button id="playBosses" type="button" data-copy="bossSurvival">Boss Survival</button>
+<button id="raidRoomsHome" type="button" data-copy="crewTitle">Raid rooms</button><button id="raidPracticeHome" type="button" data-copy="raidPractice">Solo raid practice</button><button id="playPractice" type="button"></button><button id="playBosses" type="button" data-copy="bossSurvival">Boss Survival</button>
 <button id="playLastStand" type="button" data-copy="lastStand">Last Stand</button>
 <button id="dailyOpen" type="button" data-copy="dailyTitle">Daily challenges</button></div></details>
 <div id="infinitePersonal"></div><div id="homeDragonWrap"><img id="homeDragon" alt=""></div><div class="petFooter"><p id="homeWallet" class="wallet-balance"></p><button id="peekPetArt" type="button" aria-pressed="false">View background</button></div>
@@ -371,7 +392,7 @@ body.game-motion :is(#homeModes,#extraModes,#controls) button:active{transform:s
 <button id="reloadLeaderboard" type="button" data-copy="refresh">Refresh</button></div>
 <div class="rank-head"><span data-copy="scorePilot">Pilot</span><span data-copy="scoreResult">Score</span><span data-copy="scorePlay">Where earned</span></div>
 <p id="leaderboardStatus" role="status"></p><ol id="leaderboardList"></ol><p id="scoreQueueStatus" role="status"></p><button id="scoresGoOnline" type="button" data-copy="scoresConnect" hidden>Connect to publish your scores</button>
-</section><section id="personalRecords"></section><section id="sectorTwoRecords"></section></div><div id="shop" hidden><h3 data-game-text="Nova Upgrade Shop">Nova Upgrade Shop</h3><p id="shopWallet" class="wallet-balance" aria-live="polite"></p><div id="offers"></div><button id="closeShop" data-game-text="Resume">Resume</button></div><div id="profile" hidden><h3 data-game-text="Player Profile">Player Profile</h3>
+</section><section id="personalRecords"></section><section id="sectorTwoRecords"></section></div><div id="shop" hidden><h3 data-game-text="Nova Upgrade Shop">Nova Upgrade Shop</h3><p id="shopWallet" class="wallet-balance" aria-live="polite"></p><button type="button" id="openGearShop" data-copy="gearShop">Gear shop</button><div id="offers"></div><button id="closeShop" data-game-text="Resume">Resume</button></div><div id="profile" hidden><h3 data-game-text="Player Profile">Player Profile</h3>
 <div class="profile-tabs"><button id="profileOverviewTab" type="button" aria-pressed="true" aria-controls="profileOverview" data-copy="overviewTab">Overview</button><button id="profileCustomizeTab" type="button" aria-pressed="false" aria-controls="profileCustomize" data-copy="customizeTab">Customize</button><button id="profileStatsTab" type="button" aria-pressed="false" aria-controls="profileNumbers" data-copy="statsTab">Stats</button><button id="profileHistoryTab" type="button" aria-pressed="false" aria-controls="profileMatchHistory" data-copy="matchHistory">Match History</button></div><section id="profileOverview"><section id="campaignBadges"></section><section id="accountPanel">
 <h4 data-copy="accountTitle">Online account</h4>
 <section id="accountCreate" class="account-path">
@@ -409,7 +430,7 @@ body.game-motion :is(#homeModes,#extraModes,#controls) button:active{transform:s
 <label><span data-copy="musicTrack">Music track</span><select id="trackSetting"><option value="off" data-game-text="OFF">Off</option><option value="orbit">Orbital Pulse</option><option value="drift">Neon Drift</option><option value="void">Void Breaker</option></select></label>
 <label><span data-copy="musicVolume">Music volume</span><input id="volumeSetting" type="range" min="0" max="100"></label>
 <label><input id="soundSetting" type="checkbox"><span data-copy="soundEffects">Sound effects</span></label>
-</div></details><input id="backgroundFile" type="file" accept="image/*"><p id="backgroundStatus" role="status"></p></div></section><section id="profileNumbers" hidden><div id="profileCombatStats"></div><div id="profileStats"></div></section><section id="profileMatchHistory" aria-labelledby="profileHistoryTab" hidden><p id="matchHistoryNotice"></p><div id="matchHistoryList"></div></section><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.19.0 — Cosmic Voyage">Prototype v0.19.0 — Cosmic Voyage</footer><section id="lobby" class="online-panel" hidden>
+</div></details><input id="backgroundFile" type="file" accept="image/*"><p id="backgroundStatus" role="status"></p></div></section><section id="profileNumbers" hidden><div id="profileCombatStats"></div><div id="profileStats"></div></section><section id="profileMatchHistory" aria-labelledby="profileHistoryTab" hidden><p id="matchHistoryNotice"></p><div id="matchHistoryList"></div></section><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.20.0 — Dragon Raid">Prototype v0.20.0 — Dragon Raid</footer><section id="lobby" class="online-panel" hidden>
 <header id="lobbyHeader"><h3 data-copy="lobby">Online lobby</h3><button type="button" id="closeLobby" data-copy="close">Close</button></header>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
@@ -426,12 +447,21 @@ body.game-motion :is(#homeModes,#extraModes,#controls) button:active{transform:s
 </div>
 </section>
 <dialog class="game-dialog pet-panel" id="petChips" aria-labelledby="chipHeading">
-  <header><h3 id="chipHeading" data-game-text="Chip Folder">Chip Folder</h3><button type="button" data-close-pet="petChips" data-copy="close">Close</button></header>
+  <header><h3 id="chipHeading" data-copy="gearLoadout">Nova loadout</h3><button type="button" data-close-pet="petChips" data-copy="close">Close</button></header>
+  <nav class="loadout-tabs" aria-label="Loadout">
+  <button type="button" data-loadout="chips" data-copy="gearChips">Upgrade chips</button>
+  <button type="button" data-loadout="armor" data-copy="gearArmor">Weapons &amp; armor</button>
+  <button type="button" data-loadout="shop" data-copy="gearShop">Gear shop</button>
+  </nav>
   <section id="chipStats" aria-labelledby="chipStatsHeading">
+    <div class="loadout-identity"><div class="novaSprite" role="img" aria-label="Nova"></div><div>
+    <strong id="loadoutRank"></strong><small id="loadoutWallet"></small></div></div>
     <h4 id="chipStatsHeading" data-copy="chipStartingStats">Starting stats</h4>
     <dl id="chipStatStrip" aria-live="polite" aria-atomic="true"></dl>
   </section>
-  <p id="chipStatus" role="status"></p><ul id="chipFolderList"></ul>
+  <p id="chipStatus" role="status"></p><div id="chipSlotsGrid" class="inventory-grid"></div><div id="gearSlots" class="inventory-grid" hidden></div>
+  <section id="gearDetail" aria-live="polite"></section>
+  <section><h4 data-copy="gearBag">Inventory bag</h4><div id="chipFolderList" class="inventory-grid"></div></section>
 </dialog>
 <dialog class="game-dialog pet-panel" id="multiplayerRoom" aria-labelledby="multiplayerTitle">
   <header><h3 id="multiplayerTitle" data-copy="multiplayer">Multiplayer</h3><button id="closeMultiplayer" type="button" data-copy="close">Close</button></header>
@@ -462,10 +492,12 @@ body.game-motion :is(#homeModes,#extraModes,#controls) button:active{transform:s
 </dialog>
 <dialog class="game-dialog pet-panel" id="crewDialog" aria-labelledby="crewHeading">
 <header><h3 id="crewHeading" data-copy="crewTitle">Crew rooms · 3–5</h3><button id="crewClose" type="button" data-copy="close">Close</button></header>
-<p id="crewStatus" role="status"></p>
+<p id="crewStatus" role="status"></p><p id="raidQuota"></p>
+<button type="button" id="raidPracticeOpen" data-copy="raidPractice">Solo raid practice</button>
+<small id="raidPracticeHint" data-copy="raidPracticeHint">Unlimited practice · no loot or XP</small>
 <div id="crewSetup">
-<label><span data-copy="crewSlots">Seats</span><select id="crewSlots"><option>3</option><option>4</option><option selected>5</option></select></label>
-<label><span data-copy="roomDestination">Destination</span><select id="crewRoute"></select></label>
+<label><span data-copy="crewSlots">Seats</span><select id="crewSlots"><option>2</option><option>3</option><option>4</option><option selected>5</option></select></label>
+<label><span data-copy="roomDestination">Destination</span><select id="crewRoute"><option value="raid" data-copy="raidName">Nightmare Dragon Raid</option></select></label>
 <label><span data-game-text="Difficulty">Difficulty</span><select id="crewDifficulty"></select></label>
 <button id="crewCreate" type="button" data-copy="crewCreate">Create room</button>
 <form id="crewJoinForm"><label for="crewCode" data-copy="crewCode">Room code</label><input id="crewCode" maxlength="12" autocomplete="off" spellcheck="false" required>
@@ -538,7 +570,7 @@ const gameSpanish = {
   "Change photo": "Cambiar foto",
   "Remove photo": "Eliminar foto",
   "Close": "Cerrar",
-  "Prototype v0.19.0 — Cosmic Voyage": "Prototipo v0.19.0 — Viaje cósmico",
+  "Prototype v0.20.0 — Dragon Raid": "Prototipo v0.20.0 — Incursión del Dragón",
   "Player avatar": "Avatar del jugador",
   "Player": "Jugador",
   "Lobby messages": "Mensajes de la sala",
@@ -636,11 +668,11 @@ const powerMultiplier = [1, 1.35, 1.8, 2.4, 3.2, 4, 4.65, 5.3, 6, 6.8, 7.6];
 const chipKeys=["damage","velocity","thermal","shieldRegen","twinPulse","blackHole"];
 const maxRapidLevel=5;
 let rapidLevel=0;
-function fireInterval(level=0,base=.2) {
-  return base/(1+.10*Math.max(0,Math.min(10,level||0)));
+function fireInterval(level=0,base=.2,gearRate=0) {
+  return base/(1+.10*Math.max(0,Math.min(10,level||0))+gearRate/100);
 }
-function shotsPerSecond(level) {
-  return 1/fireInterval(level);
+function shotsPerSecond(level,cadence=0) {
+  return 1/fireInterval(level,.2,cadence);
 }
 function secondaryTarget(from,primary,enemies,healthKey) {
   let nearest=null;
@@ -654,26 +686,26 @@ function grantTwinPulse() {
   if(progress.twinPulse===true)return false;
   const slots=equippedChips();
   progress.twinPulse=true;
-  if(slots.length<3)progress.equippedChips=[...slots,"twinPulse"];
+  if(slots.length<chipSlotsAvailable())progress.equippedChips=[...slots,"twinPulse"];
   return true;
 }
 function equippedChips() {
   const chosen=Array.isArray(progress.equippedChips)?progress.equippedChips:chipKeys;
   const owned=chipKeys.filter(key=>progress[key]&&chosen.includes(key));
-  return owned.slice(0,3);
+  return owned.slice(0,chipSlotsAvailable());
 }
 function activeUpgrade(key) {
   const chosen=Array.isArray(progress.equippedChips)?progress.equippedChips:chipKeys;
   if(!progress[key]||!chosen.includes(key))return 0;
   let slots=0;
   for(const candidate of chipKeys){
-    if(candidate===key)return slots<3?progress[key]:0;
+    if(candidate===key)return slots<chipSlotsAvailable()?progress[key]:0;
     if(progress[candidate]&&chosen.includes(candidate))slots++;
   }
   return 0;
 }
 function shotDamage() {
-  return Math.round(amplifierDamage[activeUpgrade("damage")] * powerMultiplier[power]);
+  return shotWithGear(activeUpgrade("damage"),power,soloGearStats(),chipMasteryBoost("damage")*Number(Boolean(progress.chipMastery?.damage)));
 }
 const rankMilestones = [[1,"Recruit"],[5,"Vanguard"],[10,"Guardian"],[20,"Corebreaker"],[30,"Nova Legend"]];
 function rankTitle(level) {
@@ -689,12 +721,12 @@ Object.assign(gameSpanish, {
 const upgrades=[["damage","Power Amplifier","Boosts shot damage. Stacks with Power pickups."],["velocity","Velocity Engine","+8% movement speed per level"],["thermal","Thermal Regulator","Less heat and faster cooldown per level"]];
 function shop(){
   wallet();
-  const root=$("offers"),cap=storyLevel()>=3?chipLevelCap:5;
+  const root=$("offers"),cap=5;
   root.replaceChildren();
   for(const [key,name,desc] of upgrades){
     const level=progress[key],row=document.createElement("div"),button=document.createElement("button");
     row.className="upgrade";
-    row.innerHTML=`<div>${gameText(name)}<small>${gameText(desc)} · ${level}/${cap}${key==="damage"?" · "+gameText("Shot damage")+": "+amplifierDamage[level]:""}</small>${segments(Math.min(level,5))}</div>`;
+    row.innerHTML=`<div>${gameText(name)}<small>${gameText(desc)} · ${Math.min(level,cap)}/${cap}${key==="damage"?" · "+gameText("Shot damage")+": "+amplifierDamage[level]:""}</small>${segments(Math.min(level,5))}</div>`;
     button.textContent=level>=cap?gameText("MAX"):`${gameText("Buy")}: ${prices[level]} NC`;
     button.disabled=level>=cap||progress.credits<prices[level];
     button.onclick=()=>{
@@ -703,7 +735,7 @@ function shop(){
       progress.credits-=prices[current];
       const equipped=equippedChips();
       progress[key]++;
-      if(equipped.length<3&&!equipped.includes(key))progress.equippedChips=[...equipped,key];
+      if(equipped.length<chipSlotsAvailable()&&!equipped.includes(key))progress.equippedChips=[...equipped,key];
       persist();shop();
     };
     row.append(button);root.append(row);
@@ -774,7 +806,7 @@ Object.assign(gameSpanish, {
 });
 function takeDamage(amount) {
   if (state !== "play" || amount <= 0 || (infiniteRun?.invulnerable||0)>elapsed) return;
-  amount *= difficultyModes[missionDifficulty].damage ?? 1;
+  amount *= (difficultyModes[missionDifficulty].damage??1)*(1-soloGearStats().defense/100);
   secondsSinceHit = 0;
   const absorbed = Math.min(shield, amount);
   shield -= absorbed;
@@ -803,9 +835,10 @@ function rechargeShield(dt) {
   if(infiniteRun?.kind==="lastStand")return;
   const previous = secondsSinceHit;
   secondsSinceHit += dt;
-  if (activeUpgrade("shieldRegen")) {
+  const rate=(activeUpgrade("shieldRegen")?15+chipMasteryBoost("shieldRegen")*2:0)+soloGearStats().regen;
+  if(rate>0){
     const recoveryTime = Math.max(0, secondsSinceHit - Math.max(previous, 7));
-    shield = Math.min(100, shield + 15 * recoveryTime);
+    shield = Math.min(100, shield + rate * recoveryTime);
   }
 }
 function renderShieldUpgrade(root) {
@@ -987,7 +1020,8 @@ function reset(advanceTo=0) {
     $(btn).setAttribute("aria-expanded","false");
   }
   wallet();p={x:65,y:H/2};E=[];B=[];I=[];F=[];
-  hp=100;shield=0;secondsSinceHit=0;
+  cachedRunGear=equipmentStats();
+  hp=100;shield=cachedRunGear.barrier;secondsSinceHit=0;
   heat=kills=score=power=speed=elapsed=delay=0;
   updateStationCover();
   wave=1;state="play";boss=locked=false;dx=1;dy=0;last=0;
@@ -1090,7 +1124,7 @@ function fireSoloVolley(primary, velocity, color, damage, radius=3) {
   shoot(p,primary,velocity,true,0,color,damage,radius);
   if(activeUpgrade("twinPulse")){
     const secondary=secondaryTarget(p,primary,E,"h");
-    shoot(p,secondary||primary,velocity,true,secondary?0:.055,"#ffbd96",Math.round(damage*.6),radius);
+    shoot(p,secondary||primary,velocity,true,secondary?0:.055,"#ffbd96",Math.round(damage*effectiveTwinDamage({twinBoost:chipMasteryBoost("twinPulse")})),radius);
   }
 }
 function release(){
@@ -1100,7 +1134,7 @@ function release(){
   if(primary&&state==="play"){
     const q=Math.min(1,charge/2);
     fireSoloVolley(primary,340,"#eee0ff",Math.round(shotDamage()*(1+5*q)),4+8*q);
-    delay=fireInterval(rapidLevel);
+    delay=fireInterval(rapidLevel,.2,soloGearStats().cadence);
   }
   cancelCharge();
 }
@@ -1205,13 +1239,13 @@ function collectSoloLoot(dt) {
   }
 }
 function frame(now){let dt=last?Math.min(.04,(now-last)/1000):0;last=now;if(typeof coopTick==="function"&&coopConnection){coopTick(now,dt);requestAnimationFrame(frame);return}if(state==="home"){requestAnimationFrame(frame);return}const awaitingInput=state==="play"&&idlePause();document.body.classList.toggle("show-match-stats",state==="play"&&awaitingInput&&!paused);let slide=state==="play"&&!locked&&(combo||held.slide.size||keys.has("Shift")),focus=state==="play"&&!locked&&(combo||held.focus.size||keys.has("q")),slow=focus?.25:1;
-if(state==="play"&&!paused&&!manualPaused&&!awaitingInput&&!document.hidden){elapsed+=dt;updateStationCover();moveInSector(p,0,0,12);if(elapsed>=10&&pendingReferral&&!pendingReferral.played)referralMissionFinished();let x=jx+Number(keys.has("d")||keys.has("ArrowRight"))-Number(keys.has("a")||keys.has("ArrowLeft")),y=jy+Number(keys.has("s")||keys.has("ArrowDown"))-Number(keys.has("w")||keys.has("ArrowUp")),l=Math.hypot(x,y);if(l){dx=x/l;dy=y/l}if(l||slide){let v=(slide?270:100*Math.min(1,l))*(1+.10*speed+.08*activeUpgrade("velocity"));moveInSector(p,dx*dt*v,dy*dt*v,12)}heat=clamp(heat+dt*(((slide?32:0)+(focus?24:0))/(1+.20*activeUpgrade("thermal"))-(!slide&&!focus?26+3*activeUpgrade("thermal"):0)),0,100);if(heat>=100){locked=true;combo=false;sync()}if(heat<30)locked=false;
+if(state==="play"&&!paused&&!manualPaused&&!awaitingInput&&!document.hidden){elapsed+=dt;updateStationCover();moveInSector(p,0,0,12);if(elapsed>=10&&pendingReferral&&!pendingReferral.played)referralMissionFinished();let x=jx+Number(keys.has("d")||keys.has("ArrowRight"))-Number(keys.has("a")||keys.has("ArrowLeft")),y=jy+Number(keys.has("s")||keys.has("ArrowDown"))-Number(keys.has("w")||keys.has("ArrowUp")),l=Math.hypot(x,y);if(l){dx=x/l;dy=y/l}if(l||slide){let v=(slide?270:100*Math.min(1,l))*(1+.10*speed+.08*activeUpgrade("velocity")+.02*chipMasteryBoost("velocity")+soloGearStats().move/100);moveInSector(p,dx*dt*v,dy*dt*v,12)}heat=clamp(heat+dt*(((slide?32:0)+(focus?24:0))/(1+.20*(activeUpgrade("thermal")+.25*chipMasteryBoost("thermal")))-(!slide&&!focus?26+3*(activeUpgrade("thermal")+.25*chipMasteryBoost("thermal")):0)),0,100);if(heat>=100){locked=true;combo=false;sync()}if(heat<30)locked=false;
 delay=Math.max(-dt,delay-dt);
 if(charging)charge=Math.min(2,charge+dt);
 const aimed=target();
 if(aimed&&!charging&&(auto||held.fire.size||keys.has(" "))&&delay<=0){
   fireSoloVolley(aimed,300,null,shotDamage());
-  delay+=fireInterval(rapidLevel);
+  delay+=fireInterval(rapidLevel,.2,soloGearStats().cadence);
 }
 if(state==="play")rechargeShield(dt);
 processHoles(soloHoles,E,"h",elapsed,dt);
@@ -1221,7 +1255,7 @@ for(const e of E)if(e.h>0){
   else{enemy(e,dt*slow);if(e.dragon)dragonAttack(e);}
 }for(let b of B){let t=dt*(b.own?1:slow);const x=b.x,y=b.y;b.x+=b.vx*t;b.y+=b.vy*t;if(rockBlocksShot(x,y,b)){b.dead=true;continue}if(b.own){for(let e of E){if(e.h>0&&dist(b,e)<e.r+b.r){dealPilotHit(e,"h",e.story?storyDragonDamage(e,b.d):b.d*stationArmor(e),soloFeedback);b.dead=true;break}}}else if(dist(b,p)<10+b.r){takeDamage(b.d);b.dead=true}}B=B.filter(b=>!b.dead&&b.x>0&&b.x<W&&b.y>0&&b.y<H);
 updateMines(dt);
-let defeated=false;for(let e of E){if(e.h<=0){tryHole(soloHoles,e,elapsed,activeUpgrade("blackHole"));kills++;score+=e.type==="boss"?500:50;if(e.type==="boss")defeated=true;else drop(e)}}E=E.filter(e=>e.h>0);
+let defeated=false;for(let e of E){if(e.h<=0){tryHole(soloHoles,e,elapsed,activeUpgrade("blackHole"),chipMasteryBoost("blackHole"));kills++;score+=e.type==="boss"?500:50;if(e.type==="boss")defeated=true;else drop(e)}}E=E.filter(e=>e.h>0);
 collectSoloLoot(dt);
 I=I.filter(i=>!i.dead&&(i.life>0||i.fuse!==null));F=F.filter(f=>(f.life-=dt)>0);
 const arena=missionSectors[missionSector];if(hp<=0){if(infiniteRun?.kind==="infinite"&&infiniteRun.lives>0)reviveSolo();else finish(false);}else if(infiniteRun)updateInfiniteWave();else if(defeated)finish(true);else if(kills>=arena.goal){if(!E.length&&!boss){boss=true;B=[];spawn("boss")}}else{wave=kills>=arena.waveThree?3:kills>=arena.waveTwo?2:1;while(E.length<Math.min(wave+(missionSector===2?1:0),arena.goal-kills))spawn(next())}}
@@ -2116,6 +2150,7 @@ function newCoopArena(mode,route="1",count=2) {
     kills:0,spawned:0,status:"playing",elapsed:0,cleared:0,transition:null,effects:[],stages:[],stageStart:0,stageKills:0,stageCredits:Array(count).fill(0),holes:[]};
   changeCoopMap(arena,Number(route)||1);
   if(route==="infinite")arena.players.forEach(pilot=>pilot.lives=1);
+  if(route==="raid")installRaidEncounter(arena);
   return arena;
 }
 function changeCoopMap(arena,sector){
@@ -2150,6 +2185,7 @@ function advanceCoopWave(arena){
 const coopWaveSizes = [8,15,52];
 function coopDamage(player, amount) {
   if(player.reviveGrace>0)return;
+  amount*=1-(player.upgrades?.gear?.defense||0)/100;
   player.safe=0;
   const absorbed=Math.min(player.shield,amount);
   player.shield-=absorbed;
@@ -2207,7 +2243,7 @@ function fireCoopVolley(arena,player,primary,damage) {
   coopFire(arena,player,primary,false,damage);
   if(player.upgrades.twinPulse){
     const secondary=secondaryTarget(player,primary,arena.enemies,"hp");
-    coopFire(arena,player,secondary||primary,false,Math.round(damage*.6),secondary?0:.055);
+    coopFire(arena,player,secondary||primary,false,Math.round(damage*effectiveTwinDamage(player.upgrades)),secondary?0:.055);
   }
 }
 function coopArmor(arena,foe){
@@ -2216,6 +2252,8 @@ function coopArmor(arena,foe){
 function updateCoopArena(arena, inputs, dt) {
   if(arena.status!=="playing") return;
   arena.elapsed+=dt;
+  const raid=arena.route==="raid";
+  if(raid&&arena.enemies.length&&arena.elapsed>=dragonRaid.limit){arena.status="lost";return;}
   syncCoopMap(arena);
   processHoles(arena.holes,arena.enemies,"hp",arena.elapsed,dt);
   for(const player of arena.players){
@@ -2226,35 +2264,39 @@ function updateCoopArena(arena, inputs, dt) {
   arena.players.forEach((player,i)=>{
     if(player.hp<=0) return;
     const input=inputs[i]||{};
-    const upgrades=player.upgrades;
-    const velocity=upgrades.velocity||0, thermal=upgrades.thermal||0;
+    const upgrades=player.upgrades,gear=upgrades.gear||emptyGearStats();
+    if(!player.spawnGearApplied&&upgrades.gear){player.shield=Math.max(player.shield,gear.barrier);player.spawnGearApplied=true;}
+    const velocity=(upgrades.velocity||0)+(upgrades.velocityBoost||0)*.25,
+      thermal=(upgrades.thermal||0)+(upgrades.thermalBoost||0)*.25;
     const slide=input.slide&&!player.locked, focus=input.focus&&!player.locked;
     const x=clamp(Number(input.x)||0,-1,1), y=clamp(Number(input.y)||0,-1,1);
     const magnitude=Math.max(1,Math.hypot(x,y));
-    const speed=(slide?245:100)*(1+0.10*player.speed+0.08*velocity);
+    const speed=(slide?245:100)*(1+0.10*player.speed+0.08*velocity+gear.move/100);
     moveInSector(player,x/magnitude*speed*dt,y/magnitude*speed*dt,12);
     player.heat=clamp(player.heat+dt*((slide||focus)?((slide?32:0)+(focus?24:0))/(1+0.2*thermal):-(26+3*thermal)),0,100);
     if(player.heat>=100) player.locked=true;
     if(player.heat<30) player.locked=false;
     const oldSafe=player.safe;
     player.safe+=dt;
-    if(upgrades.shieldRegen) player.shield=Math.min(100,player.shield+15*Math.max(0,player.safe-Math.max(7,oldSafe)));
+    const recovery=(upgrades.shieldRegen?15+2*(upgrades.regenBoost||0):0)+gear.regen;
+    if(recovery>0)player.shield=Math.min(100,player.shield+recovery*Math.max(0,player.safe-Math.max(7,oldSafe)));
     player.delay=Math.max(-dt,player.delay-dt);
     if(arena.route==="infinite")updateSpecials(arena,player,arena.enemies,"hp",foe=>coopArmor(arena,foe));
     const target=arena.enemies.reduce((best,e)=>e.hp>0&&(!best||dist(player,e)<dist(player,best))?e:best,null);
-    const damage=amplifierDamage[upgrades.damage||0]*powerMultiplier[player.power];
+    const damage=coOpShot(arena,player);
     if(input.charge) player.charge=Math.min(2,player.charge+dt);
     else if(player.charge>0) {
       if(target) fireCoopVolley(arena,player,target,Math.round(damage*(1+2.5*player.charge)));
       player.charge=0;
-      player.delay=fireInterval(player.rapid);
+      player.delay=fireInterval(player.rapid,.2,gear.cadence);
     } else if(target&&input.fire&&player.delay<=0) {
       fireCoopVolley(arena,player,target,Math.round(damage));
-      player.delay+=fireInterval(player.rapid,focus?.16:.2);
+      player.delay+=fireInterval(player.rapid,focus?.16:.2,gear.cadence);
     }
   });
   for(const enemy of arena.enemies) {
     if(enemy.hp<=0)continue;
+    if(enemy.raid){updateRaidDragon(arena,enemy);continue;}
     enemy.exposed=Math.max(0,enemy.exposed-dt);
     const target=arena.players.filter(p=>p.hp>0).reduce((best,p)=>!best||dist(p,enemy)<dist(best,enemy)?p:best,null);
     if(!target) break;
@@ -2287,15 +2329,19 @@ function updateCoopArena(arena, inputs, dt) {
     const hit=targets.find(target=>target.hp>0&&dist(bullet,target)<(target.r??10)+3);
     if(hit) {
       if(bullet.enemy) coopDamage(hit,bullet.damage);
-      else dealPilotHit(hit,"hp",bullet.damage*coopArmor(arena,hit),arena.players[bullet.owner??0]?.feedback);
+      else dealPilotHit(hit,"hp",raid&&arena.elapsed<1.25?0:bullet.damage*coopArmor(arena,hit),arena.players[bullet.owner??0]?.feedback);
       bullet.life=0;
     }
   }
   arena.shots=arena.shots.filter(b=>b.life>0&&b.x>0&&b.x<W&&b.y>0&&b.y<H);
   for(const enemy of arena.enemies) {
     if(enemy.hp>0) continue;
-    arena.kills++;tryHole(arena.holes,enemy,arena.elapsed,arena.players.some(pilot=>!pilot.departed&&pilot.upgrades.blackHole));
-    if(enemy.type==="boss"&&arena.route!=="infinite") {
+    arena.kills++;tryHole(arena.holes,enemy,arena.elapsed,arena.players.some(pilot=>!pilot.departed&&pilot.upgrades.blackHole),
+      Math.max(0,...arena.players.filter(pilot=>!pilot.departed&&pilot.upgrades.blackHole).map(pilot=>pilot.upgrades.holeBoost||0)));
+    if(raid){
+      arena.shots=[];
+      arena.drops=[{x:arena.width/2,y:arena.height*.62,type:"coin",amount:0,shared:true,life:3600}];
+    }else if(enemy.type==="boss"&&arena.route!=="infinite") {
       arena.shots=[];
       arena.drops=[{x:enemy.x,y:enemy.y,type:"coin",amount:100,shared:true,life:3600}];
     } else {
@@ -2315,6 +2361,10 @@ function updateCoopArena(arena, inputs, dt) {
     const collector=arena.players.find(player=>player.hp>0&&dist(player,drop)<23);
     if(!collector) continue;
     if(drop.shared){
+      if(raid){
+        for(const pilot of arena.players)if(!pilot.departed)pilot.raidChest=true;
+        arena.status="won";drop.life=0;break;
+      }
       arena.players.filter(player=>!player.departed).forEach(player=>coopPickup(player,drop,arena));
       drop.life=0;
       arena.stages.push({sector:arena.sector,points:(arena.kills-arena.stageKills)*50,
@@ -2334,7 +2384,7 @@ function updateCoopArena(arena, inputs, dt) {
     for(const pilot of arena.players)if(!pilot.departed&&pilot.hp<=0&&pilot.lives>0){pilot.lives--;restoreCoopPilot(pilot,65);}
   }
   if(arena.players.every(player=>player.hp<=0)) {arena.status="lost";return;}
-  if(arena.status!=="playing"||arena.drops.some(drop=>drop.shared)) return;
+  if(raid||arena.status!=="playing"||arena.drops.some(drop=>drop.shared)) return;
   if(arena.route==="infinite"){
     if(arena.spawned===endlessWaveLength(arena.wave)&&!arena.enemies.length){
       arena.cleared=arena.wave;
@@ -2422,11 +2472,11 @@ function sendCoop(connection,event,payload) {
   connection.channel.send({type:"broadcast",event,payload}).catch(()=>{});
 }
 function coopUpgradeInput() {
-  return {damage:activeUpgrade("damage"),velocity:activeUpgrade("velocity"),thermal:activeUpgrade("thermal"),shieldRegen:Boolean(activeUpgrade("shieldRegen")),twinPulse:Boolean(activeUpgrade("twinPulse")),blackHole:Boolean(activeUpgrade("blackHole"))};
+  return {damage:activeUpgrade("damage"),velocity:activeUpgrade("velocity"),thermal:activeUpgrade("thermal"),gear:equipmentStats(),pilotLevel:pilotLevel(),damageBoost:activeUpgrade("damage")&&progress.chipMastery?.damage?chipMasteryBoost("damage"):0,velocityBoost:chipMasteryBoost("velocity"),thermalBoost:chipMasteryBoost("thermal"),regenBoost:chipMasteryBoost("shieldRegen"),twinBoost:chipMasteryBoost("twinPulse"),holeBoost:chipMasteryBoost("blackHole"),shieldRegen:Boolean(activeUpgrade("shieldRegen")),twinPulse:Boolean(activeUpgrade("twinPulse")),blackHole:Boolean(activeUpgrade("blackHole"))};
 }
 function coopIncomingUpgrades(value) {
   const level=key=>Number.isInteger(value?.[key])?clamp(value[key],0,chipLevelCap):0;
-  return {damage:level("damage"),velocity:level("velocity"),thermal:level("thermal"),shieldRegen:value?.shieldRegen===true,twinPulse:value?.twinPulse===true,blackHole:value?.blackHole===true};
+  return {damage:level("damage"),velocity:level("velocity"),thermal:level("thermal"),gear:normalizedEquipment(value?.gear),pilotLevel:tierValue(value?.pilotLevel,1,1000),damageBoost:tierValue(value?.damageBoost,0,64),velocityBoost:tierValue(value?.velocityBoost,0,64),thermalBoost:tierValue(value?.thermalBoost,0,64),regenBoost:tierValue(value?.regenBoost,0,64),twinBoost:tierValue(value?.twinBoost,0,64),holeBoost:tierValue(value?.holeBoost,0,64),shieldRegen:value?.shieldRegen===true,twinPulse:value?.twinPulse===true,blackHole:value?.blackHole===true};
 }
 async function joinCoopRoom(room) {
   if(coopJoining||coopConnection) return;
@@ -2487,6 +2537,7 @@ async function joinCoopRoom(room) {
 async function leaveCoop(notify=true) {
   const conn=coopConnection;
   if(!conn) return;
+  if(conn.practice)return leaveRaidPractice();
   if(conn.crew)return leaveCrew(conn,notify);
   settleCoopCredits(conn);
   coopConnection=null;
@@ -2510,6 +2561,7 @@ function coopReadInput() {
 }
 function coopTick(now,dt) {
   const conn=coopConnection;
+  if(conn.practice){practiceRaidTick(conn,now,dt);return;}
   if(conn.crew){tickCrew(conn,now,dt);return;}
   const age=now-conn.lastPacket;
   if(age>20000) {leaveCoop();return;}
@@ -2548,12 +2600,15 @@ function renderCoop(conn,age) {
   const seat=crewPilotIndex(conn);
   const local=arena.players[seat];
   const friend=arena.players[conn.host?1:0];
-  if(arena.status!=="playing"&&!conn.reportShown){conn.reportShown=true;showCoopReport(arena,local);}
+  if(arena.status!=="playing"&&!conn.reportShown){
+    conn.reportShown=true;
+    if(arena.route==="raid")showRaidReport(conn,local);else showCoopReport(arena,local);
+  }
   const crewText=conn.crew?arena.players.map((pilot,index)=>{
     const name=conn.room.members[index]?.name||"";
     return index===seat?"":name+" "+gameText("HP")+" "+Math.ceil(pilot.hp);
   }).filter(Boolean).join(" · "):"";
-  $("coopMatchStatus").textContent=conn.crew?crewText:age>2500?coopText("Waiting for your friend’s connection…","Esperando la conexión de tu amigo…"):
+  $("coopMatchStatus").textContent=conn.practice?copy("raidPractice"):conn.crew?crewText:age>2500?coopText("Waiting for your friend’s connection…","Esperando la conexión de tu amigo…"):
     conn.room.friend+" · "+gameText("HP")+" "+Math.ceil(friend.hp)+" · "+gameText("Shield")+" "+Math.floor(friend.shield);
   paintArena(false);
   g.strokeStyle="#302345";g.lineWidth=.6;
@@ -2567,11 +2622,12 @@ function renderCoop(conn,age) {
     drawPickupGlyph(drop,performance.now());
   }
   for(const enemy of arena.enemies) {
+    if(enemy.raid){drawGrandDragon(enemy,performance.now(),arena.elapsed,true,enemy.hp);continue;}
     orb(enemy.x,enemy.y,enemy.r,enemyColor(enemy.type,enemy.color));
     g.fillStyle="#382b52";g.fillRect(enemy.x-enemy.r,enemy.y-enemy.r-8,enemy.r*2,4);
     g.fillStyle=enemy.color;g.fillRect(enemy.x-enemy.r,enemy.y-enemy.r-8,enemy.r*2*enemy.hp/enemy.max,4);
   }
-  for(const shot of arena.shots)orb(shot.x,shot.y,3,shot.enemy?"#ffae72":effectColors().shot);
+  for(const shot of arena.shots)orb(shot.x,shot.y,3,shot.enemy?(shot.color||"#ffae72"):effectColors().shot);
   for(const player of arena.players) {
     if(player.hp<=0) continue;
     drawHero(player,player.shield,player===local);
@@ -2582,7 +2638,8 @@ function renderCoop(conn,age) {
   const activeBoss=arena.enemies.some(foe=>foe.type==="boss");
   const cap=arena.route==="infinite"?10:5;
   updateNovaDeck(arena.elapsed,arena.wave,activeBoss,local.rapid||0);
-  const waveLabel=arena.route==="infinite"?sectorName(arena.sector)+" · "+gameText("WAVE")+" "+arena.wave:
+  if(arena.route==="raid"&&arena.enemies.length)updateRaidPresentation(arena);
+  const waveLabel=arena.route==="raid"?copy("cosmicDragon"):arena.route==="infinite"?sectorName(arena.sector)+" · "+gameText("WAVE")+" "+arena.wave:
     activeBoss&&arena.sector===3?gameText("Station Keeper")+" · "+gameText(arena.enemies.some(foe=>foe.exposed>0)?"Core exposed":"Core shielded"):
     activeBoss&&arena.sector===2?gameText("Meteor Warden"):activeBoss?gameText("CORE GUARDIAN"):gameText("WAVE")+" "+arena.wave;
   for(const [key,value] of Object.entries({Hp:Math.ceil(local.hp),Shield:Math.floor(local.shield),
@@ -2596,7 +2653,7 @@ function renderCoop(conn,age) {
     if(arena.status!=="playing"){g.fillStyle="#100d20dc";g.fillRect(0,112,W,96);g.fillStyle="#f1eaff";}
     const headline=arena.status==="won"?coopText("CO-OP MISSION COMPLETE","MISIÓN COOPERATIVA COMPLETA"):
       arena.status==="lost"?gameText("SIGNAL LOST"):arena.drops.some(drop=>drop.shared)?
-      coopText("Shared boss reward","Recompensa compartida del jefe"):arena.route==="infinite"?coopText("Downed · back at the next checkpoint","Caído · vuelves en el próximo punto de control"):coopText("Downed · back next wave","Caído · vuelves en la próxima oleada");
+      coopText("Shared boss reward","Recompensa compartida del jefe"):arena.route==="raid"?copy("raidDowned"):arena.route==="infinite"?coopText("Downed · back at the next checkpoint","Caído · vuelves en el próximo punto de control"):coopText("Downed · back next wave","Caído · vuelves en la próxima oleada");
     g.fillText(headline,W/2,145);
     if(arena.status!=="playing") g.fillText(coopText("Run credits: ","Créditos de la partida: ")+local.coins,W/2,177);
   }
@@ -2645,38 +2702,39 @@ function showMainScreen() {
   document.body.classList.add("home-active");
   renderHomeMission();
 }
-function showReport({win,mode,sector,points,count,seconds,health,barrier,attack,move,thermal,pickups,credits,rapid=0,twin=false,coop=false,endless=false,waves=0,campaign=[]}) {
+function showReport({win,mode,sector,points,count,seconds,health,barrier,attack,move,thermal,pickups,credits,rapid=0,twin=false,coop=false,endless=false,waves=0,campaign=[],raid=false,practice=false,raidXP=0,cadence=0}) {
   const variant=!coop?infiniteRun?.kind:undefined;
-  const storyStage=!coop?playingStoryLevel||null:null;
+  const storyStage=!raid&&!coop?playingStoryLevel||null:null;
   const personalBest=endless&&(!variant||variant==="infinite")&&saveWaveBest(coop,mode,waves);
-  recordDaily({win,count,pickups,endless,waves,coop,mode});
-  saveMatchResult({win,mode,sector,points,count,seconds,health,barrier,attack,move,thermal,pickups,credits,rapid,twin,coop,endless,waves,variant,storyStage});
+  if(!raid)recordDaily({win,count,pickups,endless,waves,coop,mode});
+  if(!practice)saveMatchResult({win,mode,sector,points,count,seconds,health,barrier,attack,move,thermal,pickups,credits,rapid,twin,coop:coop||raid,endless,waves,variant,storyStage,raid});
   $("reportDetails").open=false;
   $("reportTitle").textContent=gameText(win?"MISSION COMPLETE":"SIGNAL LOST");
   $("reportContext").textContent=(endless?copy(variant&&variant!=="infinite"?variant:"infiniteTitle")+" · "+copy("wavesCleared")+" "+waves:sectorName(sector))+" · "+gameText(difficultyLabels[mode]);
   if(endless)$("reportTitle").textContent=storyStage?storyLabel(storyStage)+" · "+gameText(win?"MISSION COMPLETE":"SIGNAL LOST"):
     copy(variant&&variant!=="infinite"?variant:"infiniteRecap");
-  if(storyStage>1)$("reportContext").textContent=copy("storyCampaign")+" · "+copy("wavesCleared")+" "+waves+"/"+storyWaves[storyStage]+" · "+gameText(difficultyLabels[mode]);
+  if(storyStage>1)$("reportContext").textContent=copy("storyCampaign")+" · "+(storyDragonLevel(storyStage)?copy("raidOneBoss"):copy("wavesCleared")+" "+waves+"/"+storyWaves[storyStage])+" · "+gameText(difficultyLabels[mode]);
   if(variant==="levelTwo"&&win)$("reportTitle").textContent=copy("levelTwoClear");
   if(personalBest)$("reportContext").append(" · "+copy("newPersonalBest"));
   const summary=campaign.length===3?campaign.reduce((sum,stage)=>({points:sum.points+stage.points,credits:sum.credits+stage.credits,seconds:sum.seconds+stage.seconds}),{points:0,credits:0,seconds:0}):{points,credits,seconds};
   $("reportCampaign").hidden=campaign.length!==3;
   $("reportCampaign").innerHTML=campaign.length===3?tiles(campaign.map(stage=>[sectorName(stage.sector),stage.points+" · "+stage.credits+" NC · "+time(stage.seconds)])):"";
-  $("reportSummary").innerHTML=tiles([[gameText("Score"),summary.points],[copy("reportCredits"),summary.credits+" NC"],[gameText("Time"),time(summary.seconds)]]);
+  $("reportSummary").innerHTML=tiles([[gameText("Score"),summary.points],[copy("reportCredits"),summary.credits+" NC"],...(raidXP?[[copy("raidXP"),"+"+raidXP]]:[]),[gameText("Time"),time(summary.seconds)]]);
   $("reportPickups").innerHTML=tiles([[gameText("Kills"),count],
     [gameText("Power"),pickups.power],
     [gameText("Speed"),pickups.speed],[copy("reportHealth"),pickups.health],
     [copy("reportShield"),pickups.shield],[gameText("Magnet"),pickups.magnet],[gameText("Fire Rate"),pickups.rapid||0],...(endless?[[copy("flame"),pickups.flame||0],[copy("lightning"),pickups.lightning||0]]:[])]);
   $("twinReward").hidden=!pickups.twinPulse;
   const heatReduction=Math.round(100*(1-1/(1+.20*thermal)));
-  $("reportStats").innerHTML=tiles([[copy("reportAtk"),Math.round(attack)],[copy("dpsStat"),Math.round(attack*shotsPerSecond(rapid))],[copy("cadenceStat"),shotsPerSecond(rapid).toFixed(1)],[copy("twinStat"),gameText(twin?"ON":"OFF")],[copy("reportSpd"),Math.round(move*100)+"%"],
+  $("reportStats").innerHTML=tiles([[copy("reportAtk"),Math.round(attack)],[copy("dpsStat"),Math.round(attack*shotsPerSecond(rapid,cadence))],[copy("cadenceStat"),shotsPerSecond(rapid,cadence).toFixed(1)],[copy("twinStat"),gameText(twin?"ON":"OFF")],[copy("reportSpd"),Math.round(move*100)+"%"],
     [copy("reportDef"),Math.ceil(health)+" + "+Math.floor(barrier)],[copy("reportBoost"),(heatReduction?"−":"")+heatReduction+"%"]]);
-  const next=win&&!coop&&!endless&&campaignActive&&sector<3;
-  const nextStage=win&&storyStage>0&&storyStage<10&&!next;
+  $("reportPlay").dataset.raidPractice="";
+  const next=win&&!raid&&!coop&&!endless&&campaignActive&&sector<3;
+  const nextStage=win&&!raid&&storyStage>0&&storyStage<10&&!next;
   $("reportPlay").dataset.nextStory=nextStage?String(storyStage+1):"";
   $("reportPlay").dataset.copy=nextStage?"nextStory":"playAgain";
   $("reportPlay").textContent=copy($("reportPlay").dataset.copy)||gameText("Play again");
-  $("reportPlay").hidden=coop||next;
+  $("reportPlay").hidden=raid?!practice:coop||next;
   $("reportNext").hidden=!next;
   $("reportHold").hidden=!next;
   $("campaignCountdown").hidden=!next;
@@ -2688,8 +2746,8 @@ function showReport({win,mode,sector,points,count,seconds,health,barrier,attack,
 function showSoloReport(win,twinUsed) {
   if(win&&campaignActive)campaignReports.push({sector:missionSector,points:score,credits:soloPickups.coin*10,seconds:elapsed});
   showReport({win,mode:missionDifficulty,sector:missionSector,points:score,count:kills,seconds:elapsed,
-    health:hp,barrier:shield,attack:shotDamage(),move:1+.10*speed+.08*activeUpgrade("velocity"),thermal:activeUpgrade("thermal"),
-    pickups:soloPickups,credits:soloPickups.coin*10,rapid:rapidLevel,twin:twinUsed,campaign:campaignReports});
+    health:hp,barrier:shield,attack:shotDamage(),move:1+.10*speed+.08*activeUpgrade("velocity")+.02*chipMasteryBoost("velocity")+soloGearStats().move/100,thermal:activeUpgrade("thermal"),
+    pickups:soloPickups,credits:soloPickups.coin*10,rapid:rapidLevel,cadence:soloGearStats().cadence,twin:twinUsed,campaign:campaignReports});
 }
 function showCoopReport(arena,player) {
   const upgrades=player.upgrades;
@@ -2700,7 +2758,7 @@ function showCoopReport(arena,player) {
   const index=arena.players.indexOf(player);
   const campaign=arena.route==="campaign"?arena.stages.map(stage=>({...stage,credits:stage.credits[index]})):[];
   showReport({win:won,mode:arena.mode,sector:arena.sector,points:arena.kills*50,count:arena.kills,seconds:arena.elapsed,
-    health:player.hp,barrier:player.shield,attack:amplifierDamage[upgrades.damage||0]*powerMultiplier[player.power],
+    health:player.hp,barrier:player.shield,attack:coOpShot(arena,player),cadence:upgrades.gear?.cadence||0,
     move:1+.10*player.speed+.08*(upgrades.velocity||0),thermal:upgrades.thermal||0,
     pickups:{...(player.pickups||newRunPickups()),twinPulse:player.twinReward},credits:player.coins,rapid:player.rapid||0,twin:Boolean(upgrades.twinPulse),coop:true,endless:arena.route==="infinite",waves:arena.cleared,campaign});
 }
@@ -2714,6 +2772,7 @@ $("homeInfinite").onclick=()=>startInfinite();
 $("openMainScreen").onclick=()=>{if(state==="play"&&!confirm(copy("reportExit")))return;if(coopConnection)leaveCoop();else if(infiniteRun&&state==="play")finishInfinite();else showMainScreen();};
 $("reportPlay").onclick=()=>{
   $("missionReport").close();
+  if($("reportPlay").dataset.raidPractice){startRaidPractice();return;}
   const next=Number($("reportPlay").dataset.nextStory);
   if(next){startStory(next);return;}
   if(infiniteRun?.kind==="storyVoyage")startStory(infiniteRun.level);
@@ -2756,25 +2815,29 @@ function renderProfileBadge() {
 function renderCombatStats() {
   const inCoop=document.body.classList.contains("coop-active");
   const active=state==="play"||state==="won"||state==="lost";
-  const pilot=inCoop&&coopConnection?.arena?.players[coopConnection.host?0:1];
+  const arena=inCoop?coopConnection?.arena:null;
+  const pilot=arena?.players[crewPilotIndex(coopConnection)];
   const upgrades=pilot?.upgrades??coopUpgradeInput();
   const runPower=pilot?.power??(active?power:0);
   const runSpeed=pilot?.speed??(active?speed:0);
   const runRapid=pilot?.rapid??(active&&!inCoop?rapidLevel:0);
   const health=pilot?.hp??(active?hp:100);
-  const barrier=pilot?.shield??(active?shield:0);
-  const thermal=upgrades.thermal||0;
+  const gear=upgrades.gear||emptyGearStats();
+  const barrier=pilot?.shield??(active?shield:gear.barrier);
+  const thermal=(upgrades.thermal||0)+(upgrades.thermalBoost||0)*.25;
+  const attack=pilot?coOpShot(arena,pilot):shotWithGear(upgrades.damage||0,runPower,gear,upgrades.damageBoost);
+  const cadence=shotsPerSecond(runRapid,gear.cadence);
   const reduction=Math.round(100*(1-1/(1+.20*thermal)));
   $("profileCombatStats").innerHTML='<h4>'+ (copy(active?"activeStats":"baseStats")||"Stats")+'</h4>'+tiles([
-    [copy("reportAtk"),Math.round(amplifierDamage[upgrades.damage||0]*powerMultiplier[runPower])],
-    [copy("dpsStat"),Math.round(Math.round(amplifierDamage[upgrades.damage||0]*powerMultiplier[runPower])*shotsPerSecond(runRapid))],
-    [copy("cadenceStat"),shotsPerSecond(runRapid).toFixed(1)],
+    [copy("reportAtk"),Math.round(attack)],
+    [copy("dpsStat"),Math.round(attack*cadence)],
+    [copy("cadenceStat"),cadence.toFixed(1)],
     [copy("twinStat"),gameText(upgrades.twinPulse?"ON":"OFF")],
-    [copy("reportSpd"),Math.round((1+.10*runSpeed+.08*(upgrades.velocity||0))*100)+"%"],
+    [copy("reportSpd"),Math.round((1+.10*runSpeed+.08*(upgrades.velocity||0)+.02*(upgrades.velocityBoost||0))*100+gear.move)+"%"],
     [copy("reportDef"),Math.ceil(health)+" + "+Math.floor(barrier)],
     [copy("reportBoost"),(reduction?"−":"")+reduction+"%"],
     [copy("cooldownStat"),26+3*thermal],
-    [copy("regenStat"),upgrades.shieldRegen?gameText("ON"):gameText("OFF")]
+    [copy("regenStat"),((upgrades.shieldRegen?15+2*(upgrades.regenBoost||0):0)+gear.regen)+"/s"]
   ]);
 }
 function setProfileTab(tab) {
@@ -3105,40 +3168,6 @@ function renderCampaignBadges(){
     list.append(badge);
   }
 }
-function renderChipFolder(previousStats){
-  renderChipStats(previousStats);
-  const equipped=equippedChips();
-  const list=$("chipFolderList");
-  list.replaceChildren();
-  for(const [key,label] of [...upgrades,["shieldRegen","Shield Regenerator"],["twinPulse","Twin Pulse"],["blackHole","Black Hole"]]){
-    if(!progress[key])continue;
-    const isOn=equipped.includes(key);
-    const row=document.createElement("li");
-    row.className="upgrade";
-    const name=document.createElement("strong");
-    name.textContent=gameText(label)+(typeof progress[key]==="boolean"?"":" · "+progress[key]+"/"+(storyLevel()>=3?chipLevelCap:5));
-    const action=document.createElement("button");
-    action.type="button";
-    action.textContent=copy(isOn?"chipOn":"chipOff");
-    action.setAttribute("aria-pressed",String(isOn));
-    action.onclick=()=>{
-      if(!isOn&&equipped.length>=3){$("chipStatus").textContent=copy("chipFull");return;}
-      const previousStats=readChipStats();
-      progress.equippedChips=isOn?equipped.filter(chip=>chip!==key):[...equipped,key];
-      persist();
-      const index=Array.from(list.children).indexOf(row);
-      renderChipFolder(previousStats);
-      list.children[index]?.querySelector("button").focus({preventScroll:true});
-    };
-    if(key==="blackHole"){const info=document.createElement("small");info.textContent=copy("holeTip");name.append(info);}
-    if(key==="twinPulse"){
-      const info=document.createElement("small");info.textContent=copy("twinHint");name.append(info);
-    }
-    row.append(name,action);
-    list.append(row);
-  }
-  $("chipStatus").textContent=list.children.length?equipped.length+" / 3":copy("chipEmpty");
-}
 const petTopics={
   Profile:"petProfile",Mail:"petMail",Network:"petNetwork",Programs:"petPrograms",
   "Chip Folder":"petChips",Options:"petOptions",Lobby:"petLobby"
@@ -3408,10 +3437,10 @@ function saveMatchResult(result){
   const record={...result,at:Date.now(),pickups};
   if(validMatchRecord(record))replaceMatchHistory([record,...matchHistory]);
 }
-function weaponEstimate(attack,rapid,twin){
-  const cadence=shotsPerSecond(rapid);
+function weaponEstimate(attack,rapid,twin,gearRate=0,twinMultiplier=.6){
+  const cadence=shotsPerSecond(rapid,gearRate);
   const primary=Math.round(attack*cadence);
-  const secondary=twin?Math.round(Math.round(attack*.6)*cadence):0;
+  const secondary=twin?Math.round(Math.round(attack*twinMultiplier)*cadence):0;
   return {cadence,primary,secondary};
 }
 function matchDetail(summaryText,subtitle){
@@ -3439,7 +3468,7 @@ function renderMatchHistory(){
   const formatDate=new Intl.DateTimeFormat(local,{dateStyle:"medium",timeStyle:"short"});
   for(const item of matchHistory){
     const outcome=gameText(item.win?"VICTORY":"DEFEAT");
-    const label=(item.endless?(item.storyStage?storyLabel(item.storyStage):copy(["levelTwo","bossSurvival","lastStand"].includes(item.variant)?item.variant:"infiniteTitle"))+" · "+copy("wavesCleared")+" "+item.waves:outcome+" · "+sectorName(item.sector))+" · "+gameText(difficultyLabels[item.mode]);
+    const label=(item.raid?copy("raidName"):item.endless?(item.storyStage?storyLabel(item.storyStage):copy(["levelTwo","bossSurvival","lastStand"].includes(item.variant)?item.variant:"infiniteTitle"))+" · "+copy("wavesCleared")+" "+item.waves:outcome+" · "+sectorName(item.sector))+" · "+gameText(difficultyLabels[item.mode]);
     const detail=matchDetail(label,formatDate.format(item.at)+" · "+(item.coop?gameText("Co-op"):copy("soloMatch"))+" · "+item.points.toLocaleString(local)+" "+gameText("Score").toLowerCase());
     appendMatchTiles(detail,copy("reportLoot"),[[gameText("Score"),item.points],[gameText("Kills"),item.count],[gameText("Time"),time(item.seconds)],
       [copy(item.coop?"reportRunCredits":"reportCredits"),item.credits+" NC"],[gameText("Power"),item.pickups.power],[gameText("Speed"),item.pickups.speed],
@@ -3466,16 +3495,17 @@ function renderMatchHistory(){
   }
 }
 function readChipStats(){
-  const attack=amplifierDamage[activeUpgrade("damage")];
-  const thermal=activeUpgrade("thermal");
-  const weapon=weaponEstimate(attack,0,Boolean(activeUpgrade("twinPulse")));
+  const gear=equipmentStats();
+  const attack=shotWithGear(activeUpgrade("damage"),0,gear,progress.chipMastery?.damage?chipMasteryBoost("damage"):0);
+  const thermal=activeUpgrade("thermal")+.25*chipMasteryBoost("thermal");
+  const weapon=weaponEstimate(attack,0,Boolean(activeUpgrade("twinPulse")),gear.cadence,effectiveTwinDamage({twinBoost:chipMasteryBoost("twinPulse")}));
   return {
     attack,
     dps:weapon.primary+weapon.secondary,
-    move:Math.round((1+.08*activeUpgrade("velocity"))*100),
+    move:Math.round((1+.08*activeUpgrade("velocity")+.02*chipMasteryBoost("velocity"))*100+gear.move),
     heat:Math.round(100/(1+.20*thermal)),
     cooling:26+3*thermal,
-    shield:activeUpgrade("shieldRegen")?15:0
+    shield:(activeUpgrade("shieldRegen")?15+2*chipMasteryBoost("shieldRegen"):0)+gear.regen,barrier:gear.barrier,defense:gear.defense
   };
 }
 const chipStatColumns=[
@@ -3484,7 +3514,7 @@ const chipStatColumns=[
   ["move","chipMove","%"],
   ["heat","chipHeat","%","chipHeatHelp"],
   ["cooling","chipCooling","/s"],
-  ["shield","chipShield","/s","chipShieldHelp"]
+  ["shield","chipShield","/s","chipShieldHelp"],["barrier","gearBarrier",""],["defense","gearArmorStat","%"]
 ];
 function renderChipStats(previousStats){
   const current=readChipStats();
@@ -3495,7 +3525,7 @@ function renderChipStats(previousStats){
     name.textContent=copy(label);
     if(hint)name.title=copy(hint);
     const stat=document.createElement("dd");
-    stat.textContent=current[key]+unit;
+    stat.textContent=Number.isInteger(current[key])?current[key]+unit:current[key].toFixed(1)+unit;
     const delta=previousStats?current[key]-previousStats[key]:0;
     if(delta){
       const badge=document.createElement("span");
@@ -3510,7 +3540,7 @@ function renderChipStats(previousStats){
 }
 lobbyLanguage.addEventListener("change",()=>{
   if(!$("profileMatchHistory").hidden)renderMatchHistory();
-  if($("petChips").open)renderChipStats();
+  if($("petChips").open)renderChipFolder();
 });
 Object.assign(lobbyText.en,{
   infiniteMode:"∞ Infinite",infiniteTitle:"Infinite",infiniteRecap:"INFINITE RUN COMPLETE",wavesCleared:"Waves cleared",
@@ -3640,9 +3670,9 @@ function finishInfinite(win=false){
   career.missions++;career.wins+=Number(win);career.kills+=kills;career.seconds+=elapsed;career.xp+=kills*10+(win?250:50);persist();
   saveCareer();
   showReport({win,mode:missionDifficulty,sector:missionSector,points:score,count:kills,seconds:elapsed,
-    health:hp,barrier:shield,attack:shotDamage(),move:1+.10*speed+.08*activeUpgrade("velocity"),
+    health:hp,barrier:shield,attack:shotDamage(),move:1+.10*speed+.08*activeUpgrade("velocity")+.02*chipMasteryBoost("velocity")+soloGearStats().move/100,
     thermal:activeUpgrade("thermal"),pickups:soloPickups,credits:soloPickups.coin*10+infiniteRun.bonus,
-    rapid:rapidLevel,twin:Boolean(activeUpgrade("twinPulse")),endless:true,waves:infiniteRun.cleared});
+    rapid:rapidLevel,cadence:soloGearStats().cadence,twin:Boolean(activeUpgrade("twinPulse")),endless:true,waves:infiniteRun.cleared});
 }
 $("novaLine").textContent=copy("novaHome");
 function validCoopRoute(route){
@@ -3681,6 +3711,7 @@ function enterCoopArena(conn){
   $("coopLeave").textContent=coopText("Leave co-op","Salir del cooperativo");
 }
 function settleCoopCredits(conn){
+  if(conn.arena?.route==="raid")return;
   const player=conn.arena?.players[crewPilotIndex(conn)];
   if(!player||!Number.isSafeInteger(player.coins)||player.coins<=conn.credited)return;
   progress.credits+=player.coins-conn.credited;
@@ -3904,8 +3935,8 @@ function reviveSolo(){
 function restoreCoopPilot(pilot,hp){
   Object.assign(pilot,{hp,shield:0,heat:0,charge:0,locked:false,safe:0,reviveGrace:1.8});
 }
-function tryHole(list,enemy,time,equipped){
-  if(!equipped||list.length>=15||Math.random()>=.12)return;
+function tryHole(list,enemy,time,equipped,boost=0){
+  if(!equipped||list.length>=15||Math.random()>=.12+Math.min(54,boost)*.002)return;
   const found={x:enemy.x,y:enemy.y,r:57,until:time+20,large:false};
   const nearby=list.filter(well=>!well.large&&dist(well,found)<=well.r+found.r);
   const pair=nearby.flatMap((first,index)=>nearby.slice(index+1).map(second=>[first,second])).find(([first,second])=>dist(first,second)<=first.r+second.r);
@@ -4173,7 +4204,8 @@ resetNovaDeck();
 refreshPetBubble();
 syncScoreQueue();
 
-const storyWaves=[0,0,6,9,12,12,15,18,21,24,30];
+const storyWaves=[0,0,6,9,12,12,15,18,21,24,1];
+function storyDragonLevel(level){return level>0&&level%10===0;}
 let playingStoryLevel=0;
 let lastStoryReward="";
 function storyLevel(){
@@ -4207,7 +4239,10 @@ function startStory(level=storyLevel()){
   missionDifficulty=selectedDifficulty;
   infiniteRun={kind:"storyVoyage",level,spawned:0,cleared:0,elapsed:0,transition:null,effects:[],bonus:0,lives:0};
   E=[];B=[];lastStoryReward="";
-  updateInfiniteWave();
+  if(storyDragonLevel(level)){
+    spawn("boss");awakenDragon(E[0],level);
+    p.x=W/2;p.y=H*.74;boss=true;
+  }else updateInfiniteWave();
 }
 function settleStory(level,points){
   progress.storyLevel=Math.max(storyLevel(),Math.min(10,level+1));
@@ -4260,6 +4295,14 @@ function storyReward(run){
   sfx("loot");
 }
 function updateStoryWave(run){
+  if(storyDragonLevel(run.level)){
+    if(!E.length){
+      run.cleared=1;run.bonus=400;
+      progress.credits+=400;progress.dragonVictories=(progress.dragonVictories||0)+1;
+      finishInfinite(true);
+    }
+    return;
+  }
   const total=storyWaves[run.level];
   const guardian=wave%3===0;
   const size=6+Math.floor(run.level*.65)+(wave%3)*2;
@@ -4282,9 +4325,7 @@ function updateStoryWave(run){
   while(E.length<Math.min(8,3+Math.floor(run.level/2))&&run.spawned<waveSize){
     const isBoss=bossWave&&run.spawned===waveSize-1;
     if(isBoss&&E.length)return;
-    const dragon=isBoss&&run.level%10===0&&wave===storyWaves[run.level];
     spawn(isBoss?"boss":endlessEnemy(wave%15===0?wave-1:wave,run.spawned));
-    if(dragon)awakenDragon(E.at(-1),run.level);
     run.spawned++;
   }
   boss=E.some(enemy=>enemy.type==="boss");
@@ -4299,13 +4340,13 @@ function awakenDragon(dragon,level){
   dragon.dragon=true;
   dragon.story=true;
   dragon.x=W/2;dragon.y=48;dragon.r=52;
-  dragon.h=dragon.max=Math.round(38000*era**1.35*mode.health*(missionDifficulty==="nightmare"?1.20:1));
+  dragon.h=dragon.max=Math.round(9500*era**1.35*mode.health*(missionDifficulty==="nightmare"?1.20:1));
   dragon.damageScale=1+.15*(era-1);
   dragon.s=0;dragon.nextFlare=elapsed+2.5;dragon.intro=elapsed;
   dragon.budget=850;dragon.budgetAt=elapsed;dragon.budgetRate=missionDifficulty==="nightmare"?2100:2400;
   dragon.attackIndex=0;dragon.attack=null;
   // Keep the boss silhouette, aim point and warning lines visible over the full top edge.
-  liveMeteorites=liveMeteorites.filter(rock=>rock.y>100&&!rock.orbitRadius);
+  liveMeteorites=[];
   B=[];
 }
 function storyDragonDamage(dragon,damage){
@@ -4317,45 +4358,48 @@ function storyDragonDamage(dragon,damage){
   return allowed;
 }
 function updateGrandDragon(dragon){
-  const nightmare=missionDifficulty==="nightmare", rage=dragon.h<dragon.max*.46;
+  advanceDragonPattern(dragon,elapsed,p,missionDifficulty==="nightmare",W,H,13*dragon.damageScale,1,
+    (origin,aim,speed,offset,color,damage)=>shoot(origin,aim,speed,false,offset,color,damage,5),dragon.h);
+}
+function advanceDragonPattern(dragon,clock,target,nightmare,width,height,damage,pressure,fire,health){
+  const rage=health<dragon.max*.46;
   const moves=nightmare?["breath","stars","nova","cross","spiral"]:["breath","stars","nova"];
-  if(!dragon.attack&&elapsed>=dragon.nextFlare){
-    const tell=nightmare?.84:1.08;
-    dragon.attack={kind:moves[dragon.attackIndex++%moves.length],aim:{x:p.x,y:p.y},fire:elapsed+tell};
+  if(!dragon.attack&&clock>=dragon.nextFlare){
+    const tell=(nightmare?.92:1.08)/Math.sqrt(pressure);
+    dragon.attack={kind:moves[dragon.attackIndex++%moves.length],aim:{x:target.x,y:target.y},fire:clock+tell};
     return;
   }
-  if(!dragon.attack||elapsed<dragon.attack.fire)return;
+  if(!dragon.attack||clock<dragon.attack.fire)return;
   const {kind,aim}=dragon.attack;
-  const damage=13*dragon.damageScale;
-  const launch=(origin,target,angle,v,color)=>shoot(origin,target,v,false,angle,color,damage,5);
+  const launch=(origin,target,angle,v,color)=>fire(origin,target,v*pressure,angle,color,damage);
   if(kind==="breath"){
     for(let i=-4;i<=4;i++)launch(dragon,aim,i*.16,154,"#ff905f");
   }else if(kind==="stars"){
     const lanes=nightmare?8:6;
     for(let i=0;i<lanes;i++){
-      const x=(i+.5)*W/lanes;
-      if(Math.abs(x-aim.x)<W/lanes*.68)continue;
-      launch({x,y:14},{x,y:H},0,166,"#ead2ff");
+      const x=(i+.5)*width/lanes;
+      if(Math.abs(x-aim.x)<width/lanes*.68)continue;
+      launch({x,y:14},{x,y:height},0,166,"#ead2ff");
     }
   }else if(kind==="nova"){
     for(let i=-6;i<=6;i++){
-      const start={x:W/2,y:52};
-      launch(start,{x:W/2,y:H},i*.21+(rage?.09:0),rage?182:138,"#98d6ff");
+      const start={x:width/2,y:52};
+      launch(start,{x:width/2,y:height},i*.21+(rage?.09:0),rage?182:138,"#98d6ff");
     }
   }else if(kind==="cross"){
-    for(const x of [10,W-10])for(let i=-2;i<=2;i++)launch({x,y:70},aim,i*.21,177,"#ff81de");
+    for(const x of [10,width-10])for(let i=-2;i<=2;i++)launch({x,y:70},aim,i*.21,177,"#ff81de");
   }else{
-    for(let i=-5;i<=5;i++)launch(dragon,{x:W/2,y:H},i*.23+Math.sin(dragon.attackIndex)*.18,126+Math.abs(i)*14,"#b6a2ff");
+    for(let i=-5;i<=5;i++)launch(dragon,{x:width/2,y:height},i*.23+Math.sin(dragon.attackIndex)*.18,126+Math.abs(i)*14,"#b6a2ff");
   }
   dragon.attack=null;
-  dragon.nextFlare=elapsed+(nightmare?(rage?.75:1.14):(rage?1.65:2.2));
+  dragon.nextFlare=clock+(nightmare?(rage?.95:1.34):(rage?1.65:2.2))/pressure;
   sfx("charge");
 }
-function drawGrandDragon(dragon,now){
+function drawGrandDragon(dragon,now,combatTime=elapsed,nightmare=missionDifficulty==="nightmare",health=dragon.h){
   const width=Math.min(W-16,W*.94),height=Math.min(H*.30,width*.31);
   const left=(W-width)/2;
   const shift=motionAllowed()?Math.sin(now/550)*2:0;
-  const gate=motionAllowed()?Math.max(0,1-(elapsed-dragon.intro)/1.25):0;
+  const gate=motionAllowed()?Math.max(0,1-(combatTime-dragon.intro)/1.25):0;
   g.save();
   g.fillStyle="#160b32";g.fillRect(0,0,W,height+7);
   if(dragonArt.complete&&dragonArt.naturalWidth){
@@ -4384,13 +4428,13 @@ function drawGrandDragon(dragon,now){
   }
   const bar=Math.min(220,W*.55);
   g.fillStyle="#251333";g.fillRect((W-bar)/2,height-6,bar,7);
-  g.fillStyle="#ff8bd9";g.fillRect((W-bar)/2,height-6,bar*clamp(dragon.h/dragon.max,0,1),7);
+  g.fillStyle="#ff8bd9";g.fillRect((W-bar)/2,height-6,bar*clamp(health/dragon.max,0,1),7);
   if(dragon.attack){
     const {kind,aim}=dragon.attack;
     g.strokeStyle=kind==="stars"?"#ffe7aa99":"#ff788da5";
     g.lineWidth=2;g.setLineDash([7,5]);
     if(kind==="stars"){
-      const lanes=missionDifficulty==="nightmare"?8:6;
+      const lanes=nightmare?8:6;
       for(let i=0;i<lanes;i++){
         const x=(i+.5)*W/lanes;
         if(Math.abs(x-aim.x)<W/lanes*.68)continue;
@@ -4421,8 +4465,8 @@ Object.assign(lobbyText.en,{
   updateBody:"Story now runs through Level 10. Try crew rooms, open a pilot profile, and face the Cosmic Dragon.",
   updatePrior:"Cosmic Trials",updatePriorBody:"Boss Survival, daily challenges, Black Hole, and new customization arrived.",
   updateError:"The claim could not be saved on this device.",
-  crewTitle:"Crew rooms · 3–5",crewCreate:"Create room",crewJoin:"Join by code",crewCode:"Room code",crewSlots:"Seats",
-  crewHostStart:"Start crew run",crewLeave:"Leave crew",crewShare:"Share code",crewCopied:"Code copied.",crewConnect:"Join the online lobby to use crew rooms.",
+  crewTitle:"Raid rooms",crewCreate:"Create room",crewJoin:"Join by code",crewCode:"Room code",crewSlots:"Seats",
+  crewHostStart:"Launch room",crewLeave:"Leave room",crewShare:"Share code",crewCopied:"Code copied.",crewConnect:"Join the online lobby to use crew rooms.",
   crewRoomError:"Room unavailable or action failed. Check the code, capacity, and ready status.",crewConnecting:"Connecting to crew…",
   crewReadyHelp:"Three or more pilots must all be ready. The host starts the run.",crewLost:"Crew connection ended. Rejoin the room to continue if the host is still playing."
 });
@@ -4437,13 +4481,14 @@ Object.assign(lobbyText.es,{
   updateBody:"La campaña llega al nivel 10. Prueba salas de equipo, abre perfiles y enfréntate al Dragón Cósmico.",
   updatePrior:"Pruebas cósmicas",updatePriorBody:"Llegaron la supervivencia de jefes, desafíos diarios, agujeros negros y nuevas opciones de personalización.",
   updateError:"No se pudo guardar la recompensa en este dispositivo.",
-  crewTitle:"Salas de equipo · 3–5",crewCreate:"Crear sala",crewJoin:"Entrar con código",crewCode:"Código de sala",crewSlots:"Plazas",
-  crewHostStart:"Iniciar partida",crewLeave:"Salir del equipo",crewShare:"Compartir código",crewCopied:"Código copiado.",crewConnect:"Entra a la sala en línea para usar equipos.",
+  crewTitle:"Salas de incursión",crewCreate:"Crear sala",crewJoin:"Entrar con código",crewCode:"Código de sala",crewSlots:"Plazas",
+  crewHostStart:"Iniciar partida",crewLeave:"Salir de la sala",crewShare:"Compartir código",crewCopied:"Código copiado.",crewConnect:"Entra a la sala en línea para usar equipos.",
   crewRoomError:"Sala o acción no disponible. Verifica el código, las plazas y el estado de los pilotos.",crewConnecting:"Conectando con el equipo…",
   crewReadyHelp:"Se necesitan al menos tres pilotos listos. El anfitrión inicia la partida.",crewLost:"Se cerró la conexión. Vuelve a entrar si el anfitrión sigue jugando."
 });
 
 const releases=[
+  {version:"0.20.0",title:"raidNewTitle",body:"raidNewBody",credits:100},
   {version:"0.19.0",title:"updateNewest",body:"updateBody",credits:100},
   {version:"0.18.0",title:"updatePrior",body:"updatePriorBody",credits:100}
 ];
@@ -4596,7 +4641,7 @@ function renderCrew(){
   $("crewRoster").hidden=!room;
   if(!room)return;
   $("crewRoomCode").textContent=room.code;
-  $("crewRouteName").textContent=(room.route==="infinite"?copy("infiniteTitle"):room.route==="campaign"?storyLabel(1):sectorName(Number(room.route)))+" · "+gameText(difficultyLabels[room.mode]);
+  $("crewRouteName").textContent=(room.route==="raid"?copy("raidName"):room.route==="infinite"?copy("infiniteTitle"):room.route==="campaign"?storyLabel(1):sectorName(Number(room.route)))+" · "+gameText(difficultyLabels[room.mode]);
   $("crewMembers").replaceChildren(...room.members.filter(member=>!member.departed).map(member=>{
     const li=document.createElement("li");
     li.textContent=member.name+(member.seat===room.you?" · "+copy("roomYou"):"")+" · "+copy(member.ready?"roomReady":"roomNotReady");
@@ -4606,7 +4651,7 @@ function renderCrew(){
   $("crewReady").hidden=room.status!=="lobby";
   $("crewReady").textContent=copy(mine?.ready?"roomUnready":"roomReady");
   $("crewStart").hidden=room.you!==0||room.status!=="lobby";
-  $("crewStart").disabled=room.members.length<3||room.members.some(member=>!member.ready);
+  $("crewStart").disabled=room.members.length<(room.route==="raid"?2:3)||room.members.some(member=>!member.ready);
 }
 async function crewRequest(action,values={}){
   const client=await getAccountClient();
@@ -4620,6 +4665,7 @@ async function manageCrew(action,values={},quiet=false){
   crewBusy=true;
   try{
     const {room,client,session}=await crewRequest(action,values);
+    if(action!=="read")showRaidQuota(client);
     const hadRoom=Boolean(crewRoom);
     crewRoom=room;
     renderCrew();
@@ -4630,16 +4676,17 @@ async function manageCrew(action,values={},quiet=false){
       }
       setCrewStatus("crewConnecting");
       await connectCrew(room,client,session);
-    }else if(!quiet)setCrewStatus(room?.status==="lobby"?"crewReadyHelp":"");
+    }else if(!quiet)setCrewStatus(room?.status==="lobby"?(room.route==="raid"?"raidReadyHelp":"crewReadyHelp"):"");
     else if(hadRoom&&!room)setCrewStatus("crewLost");
-  }catch(error){if(!quiet)setCrewStatus(error?.offline?"crewConnect":"crewRoomError");}
+  }catch(error){if(!quiet)setCrewStatus(error?.offline?"crewConnect":String(error?.message).includes("RAID_DAILY_LIMIT")?"raidLimitReached":"crewRoomError");}
   finally{crewBusy=false;}
 }
 $("openCrew").onclick=()=>{
   if(coopConnection)return;
-  $("multiplayerRoom").close();$("crewDialog").showModal();
-  $("crewRoute").value=$("multiplayerRoute").value;
-  $("crewDifficulty").value=selectedDifficulty;
+  if($("multiplayerRoom").open)$("multiplayerRoom").close();
+  if(!$("crewDialog").open)$("crewDialog").showModal();
+  $("crewRoute").value="raid";
+  refreshRaidOptions();
   manageCrew("current");
 };
 $("crewClose").onclick=()=>$("crewDialog").close();
@@ -4776,5 +4823,389 @@ lobbyLanguage.addEventListener("change",()=>{
   setCrewStatus($("crewStatus").dataset.status);
 });
 refreshStoryLabel();renderReleaseInbox();syncRankFilter();translateGame();
+
+Object.assign(lobbyText.en,{
+  gearLoadout:"Nova loadout",gearChips:"Upgrade chips",gearArmor:"Weapons & armor",gearShop:"Gear shop",gearBag:"Inventory bag",gearEmpty:"Your bag is empty.",
+  gearEquip:"Equip",gearRemove:"Unequip",gearUpgrade:"Upgrade",gearPrestige:"Prestige",gearPrice:"Buy · 50 NC",gearRank:"Pilot level",
+  gearSlotLocked:"Fourth chip slot at pilot level 10.",gearChallenge:"Dragon victories",gearChooseSlot:"Choose a hand slot.",
+  gearMain:"Main hand",gearOff:"Off hand",gearHead:"Helmet",gearChest:"Chest",gearArms:"Arms",gearHands:"Gloves",gearLegs:"Legs",gearFeet:"Boots",
+  gearSword:"Training sword",gearGun:"Pulse pistol",gearShield:"Guard shield",gearFang:"Dragon Fang",
+  gearAtk:"ATK",gearRate:"Fire rate",gearArmorStat:"Damage reduction",gearBarrier:"Starting shield",gearRegen:"Shield regen",gearMove:"Move speed",
+  gearWallet:"Wallet",gearBought:"Added to your bag. Inspect it to see the roll.",gearFull:"Your bag holds up to 80 pieces.",gearLocked:"Obtain the chip first.",
+  gearMax:"Maximum prestige",gearLegacy:"Legacy power preserved",gearRankLevel:"Level",gearPrestigeMark:"Prestige",
+  raidName:"Nightmare Dragon Raid",raidPractice:"Solo raid practice",raidPracticeHint:"Unlimited practice · no loot or XP",
+  raidLimit:"Raid entries left today",raidReset:"Daily reset at 00:00 UTC.",raidLimitReached:"At least one pilot has used all three raid entries today.",
+  raidReadyHelp:"Two to five pilots · everyone readies · one daily entry per pilot at launch.",raidVictory:"DRAGON RAID CLEARED",
+  raidDefeat:"DRAGON RAID FAILED",raidPracticeResult:"DRAGON PRACTICE",raidLoot:"Raid reward collected",raidXP:"Pilot XP",raidNewTitle:"Dragon Raid",
+  raidNewBody:"Take on the Nightmare Dragon with friends and equip gear in Nova’s new loadout.",
+  raidClosing:"Enrage",raidEnraged:"ENRAGED",raidOneBoss:"Dragon encounter",raidDowned:"Downed · teammates can still finish",
+  raidTierHeld:"Equipped",raidGoHome:"Return home"
+});
+Object.assign(lobbyText.es,{
+  gearLoadout:"Equipamiento de Nova",gearChips:"Chips de mejora",gearArmor:"Armas y armadura",gearShop:"Tienda de equipo",gearBag:"Bolsa de inventario",gearEmpty:"Tu bolsa está vacía.",
+  gearEquip:"Equipar",gearRemove:"Quitar",gearUpgrade:"Mejorar",gearPrestige:"Prestigio",gearPrice:"Comprar · 50 NC",gearRank:"Nivel de piloto",
+  gearSlotLocked:"La cuarta ranura se abre al nivel 10 de piloto.",gearChallenge:"Victorias contra dragones",gearChooseSlot:"Elige una mano.",
+  gearMain:"Mano principal",gearOff:"Mano secundaria",gearHead:"Casco",gearChest:"Peto",gearArms:"Brazos",gearHands:"Guantes",gearLegs:"Piernas",gearFeet:"Botas",
+  gearSword:"Espada de entrenamiento",gearGun:"Pistola de pulso",gearShield:"Escudo protector",gearFang:"Colmillo de dragón",
+  gearAtk:"ATQ",gearRate:"Cadencia",gearArmorStat:"Reducción de daño",gearBarrier:"Escudo inicial",gearRegen:"Regeneración",gearMove:"Movimiento",
+  gearWallet:"Cartera",gearBought:"Añadido a tu bolsa. Examínalo para ver sus atributos.",gearFull:"La bolsa tiene espacio para 80 piezas.",gearLocked:"Consigue el chip primero.",
+  gearMax:"Prestigio máximo",gearLegacy:"Potencia anterior conservada",gearRankLevel:"Nivel",gearPrestigeMark:"Prestigio",
+  raidName:"Incursión del Dragón en Pesadilla",raidPractice:"Práctica de incursión individual",raidPracticeHint:"Práctica ilimitada · sin botín ni EXP",
+  raidLimit:"Entradas de incursión restantes",raidReset:"Reinicio diario a las 00:00 UTC.",raidLimitReached:"Al menos un piloto ya usó sus tres entradas de hoy.",
+  raidReadyHelp:"De dos a cinco pilotos listos · se usa una entrada por piloto al iniciar.",raidVictory:"INCURSIÓN SUPERADA",
+  raidDefeat:"INCURSIÓN FALLIDA",raidPracticeResult:"PRÁCTICA CONTRA EL DRAGÓN",raidLoot:"Recompensa de incursión recogida",raidXP:"EXP de piloto",raidNewTitle:"Incursión del Dragón",
+  raidNewBody:"Enfrenta al Dragón de Pesadilla con amigos y prueba el nuevo equipamiento de Nova.",
+  raidClosing:"Furia",raidEnraged:"ENFURECIDO",raidOneBoss:"Encuentro con el Dragón",raidDowned:"Caído · tus aliados aún pueden ganar",
+  raidTierHeld:"Equipado",raidGoHome:"Volver al inicio"
+});
+var gearSlots={main:["gearMain","⚔"],off:["gearOff","◈"],head:["gearHead","◇"],chest:["gearChest","▣"],arms:["gearArms","║"],hands:["gearHands","✦"],legs:["gearLegs","Ⅱ"],feet:["gearFeet","▰"]};
+const gearCatalog={
+  sword:{name:"gearSword",icon:"⚔",slots:["main","off"],stat:"attack"},
+  gun:{name:"gearGun",icon:"◉",slots:["main","off"],stat:"cadence"},
+  shield:{name:"gearShield",icon:"◈",slots:["main","off"],stat:"barrier"},
+  fang:{name:"gearFang",icon:"✧",slots:["main","off"],stat:"attack"}
+};
+for(const slot of ["head","chest","arms","hands","legs","feet"]){
+  gearCatalog[slot]={name:gearSlots[slot][0],icon:gearSlots[slot][1],slots:[slot],
+    stat:slot==="chest"||slot==="head"?"defense":slot==="feet"||slot==="legs"?"move":slot==="arms"?"barrier":"cadence"};
+}
+const gearStatLabels={attack:"gearAtk",cadence:"gearRate",defense:"gearArmorStat",barrier:"gearBarrier",regen:"gearRegen",move:"gearMove"};
+function pilotLevel(){return 1+Math.floor((typeof career==="undefined"?0:career.xp)/500);}
+function chipSlotsAvailable(){return pilotLevel()>=10?4:3;}
+function gearBag(){
+  if(!Array.isArray(progress.gearBag))progress.gearBag=[];
+  return progress.gearBag;
+}
+function gearWorn(){
+  if(!progress.gearWorn||Array.isArray(progress.gearWorn)||typeof progress.gearWorn!=="object")progress.gearWorn={};
+  return progress.gearWorn;
+}
+function gearAmount(item){return item.roll+(item.level-1)+item.prestige*5;}
+function validGearItem(item){
+  return item&&typeof item.id==="string"&&Object.hasOwn(gearCatalog,item.kind)&&Number.isInteger(item.roll)&&item.roll>=1&&item.roll<=3
+    &&Number.isInteger(item.level)&&item.level>=1&&item.level<=5&&Number.isInteger(item.prestige)&&item.prestige>=0&&item.prestige<=10;
+}
+const emptyGearStats=()=>({attack:0,cadence:0,defense:0,barrier:0,regen:0,move:0});
+function equipmentStats(){
+  const stats={attack:0,cadence:0,defense:0,barrier:0,regen:0,move:0};
+  if(!gearSlots)return stats;
+  const seen=new Set();
+  for(const slot of Object.keys(gearSlots)){
+    const id=gearWorn()[slot];
+    if(!id||seen.has(id))continue;
+    const item=gearBag().find(entry=>entry?.id===id);
+    if(!validGearItem(item)||!gearCatalog[item.kind].slots.includes(slot))continue;
+    seen.add(id);
+    const amount=gearAmount(item);
+    stats[gearCatalog[item.kind].stat]+=amount*(item.kind==="shield"?4:1);
+    if(item.kind==="shield")stats.regen+=amount*.5;
+    if(item.kind==="fang")stats.cadence+=2;
+  }
+  return normalizedEquipment(stats);
+}
+function normalizedEquipment(value){
+  const limits={attack:60,cadence:50,defense:30,barrier:80,regen:20,move:30};
+  return Object.fromEntries(Object.entries(limits).map(([key,max])=>[key,clamp(Number(value?.[key])||0,0,max)]));
+}
+function soloGearStats(){return typeof cachedRunGear!=="undefined"&&cachedRunGear?cachedRunGear:equipmentStats();}
+var cachedRunGear=null;
+function tierValue(value,min=0,max=10){return Number.isInteger(value)?clamp(value,min,max):min;}
+function chipMastery(key){
+  const saved=progress.chipMastery?.[key];
+  const level=typeof progress[key]==="number"?Math.max(1,Math.min(5,progress[key])):1;
+  return {level:saved?tierValue(saved.level,1,5):level,prestige:tierValue(saved?.prestige)};
+}
+function chipOwned(key){return Boolean(progress[key]);}
+function chipMasteryBoost(key){
+  if(!equippedChips().includes(key))return 0;
+  const tier=chipMastery(key);
+  if(typeof progress[key]==="number"&&!tier.prestige)return 0;
+  return tier.level-1+tier.prestige*5;
+}
+function effectiveTwinDamage(upgrades){
+  return .6+.008*clamp(Number(upgrades?.twinBoost)||0,0,54);
+}
+function gearAction(text,click,disabled=false){
+  const button=document.createElement("button");
+  button.type="button";button.textContent=text;button.onclick=click;button.disabled=disabled;
+  return button;
+}
+function itemStatText(item){
+  const def=gearCatalog[item.kind],amount=gearAmount(item);
+  const unit=["cadence","defense","move"].includes(def.stat)?"%":"";
+  const primary="+"+(item.kind==="shield"?amount*4:amount)+unit+" "+copy(gearStatLabels[def.stat]);
+  return item.kind==="shield"?primary+" · +"+amount*.5+"/s "+copy("gearRegen"):primary;
+}
+function addGear(kind,roll){
+  const item={id:crypto.randomUUID(),kind,roll,level:1,prestige:0};
+  gearBag().push(item);
+  return item;
+}
+function dragonPrestigeRequirement(prestige){return 1+prestige*3;}
+function prestigeCost(prestige){return 500*(prestige+1);}
+function canPrestige(rank){return rank<10&&(progress.dragonVictories||0)>=dragonPrestigeRequirement(rank)&&progress.credits>=prestigeCost(rank);}
+function tierDetails(actions,level,prestige,upgrade,onPrestige){
+  const price=50*level;
+  if(level<5)actions.append(gearAction(copy("gearUpgrade")+" · "+price+" NC",upgrade,progress.credits<price));
+  else if(prestige<10){
+    const note=document.createElement("p");
+    note.textContent=copy("gearChallenge")+" "+(progress.dragonVictories||0)+"/"+dragonPrestigeRequirement(prestige);
+    actions.append(note,gearAction(copy("gearPrestige")+" · "+prestigeCost(prestige)+" NC",onPrestige,!canPrestige(prestige)));
+  }else actions.append(copy("gearMax"));
+}
+let loadoutPage="chips",selectedGear=null,selectedChip=null;
+function showLoadoutPage(page){
+  loadoutPage=page;
+  renderChipFolder();
+}
+function renderChipFolder(previousStats){
+  const dialog=$("petChips");
+  dialog.dataset.page=loadoutPage;
+  for(const tab of dialog.querySelectorAll("[data-loadout]"))tab.setAttribute("aria-pressed",String(tab.dataset.loadout===loadoutPage));
+  $("loadoutRank").textContent=copy("gearRank")+" "+pilotLevel();
+  $("loadoutWallet").textContent=copy("gearWallet")+" "+progress.credits.toLocaleString(lobbyLanguage.value)+" NC";
+  renderChipStats(previousStats);
+  $("gearSlots").hidden=loadoutPage!=="armor";
+  $("chipSlotsGrid").hidden=loadoutPage!=="chips";
+  $("chipStatus").textContent=loadoutPage==="chips"?equippedChips().length+" / "+chipSlotsAvailable()+" · "+(chipSlotsAvailable()===3?copy("gearSlotLocked"):copy("gearChips")):"";
+  const pack=$("chipFolderList"),detail=$("gearDetail");
+  pack.replaceChildren();detail.replaceChildren();
+  if(loadoutPage==="shop")renderGearShop(pack);
+  else if(loadoutPage==="armor")renderEquipment(pack,detail);
+  else renderChipInventory(pack,detail);
+}
+function inventoryTile(name,icon,caption,action,selected=false){
+  const tile=gearAction("",action),symbol=document.createElement("b"),label=document.createElement("span"),sub=document.createElement("small");
+  symbol.textContent=icon;label.textContent=name;sub.textContent=caption;
+  tile.className="inventory-tile";tile.setAttribute("aria-pressed",String(selected));tile.append(symbol,label,sub);
+  return tile;
+}
+function renderGearShop(pack){
+  for(const [kind,def] of Object.entries(gearCatalog)){
+    if(kind==="fang")continue;
+    const tile=inventoryTile(copy(def.name),def.icon,copy("gearPrice"),()=>{
+      if(progress.credits<50||gearBag().length>=80)return;
+      addGear(kind,1+Math.floor(Math.random()*3));progress.credits-=50;persist();renderChipFolder();
+      $("chipStatus").textContent=copy("gearBought");
+    });
+    tile.disabled=progress.credits<50||gearBag().length>=80;
+    pack.append(tile);
+  }
+  if(gearBag().length>=80)$("chipStatus").textContent=copy("gearFull");
+}
+function renderEquipment(pack,detail){
+  const slots=$("gearSlots"),bag=gearBag().filter(validGearItem),worn=gearWorn();
+  slots.replaceChildren();
+  for(const [key,[label,icon]] of Object.entries(gearSlots)){
+    const item=bag.find(entry=>entry.id===worn[key]);
+    slots.append(inventoryTile(copy(label),item?gearCatalog[item.kind].icon:icon,item?copy(gearCatalog[item.kind].name):"—",()=>{
+      if(item){selectedGear=item.id;renderChipFolder();}
+    },selectedGear===item?.id&&Boolean(item)));
+  }
+  if(!bag.length){pack.textContent=copy("gearEmpty");return;}
+  for(const item of bag){
+    const def=gearCatalog[item.kind];
+    pack.append(inventoryTile(copy(def.name),def.icon,itemStatText(item),()=>{selectedGear=item.id;renderChipFolder();},item.id===selectedGear));
+  }
+  const item=bag.find(entry=>entry.id===selectedGear);
+  if(!item)return;
+  const def=gearCatalog[item.kind],title=document.createElement("strong"),actions=document.createElement("div");
+  title.textContent=copy(def.name)+" · "+copy("gearRankLevel")+" "+item.level+"/5 · "+copy("gearPrestigeMark")+" "+item.prestige;
+  detail.append(title,actions);
+  for(const slot of def.slots){
+    const isOn=worn[slot]===item.id;
+    actions.append(gearAction(copy(isOn?"gearRemove":"gearEquip")+" · "+copy(gearSlots[slot][0]),()=>{
+      const before=readChipStats();
+      for(const key of Object.keys(worn))if(worn[key]===item.id)delete worn[key];
+      if(!isOn)worn[slot]=item.id;
+      persist();renderChipFolder(before);
+    }));
+  }
+  tierDetails(actions,item.level,item.prestige,()=>{
+    const price=50*item.level;
+    if(item.level>=5||progress.credits<price)return;
+    progress.credits-=price;item.level++;persist();renderChipFolder();
+  },()=>{
+    if(item.level!==5||!canPrestige(item.prestige))return;
+    progress.credits-=prestigeCost(item.prestige);
+    item.prestige++;item.level=1;persist();renderChipFolder();
+  });
+}
+function chipName(key){
+  return gameText(upgrades.find(row=>row[0]===key)?.[1]||{shieldRegen:"Shield Regenerator",twinPulse:"Twin Pulse",blackHole:"Black Hole"}[key]);
+}
+function renderChipInventory(pack,detail){
+  const slots=$("chipSlotsGrid"),equipped=equippedChips();
+  slots.replaceChildren();
+  for(let index=0;index<4;index++){
+    const key=equipped[index],available=index<chipSlotsAvailable();
+    const tile=inventoryTile(available?String(index+1):"🔒",key?"◆":"◇",key?chipName(key):"—",()=>{selectedChip=key;renderChipFolder();});
+    tile.disabled=!key||!available;slots.append(tile);
+  }
+  for(const [index,key] of chipKeys.entries()){
+    const rank=chipMastery(key);
+    const unlocked=chipOwned(key);
+    const base=typeof progress[key]==="number"&&!rank.prestige?Math.min(5,progress[key]):rank.level;
+    pack.append(inventoryTile(chipName(key),["◆","»","◒","⬟","✦","◉"][index],unlocked?(equipped.includes(key)?copy("raidTierHeld")+" · ":"")+base+"/5":copy("gearLocked"),
+      ()=>{selectedChip=key;renderChipFolder();},key===selectedChip));
+  }
+  const key=selectedChip;
+  if(!chipKeys.includes(key))return;
+  const unlocked=chipOwned(key),on=equipped.includes(key),master=chipMastery(key);
+  const title=document.createElement("strong"),actions=document.createElement("div");
+  const core=upgrades.some(row=>row[0]===key);
+  const rank=core&&!master.prestige?Math.min(5,progress[key]||0):master.level;
+  title.textContent=chipName(key)+(unlocked?" · "+copy("gearRankLevel")+" "+rank+"/5 · "+copy("gearPrestigeMark")+" "+master.prestige:"");
+  detail.append(title,actions);
+  if(key==="shieldRegen"&&!unlocked){renderShieldUpgrade(actions);return;}
+  if(key==="blackHole"&&!unlocked){renderBlackHoleOffer(actions);return;}
+  if(key==="twinPulse"&&!unlocked){actions.append(copy("twinHint"));return;}
+  if(unlocked)actions.append(gearAction(copy(on?"gearRemove":"gearEquip"),()=>{
+    const before=readChipStats(),active=equippedChips();
+    if(!on&&active.length>=chipSlotsAvailable())return;
+    progress.equippedChips=on?active.filter(item=>item!==key):[...active,key];persist();renderChipFolder(before);
+  },!on&&equipped.length>=chipSlotsAvailable()));
+  if(core&&!master.prestige&&rank<5){
+    const cost=prices[rank];
+    actions.append(gearAction(copy("gearUpgrade")+" · "+cost+" NC",()=>{
+      if(progress.credits<cost||progress[key]>=5)return;
+      const before=readChipStats(),active=equippedChips();
+      progress.credits-=cost;progress[key]++;
+      if(active.length<chipSlotsAvailable()&&!active.includes(key))progress.equippedChips=[...active,key];
+      persist();renderChipFolder(before);
+    },progress.credits<cost));
+    return;
+  }
+  if(core&&progress[key]>5)actions.append(copy("gearLegacy"));
+  tierDetails(actions,rank,master.prestige,()=>{
+    if(master.level>=5||progress.credits<50*rank)return;
+    const before=readChipStats();progress.credits-=50*rank;master.level++;
+    (progress.chipMastery??={})[key]=master;persist();renderChipFolder(before);
+  },()=>{
+    if(rank!==5||!canPrestige(master.prestige))return;
+    const before=readChipStats();
+    progress.credits-=prestigeCost(master.prestige);master.prestige++;master.level=1;
+    (progress.chipMastery??={})[key]=master;persist();renderChipFolder(before);
+  });
+}
+for(const tab of $("petChips").querySelectorAll("[data-loadout]"))tab.onclick=()=>showLoadoutPage(tab.dataset.loadout);
+$("openGearShop").onclick=()=>{if(!$("petChips").open)$("petChips").showModal();showLoadoutPage("shop");};
+
+const dragonRaid={hp:5400,enrage:100,limit:125,coins:750,xp:1500};
+function shotWithGear(damageLevel,powerLevel,gear,boost=0){
+  return Math.round((amplifierDamage[damageLevel]+gear.attack+boost*8)*powerMultiplier[powerLevel]);
+}
+function raidShot(upgrades){
+  return 10+2*Math.min(5,upgrades.damage||0)+.26*Math.min(75,Math.max(0,(upgrades.pilotLevel||1)-1))
+    +Math.min(18,upgrades.gear?.attack||0)*.75+(upgrades.damageBoost||0)*.7;
+}
+function coOpShot(arena,pilot){
+  const u=pilot.upgrades;
+  return arena.route==="raid"?raidShot(u):shotWithGear(u.damage||0,pilot.power,u.gear||emptyGearStats(),u.damageBoost);
+}
+function installRaidEncounter(arena){
+  arena.rocks=[];
+  arena.enemies=[{type:"boss",dragon:true,raid:true,x:arena.width/2,y:49,r:48,
+    hp:dragonRaid.hp,max:dragonRaid.hp,intro:0,nextFlare:2,attackIndex:0,attack:null}];
+  for(const [index,pilot] of arena.players.entries()){
+    pilot.x=(index+1)*arena.width/(arena.players.length+1);
+    pilot.y=arena.height*.75;
+  }
+}
+function updateRaidDragon(arena,dragon){
+  const live=arena.players.filter(pilot=>pilot.hp>0&&!pilot.departed);
+  if(!live.length)return;
+  const enraged=arena.elapsed>=dragonRaid.enrage;
+  const target=live[dragon.attackIndex%live.length];
+  advanceDragonPattern(dragon,arena.elapsed,target,true,arena.width,arena.height,
+    9*(enraged?2.2:1),enraged?1.65:1,(origin,aim,speed,offset,color,damage)=>{
+      if(arena.shots.length>=180)return;
+      const angle=Math.atan2(aim.y-origin.y,aim.x-origin.x)+offset;
+      arena.shots.push({x:origin.x,y:origin.y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,
+        enemy:true,color,damage,r:5,life:4});
+    },dragon.hp);
+}
+function updateRaidPresentation(arena){
+  g.save();g.font="bold 12px system-ui";g.textAlign="left";
+  g.fillStyle=arena.elapsed>=dragonRaid.enrage?"#ff789c":"#ffe89e";
+  g.fillText(arena.elapsed>=dragonRaid.enrage?copy("raidEnraged")+" "+Math.max(0,Math.ceil(dragonRaid.limit-arena.elapsed))+"s":
+    copy("raidClosing")+" "+Math.ceil(dragonRaid.enrage-arena.elapsed)+"s",9,18);
+  g.restore();
+}
+function awardRaidRewards(conn,local){
+  if(conn.practice||local.departed||!local.raidChest)return 0;
+  const id=conn.room.id;
+  if(!id)return 0;
+  const credits=progress.raidRewards??={};
+  if(!credits[id]){
+    credits[id]=true;progress.credits+=dragonRaid.coins;
+    progress.dragonVictories=(progress.dragonVictories||0)+1;
+    persist();
+  }
+  if(!progress.raidFangEarned){
+    addGear("fang",3);progress.raidFangEarned=true;persist();
+  }
+  const xp=career.raidRewards??={};
+  if(!xp[id]){
+    xp[id]=true;career.xp+=dragonRaid.xp;career.missions++;career.wins++;career.kills++;
+    career.seconds+=conn.arena.elapsed;saveCareer();
+  }
+  return dragonRaid.coins;
+}
+function showRaidReport(conn,local){
+  const arena=conn.arena,won=arena.status==="won";
+  const credits=won?awardRaidRewards(conn,local):0;
+  if(!conn.practice&&arena.elapsed>10)referralMissionFinished();
+  showReport({win:won,mode:"nightmare",sector:arena.sector,points:won?5400:0,count:won?1:0,seconds:arena.elapsed,
+    health:local.hp,barrier:local.shield,attack:Math.round(raidShot(local.upgrades)),move:1+(local.upgrades.gear?.move||0)/100,
+    thermal:local.upgrades.thermal||0,pickups:local.pickups,credits,raid:true,practice:Boolean(conn.practice),raidXP:credits?dragonRaid.xp:0,
+    cadence:local.upgrades.gear?.cadence||0});
+  $("reportTitle").textContent=copy(conn.practice?"raidPracticeResult":won?"raidVictory":"raidDefeat");
+  $("reportContext").textContent=copy("raidName")+(conn.practice?" · "+copy("raidPracticeHint"):credits?" · +"+dragonRaid.xp+" "+copy("raidXP"):"");
+  $("reportPlay").dataset.raidPractice=conn.practice?"1":"";
+}
+function startRaidPractice(){
+  if(coopConnection&&!coopConnection.practice)return;
+  const arena=newCoopArena("nightmare","raid",1);
+  const conn={practice:true,host:true,room:{id:null,friend:""},arena,started:true,credited:0,lastSent:0,ready:true};
+  coopConnection=conn;
+  if($("crewDialog").open)$("crewDialog").close();
+  if($("multiplayerRoom").open)$("multiplayerRoom").close();
+  enterCoopArena(conn);
+  $("coopLeave").textContent=copy("raidGoHome");
+}
+function practiceRaidTick(conn,now,dt){
+  const input=coopReadInput();
+  conn.arena.players[0].upgrades=input.upgrades;
+  if(!paused&&!manualPaused&&!document.hidden&&(!idlePause()||charging))updateCoopArena(conn.arena,[input],dt);
+  coopChargeQueued=false;
+  renderCoop(conn,0);
+}
+function leaveRaidPractice(){
+  coopConnection=null;
+  if($("missionReport").open)$("missionReport").close();
+  document.body.classList.remove("coop-active");
+  $("missionSettings").dataset.copy="missionPause";$("missionSettings").textContent=copy("missionPause");
+  $("coopMatchBar").hidden=true;
+  showMainScreen();
+}
+async function showRaidQuota(client){
+  try{
+    const remaining=await lobbyResult(client.rpc("voyage_raid_remaining"));
+    if(Number.isInteger(remaining))$("raidQuota").textContent=copy("raidLimit")+": "+remaining+"/3 · "+copy("raidReset");
+  }catch{}
+}
+function refreshRaidOptions(){
+  const raid=$("crewRoute").value==="raid",slots=$("crewSlots");
+  slots.options[0].disabled=!raid;
+  if(!raid&&slots.value==="2")slots.value="3";
+  if(raid)$("crewDifficulty").value="nightmare";
+  else if($("crewDifficulty").disabled)$("crewDifficulty").value=selectedDifficulty;
+  $("crewDifficulty").disabled=raid;
+}
+$("crewRoute").addEventListener("change",refreshRaidOptions);
+$("raidPracticeOpen").onclick=startRaidPractice;
+$("raidPracticeHome").onclick=startRaidPractice;
+$("raidRoomsHome").onclick=()=>$("openCrew").click();
 
 </script></body></html>
