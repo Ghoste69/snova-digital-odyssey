@@ -196,6 +196,35 @@ body:not(.home-active) footer{display:none}
 #chipStatStrip [data-effect="buff"]{color:#92f6ba}
 #chipStatStrip [data-effect="debuff"]{color:#ffa1ac}
 #petChips #chipStatus{margin:5px 0}
+#homeModes{display:flex;justify-content:center;gap:7px}
+#homeModes button{min-height:36px;margin:0;font-size:12px;background:#251647;border-color:#9266de}
+#novaDeck{flex:0 0 58px;max-width:760px}
+#novaDeck::before{inset:auto 0 0;height:15px;opacity:1;background:repeating-linear-gradient(90deg,#49327e 0 2px,#22193f 2px 22px);border-top:2px solid #7b62c3}
+.novaVista{position:absolute;inset:0;background:radial-gradient(circle at 9px 15px,#cdb9ff 1px,transparent 2px) 0 0/43px 36px,radial-gradient(ellipse at 50% 110%,#513596 0 49%,transparent 51%) 0 100%/105px 38px repeat-x}
+#novaActor{left:44%;bottom:9px;z-index:1}
+#novaLine{left:calc(44% + 45px);right:5px;max-width:calc(56% - 50px);z-index:2;font-size:10px}
+#novaRate{left:6px;right:auto}
+.home-active #novaRate{display:none}
+#reportDetails{border:1px solid #6d54a1;border-radius:8px;padding:6px;margin-top:8px}
+#reportDetails>summary{cursor:pointer;color:#e8d4ff;font-weight:700}
+#reportDetails[open]{max-height:52dvh;overflow:auto}
+#multiplayerSetup{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:8px 0}
+#multiplayerSetup label{display:grid;justify-items:start;font-size:12px}
+#multiplayerSetup select{font-size:16px}
+#multiplayerFriends,#multiplayerInvites ul{list-style:none;margin:6px 0;padding:0}
+#multiplayerFriends li,#multiplayerInvites li{display:flex;justify-content:space-between;align-items:center;gap:5px;margin:4px 0;padding:5px;background:#281c47;border-radius:7px;overflow-wrap:anywhere}
+#multiplayerStatus{font-size:12px}
+@media(prefers-reduced-motion:no-preference){
+ #novaActor{animation:none}
+ #novaActor .novaSprite{animation:nova-step .44s ease-in-out infinite alternate}
+ #novaDeck::before{animation:nova-path .54s linear infinite}
+ .novaVista{animation:nova-vista 9s linear infinite}
+ @keyframes nova-step{to{transform:translateY(-3px) rotate(-3deg)}}
+ @keyframes nova-path{to{background-position:-22px 0}}
+ @keyframes nova-vista{to{background-position:-129px 0,-105px 100%}}
+}
+@media(max-height:520px){.home-active #novaDeck{display:none}}
+
 </style><meta name="snova-turnstile-site-key" content="0x4AAAAAAGTfJUrruzjMiEo-"></head><body class="home-active"><header id="gameHeader">
   <div class="brand"><h2>S-NOVA</h2><span>Digital Odyssey</span></div>
   <button type="button" id="profileBtn" aria-expanded="false"><span id="badgeInitial" aria-hidden="true"></span><img id="badgeAvatar" hidden alt=""><span id="badgeName"></span></button>
@@ -215,19 +244,19 @@ body:not(.home-active) footer{display:none}
   <aside id="petInfo" aria-live="polite"><strong id="petInfoTitle">S-Nova</strong><p id="petInfoText"></p></aside>
   <div id="petLobbyCorner"><button id="petPicLobby" type="button" data-pet="Lobby" aria-label="Online lobby"><span class="novaSprite" aria-hidden="true"></span></button><span id="petBubble" aria-hidden="true"></span></div>
 <div id="homeSelectors"><div><label for="sectorSelect" data-game-text="Sector">Sector</label><select id="sectorSelect"><option id="campaignOption" value="0" data-copy="campaignName">Level 1 campaign</option><option id="sectorOneOption" value="1">1 · Core Awakening</option><option id="sectorTwoOption" value="2" disabled>2 · Meteor Belt</option><option id="sectorThreeOption" value="3" disabled>3 · Derelict Station</option></select></div><button id="homePlay" type="button" data-copy="petPlay">Play</button><div><label for="difficulty" data-game-text="Difficulty">Difficulty</label> <select id="difficulty"><option value="story" data-game-text="Story">Story</option><option value="relaxed" data-game-text="Relaxed">Relaxed</option><option value="easy" data-game-text="Easy">Easy</option><option value="normal" data-game-text="Normal">Normal</option><option value="hard" data-game-text="Hard">Hard</option><option value="expert" data-game-text="Expert">Expert</option><option value="nightmare" data-game-text="Nightmare">Nightmare</option></select></div></div>
-</div><div class="petFooter"><p id="homeWallet" class="wallet-balance"></p><button id="peekPetArt" type="button" aria-pressed="false">View background</button></div>
+</div><div id="homeModes"><button id="homeInfinite" type="button" data-copy="infiniteMode">∞ Infinite</button><button id="homeMultiplayer" type="button" data-copy="multiplayer">Multiplayer</button></div><div class="petFooter"><p id="homeWallet" class="wallet-balance"></p><button id="peekPetArt" type="button" aria-pressed="false">View background</button></div>
 </main>
 <div id="missionView"><div id="stats"><div class="hud-gauges"><div class="hud gauge"><small data-game-text="Integrity">Integrity</small><b id="hudHp">—</b><div class="meter hp"><i id="barHp"></i></div></div><div class="hud gauge"><small data-game-text="Shield">Shield</small><b id="hudShield">0</b><div class="meter shield"><i id="barShield"></i></div></div><div class="hud gauge"><small data-game-text="Heat">Heat</small><b id="hudHeat">—</b><div class="meter hot"><i id="barHeat"></i></div></div></div><div class="hud-strip"><div class="hud"><small data-game-text="Kills">Kills</small><b id="hudKills">—</b></div><div class="hud"><small data-game-text="Time">Time</small><b id="hudTime">—</b></div><div class="hud"><small data-game-text="Score">Score</small><b id="hudScore">—</b></div><div class="hud"><small data-game-text="Power">Power</small><b id="hudPower">—</b></div><div class="hud"><small data-game-text="Speed">Speed</small><b id="hudSpeed">—</b></div><div class="hud"><small data-game-text="Magnet">Magnet</small><b id="hudMagnet">—</b></div><div class="hud"><small data-game-text="Sector">Sector</small><b id="hudWave">—</b></div></div></div><div id="wallet"></div><div id="coopMatchBar" hidden><span id="coopMatchStatus" role="status"></span> <button id="coopLeave" type="button">Leave co-op</button></div><div id="arenaWrap"><canvas id="arena" width="360" height="320"></canvas></div><div id="lootLegend"><span style="color:#ff70db" data-game-text="◆ Power">◆ Power</span> · <span style="color:#6affbd" data-game-text="◆ Speed">◆ Speed</span> · <span style="color:#ffd65c" data-game-text="● Coin">● Coin</span> · <span style="color:#ff3344" data-game-text="◆ Mine">◆ Mine</span> · <span style="color:#7dff85" data-game-text="✚ Health">✚ Health</span> · <span data-game-text="◆ Shield" style="color:#72dbff">◆ Shield</span> · <span data-game-text="◆ Magnet" style="color:#fff498">◆ Magnet</span> · <span data-game-text="◆ Fire Rate" style="color:#ffae72">◆ Fire Rate</span></div><div id="controls"><div id="stick"><div id="knob"></div></div><div class="actions"><button id="slide" data-game-text="SLIDE">SLIDE</button><button id="focus" data-game-text="FOCUS">FOCUS</button><button id="combo" class="wide" data-game-text="SLIDE + FOCUS">SLIDE + FOCUS</button><button id="charge" class="wide" data-game-text="NOVA CHARGE">NOVA CHARGE</button><button id="fire" class="wide" hidden data-game-text="FIRE">FIRE</button></div></div>
-<section id="novaDeck" aria-label="Nova companion">
-  <div class="novaPlant" aria-hidden="true"><i></i><b></b></div>
-  <div id="novaActor" aria-hidden="true"><span class="novaSprite"></span><span class="novaProp novaPhone">📱</span><span class="novaProp novaWater">💧</span></div>
-  <p id="novaLine"></p><span id="novaRate"></span>
-</section></div><nav id="menu">
+</div><nav id="menu">
 <button id="scoresBtn" data-game-text="Leaderboards">Leaderboards</button>
 <button id="shopBtn" data-game-text="Shop">Shop</button>
 <button id="settingsBtn" data-game-text="Settings">Settings</button>
 <button id="lobbyBtn" data-copy="lobby" aria-expanded="false">Online lobby</button>
-</nav><div id="settings" hidden><h3 id="settingsTitle" data-game-text="Settings">Settings</h3><div id="pauseStatSummary" class="mission-setting"></div>
+</nav><section id="novaDeck" aria-label="Nova companion">
+  <div class="novaVista" aria-hidden="true"></div>
+  <div id="novaActor" aria-hidden="true"><span class="novaSprite"></span></div>
+  <p id="novaLine"></p><span id="novaRate"></span>
+</section><div id="settings" hidden><h3 id="settingsTitle" data-game-text="Settings">Settings</h3><div id="pauseStatSummary" class="mission-setting"></div>
 <div class="settings-row home-setting"><label for="lobbyLanguage" data-copy="languageSetting">Language</label><select id="lobbyLanguage"><option value="en">English</option><option value="es">Español (Latinoamérica)</option></select></div>
 <details class="settings-group"><summary data-game-text="Gameplay controls">Gameplay controls</summary><div class="settings-actions"><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: TOUCH</button></div></details>
 <details class="settings-group mission-setting"><summary data-game-text="Save data">Save data</summary><div class="settings-actions"><button id="exportSave" data-game-text="Export save">Export save</button><button id="importSave" data-game-text="Import save">Import save</button><input id="saveFile" type="file" accept=".json,application/json" hidden></div></details>
@@ -271,7 +300,7 @@ body:not(.home-active) footer{display:none}
 <label for="backgroundChoice" data-copy="backgroundLabel">Main menu background</label>
 <select id="backgroundChoice"><option value="none" data-copy="backgroundNone">None · show background</option><option value="rotate" data-copy="backgroundRotate">Rotate artwork</option><option value="cover" data-copy="backgroundCover">Odyssey artwork</option><option value="tiger" data-copy="backgroundTiger">Tiger emblem</option><option value="pet" data-copy="backgroundPet">PET interface</option><option value="netnavi" data-copy="backgroundNetNavi">NetNavi design sheet</option><option value="custom" data-copy="backgroundCustom">Uploaded photo</option></select>
 <label class="background-upload" data-copy="backgroundUpload" for="backgroundFile">Upload background</label>
-<input id="backgroundFile" type="file" accept="image/*"><p id="backgroundStatus" role="status"></p></div></section><section id="profileNumbers" hidden><div id="profileCombatStats"></div><div id="profileStats"></div></section><section id="profileMatchHistory" aria-labelledby="profileHistoryTab" hidden><p id="matchHistoryNotice"></p><div id="matchHistoryList"></div></section><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.16.3 — Chip Stats">Prototype v0.16.3 — Chip Stats</footer><section id="lobby" class="online-panel" hidden>
+<input id="backgroundFile" type="file" accept="image/*"><p id="backgroundStatus" role="status"></p></div></section><section id="profileNumbers" hidden><div id="profileCombatStats"></div><div id="profileStats"></div></section><section id="profileMatchHistory" aria-labelledby="profileHistoryTab" hidden><p id="matchHistoryNotice"></p><div id="matchHistoryList"></div></section><button id="closeProfile" data-game-text="Close">Close</button></div><footer data-game-text="Prototype v0.17.0 — Infinite Rotation">Prototype v0.17.0 — Infinite Rotation</footer><section id="lobby" class="online-panel" hidden>
 <header id="lobbyHeader"><h3 data-copy="lobby">Online lobby</h3><button type="button" id="closeLobby" data-copy="close">Close</button></header>
 <p id="lobbyStatus" role="status"></p>
 <div id="guestChallenge"></div>
@@ -295,6 +324,25 @@ body:not(.home-active) footer{display:none}
   </section>
   <p id="chipStatus" role="status"></p><ul id="chipFolderList"></ul>
 </dialog>
+<dialog class="game-dialog pet-panel" id="multiplayerRoom" aria-labelledby="multiplayerTitle">
+  <header><h3 id="multiplayerTitle" data-copy="multiplayer">Multiplayer</h3><button id="closeMultiplayer" type="button" data-copy="close">Close</button></header>
+  <p id="multiplayerStatus" role="status"></p>
+  <div id="multiplayerSetup">
+    <label><span data-copy="roomDestination">Destination</span>
+    <select id="multiplayerRoute">
+      <option value="campaign" data-copy="campaignName">Level 1</option>
+      <option value="1" data-game-text="Core Awakening">Core Awakening</option>
+      <option value="2" data-game-text="Meteor Belt">Meteor Belt</option>
+      <option value="3" data-game-text="Derelict Station">Derelict Station</option>
+      <option value="infinite" data-copy="infiniteTitle">Infinite</option>
+    </select></label>
+    <label><span data-game-text="Difficulty">Difficulty</span><select id="multiplayerDifficulty"></select></label>
+  </div>
+  <div id="multiplayerInvites"></div>
+  <ul id="multiplayerFriends"></ul>
+  <button id="multiplayerConnect" type="button" data-copy="roomConnect" hidden>Connect online</button>
+  <button id="multiplayerReady" type="button" data-copy="roomReady" hidden>Ready</button>
+</dialog>
 <dialog class="game-dialog pet-panel" id="petMail" aria-labelledby="mailHeading">
   <header><h3 id="mailHeading" data-game-text="Mail">Mail</h3><button type="button" data-close-pet="petMail" data-copy="close">Close</button></header>
   <p id="mailStatus" role="status"></p>
@@ -308,8 +356,9 @@ body:not(.home-active) footer{display:none}
 <dialog id="gameShareDialog" class="game-dialog" aria-labelledby="gameShareHeading"><h3 id="gameShareHeading" data-copy="shareGame">Share game</h3><textarea id="gameShareLink" aria-labelledby="gameShareHeading" rows="5" readonly></textarea><div><button type="button" id="copyGameLink" data-copy="copyLink">Copy link</button><button type="button" id="closeGameShare" data-copy="close">Close</button></div><p id="shareLinkStatus" role="status"></p></dialog><dialog id="missionReport" class="game-dialog" aria-labelledby="reportTitle">
   <h3 id="reportTitle"></h3><p id="reportContext"></p>
   <div id="reportSummary"></div>
+  <details id="reportDetails"><summary data-copy="reportDetails">Details</summary><div id="reportCampaign" hidden></div>
   <h4 data-copy="reportLoot">Loot collected</h4><div id="reportPickups"></div><p id="twinReward" data-copy="twinReward" hidden></p>
-  <h4 data-copy="reportStats">Final stats</h4><div id="reportStats"></div>
+  <h4 data-copy="reportStats">Final stats</h4><div id="reportStats"></div></details>
   <p id="campaignCountdown" role="timer" hidden></p><div class="report-actions"><button id="reportNext" type="button" data-copy="nextSector" hidden>Next sector</button><button id="reportHold" type="button" data-copy="holdSector" hidden>Wait</button><button id="reportPlay" type="button" data-copy="playAgain">Play again</button>
   <button id="reportHome" type="button" data-copy="mainMenu">Main menu</button></div>
 </dialog><script>
@@ -348,7 +397,7 @@ const gameSpanish = {
   "Change photo": "Cambiar foto",
   "Remove photo": "Eliminar foto",
   "Close": "Cerrar",
-  "Prototype v0.16.3 — Chip Stats": "Prototipo v0.16.3 — Estadísticas de chips",
+  "Prototype v0.17.0 — Infinite Rotation": "Prototipo v0.17.0 — Rotación infinita",
   "Player avatar": "Avatar del jugador",
   "Player": "Jugador",
   "Lobby messages": "Mensajes de la sala",
@@ -441,12 +490,12 @@ function wallet(){
 }
 const prices=[100,250,500,1000,2000];
 const amplifierDamage = [10, 20, 40, 80, 160, 400];
-const powerMultiplier = [1, 1.35, 1.8, 2.4, 3.2, 4];
+const powerMultiplier = [1, 1.35, 1.8, 2.4, 3.2, 4, 4.65, 5.3, 6, 6.8, 7.6];
 const chipKeys=["damage","velocity","thermal","shieldRegen","twinPulse"];
 const maxRapidLevel=5;
 let rapidLevel=0;
 function fireInterval(level=0,base=.2) {
-  return base/(1+.10*Math.max(0,Math.min(maxRapidLevel,level||0)));
+  return base/(1+.10*Math.max(0,Math.min(10,level||0)));
 }
 function shotsPerSecond(level) {
   return 1/fireInterval(level);
@@ -633,6 +682,7 @@ const missionSectors = {
   ]}
 };
 let selectedSector=0, missionSector=1, campaignActive=false;
+let infiniteRun=null,campaignReports=[];
 let nextSectorTimer, nextSectorSeconds;
 let liveMeteorites=[], magnet=0;
 try { selectedSector=readSector(JSON.parse(localStorage.getItem("snova07prefs"))?.sector); } catch {}
@@ -737,13 +787,15 @@ function queueNextSector(){
   const update=()=>$("campaignCountdown").textContent=copy("nextIn")+" "+nextSectorSeconds+"s";
   update();
   nextSectorTimer=setInterval(()=>{
-    if(document.hidden||!$("missionReport").open)return;
+    if(document.hidden||!$("missionReport").open||$("reportDetails").open)return;
     if(--nextSectorSeconds<=0)enterNextSector();
     else update();
   },1000);
 }
 function reset(advanceTo=0) {
   const retry=p&&(state==="play"||state==="won"||state==="lost");
+  if(advanceTo===0)campaignReports=campaignReports.filter(item=>retry&&campaignActive&&item.sector<missionSector);
+  infiniteRun=null;
   clearSectorTimer();
   soloFeedback=[];
   $("missionSettings").setAttribute("aria-expanded","false");
@@ -777,6 +829,7 @@ function reset(advanceTo=0) {
 }
 function finish(win){
   if(state!=="play")return;
+  if(infiniteRun){finishInfinite();return;}
   const twinUsed=Boolean(activeUpgrade("twinPulse"));
   state=win?"won":"lost";
   clear();
@@ -902,17 +955,17 @@ for (const type of ["pointercancel", "lostpointercapture"]) {
 }
 window.onkeydown=e=>{if(state!=="play"||paused||manualPaused||e.target.matches("input,textarea,select")||e.key===" "&&e.target.matches("button,summary"))return;if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key))e.preventDefault();keys.add(e.key);if(e.key==="e"&&!e.repeat)startCharge()};window.onkeyup=e=>{keys.delete(e.key);if(e.key==="e"&&chargePointer===null)release()};window.onblur=clear;document.addEventListener("visibilitychange",()=>{if(document.hidden){clear();last=0}});
 function spawn(type){let [h,s,r,c,range,interval]=T[type],x,y,n=0;do{let side=Math.random()*4|0;x=side===0?32:side===1?W-32:32+Math.random()*(W-64);y=side===2?32:side===3?H-32:32+Math.random()*(H-64)}while(Math.hypot(x-p.x,y-p.y)<140&&++n<30);const modifiers=difficultyModes[missionDifficulty];if(missionSector===2&&type==="boss"){h=2700;s*=1.18;interval*=.92;}
-if(missionSector===3&&type==="boss"){h=4200;s*=.95;interval*=2.7;c="#ffac65";}h*=modifiers.health;E.push({type,x,y,h,max:h,s:s*modifiers.speed,r,c,range,interval:interval*modifiers.interval,cd:(.7+Math.random())*modifiers.interval,angle:0})}
+if(missionSector===3&&type==="boss"){h=4200;s*=.95;interval*=2.7;c="#ffac65";}const scale=infiniteRun?endlessScale(wave):1;h*=modifiers.health*scale;E.push({type,x,y,h,max:h,s:s*modifiers.speed*scale,r,c,range,damageScale:scale,interval:interval*modifiers.interval,cd:(.7+Math.random())*modifiers.interval,angle:0})}
 function next(){let r=Math.random();return kills<2?"sentinel":kills<5?(r<.6?"sentinel":"hunter"):r<.4?"sentinel":r<.75?"hunter":"artillery"}
 function target(){return E.filter(e=>e.h>0).reduce((a,b)=>!a||dist(p,b)<dist(p,a)?b:a,null)}
 function shoot(a,t,v,own,off=0,c=null,d=10,r=3){let z=Math.atan2(t.y-a.y,t.x-a.x)+off;B.push({x:a.x,y:a.y,vx:Math.cos(z)*v,vy:Math.sin(z)*v,own,c:c||(own?"#d5b0ff":"#ffb353"),d,r})}
-function drop(e){let r=Math.random(),type=r<.15?"power":r<.30?"speed":r<.55?"coin":r<.65?"mine":r<.75?"health":r<.77?"shield":r<.85?"magnet":r<.91?"rapid":null;if(type)I.push({x:e.x,y:e.y,type,amount:rollPackAmount(type),life:type==="mine"?7:15,fuse:null})}
-function enemy(e,dt){let x=p.x-e.x,y=p.y-e.y,d=Math.hypot(x,y)||1;e.angle=Math.atan2(y,x);e.cd-=dt;e.exposed=Math.max(0,(e.exposed||0)-dt);let dir=0;if(e.type==="hunter"){dir=d>20?1:0;if(d<24&&e.cd<=0){takeDamage(10);e.cd=e.interval}}else{dir=d>e.range+20?1:d<e.range-30&&e.type!=="sentinel"?-1:0;if(e.cd<=0){let offsets=e.type==="boss"?(missionSector===3?[-1,-.65,-.34,0,.34,.65,1]:missionSector===2&&e.h<e.max/2?[-.85,-.55,-.27,0,.27,.55,.85]:[-.55,-.27,0,.27,.55]):e.type==="artillery"?[-.28,0,.28]:[0];for(let o of offsets)shoot(e,p,e.type==="artillery"?105:125,false,o,e.c,e.type==="boss"?12:10,4);if(missionSector===3&&e.type==="boss")e.exposed=Math.max(.65,e.interval*.48);e.cd=e.interval}}moveInSector(e,x/d*e.s*dt*dir,y/d*e.s*dt*dir,e.r);for(let a of E){if(a===e)continue;let x=e.x-a.x,y=e.y-a.y,d=Math.hypot(x,y)||.01,m=e.r+a.r+4;if(d<m){e.x+=x/d*(m-d)*.35;e.y+=y/d*(m-d)*.35}}moveInSector(e,0,0,e.r)}
+function drop(e){let r=Math.random(),type=r<.15?"power":r<.30?"speed":r<.55?"coin":r<.65?"mine":r<.75?"health":r<.77?"shield":r<.85?"magnet":r<.91?"rapid":infiniteRun&&r<.95?"flame":infiniteRun&&r<.98?"lightning":null;if(type)I.push({x:e.x,y:e.y,type,amount:rollPackAmount(type),life:type==="mine"?7:15,fuse:null})}
+function enemy(e,dt){let x=p.x-e.x,y=p.y-e.y,d=Math.hypot(x,y)||1;e.angle=Math.atan2(y,x);e.cd-=dt;e.exposed=Math.max(0,(e.exposed||0)-dt);let dir=0;if(e.type==="hunter"){dir=d>20?1:0;if(d<24&&e.cd<=0){takeDamage(10*(e.damageScale||1));e.cd=e.interval}}else{dir=d>e.range+20?1:d<e.range-30&&e.type!=="sentinel"?-1:0;if(e.cd<=0){let offsets=e.type==="boss"?(missionSector===3?[-1,-.65,-.34,0,.34,.65,1]:missionSector===2?(e.h<e.max/2?[-.92,-.61,-.30,0,.30,.61,.92]:[-.60,-.30,0,.30,.60]):(e.burst?[-.24,0,.24]:[-.72,-.48,-.24,0,.24,.48,.72])):e.type==="artillery"?[-.28,0,.28]:[0];for(let o of offsets)shoot(e,p,e.type==="artillery"?105:125,false,o,e.c,(e.type==="boss"?12:10)*(e.damageScale||1),4);if(missionSector===3&&e.type==="boss")e.exposed=Math.max(.65,e.interval*.48);e.burst=!e.burst;e.cd=e.type==="boss"&&missionSector===1?(e.burst?e.interval*.65:e.interval*1.45):e.interval}}const step=Math.min(e.s*dt,d);moveInSector(e,x/d*step*dir,y/d*step*dir,e.r);for(let a of E){if(a===e)continue;let x=e.x-a.x,y=e.y-a.y,d=Math.hypot(x,y)||.01,m=e.r+a.r+4;if(d<m){e.x+=x/d*(m-d)*.35;e.y+=y/d*(m-d)*.35}}moveInSector(e,0,0,e.r)}
 function orb(x,y,r,c){g.fillStyle=c;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.fill()}
 function ring(x,y,r,c){g.strokeStyle=c;g.lineWidth=1;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.stroke()}
 function diamond(x,y,r,c){g.fillStyle=c;g.beginPath();g.moveTo(x,y-r);g.lineTo(x+r,y);g.lineTo(x,y+r);g.lineTo(x-r,y);g.closePath();g.fill()}
 const mineTriggerRadius=32, mineBlastRadius=48;
-const magnetRadius=[0,55,85,125,185,Infinity];
+const magnetRadius=[0,55,85,125,185,Infinity,Infinity,Infinity,Infinity,Infinity,Infinity];
 Object.assign(gameSpanish,{Magnet:"Imán","◆ Magnet":"◆ Imán"});
 function pullPickup(pickup,player,level,dt) {
   if(!level || pickup.type==="mine") return;
@@ -958,12 +1011,19 @@ function collectSoloLoot(dt) {
     if(item.type==="shield"&&shield>=100) continue;
     pullPickup(item,p,magnet,dt);
     if(dist(item,p)>=23) continue;
-    if(item.type==="power") {const before=shotDamage();if(power<5){power++;addFeedback(soloFeedback,p,"attack",shotDamage()-before);}else{score+=50;addFeedback(soloFeedback,p,"score",50);}}
-    else if(item.type==="speed") {if(speed<5){speed++;addFeedback(soloFeedback,p,"speed",10);}else{score+=50;addFeedback(soloFeedback,p,"score",50);}}
-    else if(item.type==="magnet") {if(magnet<5){magnet++;addFeedback(soloFeedback,p,"magnet",magnet);}else{score+=50;addFeedback(soloFeedback,p,"score",50);}}
+    if(item.type==="power") {const before=shotDamage();if(power<(infiniteRun?10:5)){power++;addFeedback(soloFeedback,p,"attack",shotDamage()-before);}else{score+=50;addFeedback(soloFeedback,p,"score",50);}}
+    else if(item.type==="speed") {if(speed<(infiniteRun?10:5)){speed++;addFeedback(soloFeedback,p,"speed",10);}else{score+=50;addFeedback(soloFeedback,p,"score",50);}}
+    else if(item.type==="magnet") {if(magnet<(infiniteRun?10:5)){magnet++;addFeedback(soloFeedback,p,"magnet",magnet);}else{score+=50;addFeedback(soloFeedback,p,"score",50);}}
     else if(item.type==="rapid"){
-      if(rapidLevel<maxRapidLevel){rapidLevel++;addFeedback(soloFeedback,p,"rapid",10);}
+      if(rapidLevel<(infiniteRun?10:maxRapidLevel)){rapidLevel++;addFeedback(soloFeedback,p,"rapid",10);}
       else{score+=50;addFeedback(soloFeedback,p,"score",50);}
+    }
+    else if(item.type==="flame"||item.type==="lightning"){
+      useSpecial(infiniteRun,p,E,"h",item.type,shotDamage(),stationArmor);
+      progress.credits+=specialCredits(item.type);
+      infiniteRun.bonus+=specialCredits(item.type);
+      persist();
+      addFeedback(soloFeedback,p,"coin",specialCredits(item.type));
     }
     else if(item.type==="health") collectHealth(item.amount);
     else if(item.type==="shield") {const before=shield;shield=Math.min(100,shield+item.amount);healthFeedback(soloFeedback,p,0,shield-before);}
@@ -982,19 +1042,21 @@ if(aimed&&!charging&&(auto||held.fire.size||keys.has(" "))&&delay<=0){
   delay+=fireInterval(rapidLevel);
 }
 if(state==="play") rechargeShield(dt);
-for(let e of E)enemy(e,dt*slow);for(let b of B){let t=dt*(b.own?1:slow);const x=b.x,y=b.y;b.x+=b.vx*t;b.y+=b.vy*t;if(rockBlocksShot(x,y,b)){b.dead=true;continue}if(b.own){for(let e of E){if(e.h>0&&dist(b,e)<e.r+b.r){e.h-=b.d*stationArmor(e);b.dead=true;break}}}else if(dist(b,p)<10+b.r){takeDamage(b.d);b.dead=true}}B=B.filter(b=>!b.dead&&b.x>0&&b.x<W&&b.y>0&&b.y<H);
+if(infiniteRun){infiniteRun.elapsed=elapsed;updateSpecials(infiniteRun,p,E,"h",stationArmor);}
+for(let e of E)if(e.h>0)enemy(e,dt*slow);for(let b of B){let t=dt*(b.own?1:slow);const x=b.x,y=b.y;b.x+=b.vx*t;b.y+=b.vy*t;if(rockBlocksShot(x,y,b)){b.dead=true;continue}if(b.own){for(let e of E){if(e.h>0&&dist(b,e)<e.r+b.r){e.h-=b.d*stationArmor(e);b.dead=true;break}}}else if(dist(b,p)<10+b.r){takeDamage(b.d);b.dead=true}}B=B.filter(b=>!b.dead&&b.x>0&&b.x<W&&b.y>0&&b.y<H);
 updateMines(dt);
 let defeated=false;for(let e of E){if(e.h<=0){kills++;score+=e.type==="boss"?500:50;if(e.type==="boss")defeated=true;else drop(e)}}E=E.filter(e=>e.h>0);
 collectSoloLoot(dt);
 I=I.filter(i=>!i.dead&&(i.life>0||i.fuse!==null));F=F.filter(f=>(f.life-=dt)>0);
-const arena=missionSectors[missionSector];if(hp<=0)finish(false);else if(defeated)finish(true);else if(kills>=arena.goal){if(!E.length&&!boss){boss=true;B=[];spawn("boss")}}else{wave=kills>=arena.waveThree?3:kills>=arena.waveTwo?2:1;while(E.length<Math.min(wave+(missionSector===2?1:0),arena.goal-kills))spawn(next())}}
+const arena=missionSectors[missionSector];if(hp<=0)finish(false);else if(infiniteRun)updateInfiniteWave();else if(defeated)finish(true);else if(kills>=arena.goal){if(!E.length&&!boss){boss=true;B=[];spawn("boss")}}else{wave=kills>=arena.waveThree?3:kills>=arena.waveTwo?2:1;while(E.length<Math.min(wave+(missionSector===2?1:0),arena.goal-kills))spawn(next())}}
 g.fillStyle=focus?"#201c3d":"#100d20";g.fillRect(0,0,W,H);g.strokeStyle="#302345";g.lineWidth=.6;for(let x=0;x<W;x+=30){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke()}for(let y=0;y<H;y+=30){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}
 drawMeteorites();
-for(let i of I){if(i.type==="mine"){ring(i.x,i.y,i.fuse===null?32:48,"#ff3344");diamond(i.x,i.y,8,Math.sin(now/80)>0?"#ff3344":"#81152b")}else if(i.type==="health"){g.fillStyle="#7dff85";g.fillRect(i.x-3,i.y-9,6,18);g.fillRect(i.x-9,i.y-3,18,6)}else if(i.type==="shield"){diamond(i.x,i.y,8,"#72dbff");ring(i.x,i.y,11,"#72dbff")}else if(i.type==="magnet"){diamond(i.x,i.y,7,"#fff498");ring(i.x,i.y,10,"#fff498")}else if(i.type==="coin")orb(i.x,i.y,7,"#ffd65c");else if(i.type==="rapid"){diamond(i.x,i.y,8,"#ffae72");orb(i.x,i.y,3,"#592e4c")}else diamond(i.x,i.y,8,i.type==="power"?"#ff70db":"#6affbd")}
+if(infiniteRun)drawSpecials(infiniteRun.effects);
+for(let i of I){if(i.type==="flame"||i.type==="lightning"){diamond(i.x,i.y,9,i.type==="flame"?"#ff6b4a":"#b9aeff");ring(i.x,i.y,12,"#fff4d8")}else if(i.type==="mine"){ring(i.x,i.y,i.fuse===null?32:48,"#ff3344");diamond(i.x,i.y,8,Math.sin(now/80)>0?"#ff3344":"#81152b")}else if(i.type==="health"){g.fillStyle="#7dff85";g.fillRect(i.x-3,i.y-9,6,18);g.fillRect(i.x-9,i.y-3,18,6)}else if(i.type==="shield"){diamond(i.x,i.y,8,"#72dbff");ring(i.x,i.y,11,"#72dbff")}else if(i.type==="magnet"){diamond(i.x,i.y,7,"#fff498");ring(i.x,i.y,10,"#fff498")}else if(i.type==="coin")orb(i.x,i.y,7,"#ffd65c");else if(i.type==="rapid"){diamond(i.x,i.y,8,"#ffae72");orb(i.x,i.y,3,"#592e4c")}else diamond(i.x,i.y,8,i.type==="power"?"#ff70db":"#6affbd")}
 for(let f of F)ring(f.x,f.y,48,"#ff7766");if(slide)for(let i=5;i>0;i--)orb(p.x-dx*i*9,p.y-dy*i*9,9,"rgba(155,90,255,.25)");if(shield>0)ring(p.x,p.y,13,"#72dbff");orb(p.x,p.y,11,"#a76bff");orb(p.x,p.y,5,"#f2d9ff");if(charging)ring(p.x,p.y,15+charge*5,"#eee0ff");drawPilotBars(p,hp,shield);
 for(let e of E){if(e.type==="artillery"){g.fillStyle=e.c;g.fillRect(e.x-15,e.y-15,30,30)}else if(e.type==="hunter"){g.save();g.translate(e.x,e.y);g.rotate(e.angle);g.fillStyle=e.c;g.beginPath();g.moveTo(15,0);g.lineTo(-10,-10);g.lineTo(-10,10);g.closePath();g.fill();g.restore()}else{orb(e.x,e.y,e.r,e.c);orb(e.x,e.y,e.r*.45,"#72213d");if(missionSector===3&&e.type==="boss")ring(e.x,e.y,e.r+4,e.exposed?"#ffda68":"#75dcff")}g.fillStyle="#35264e";g.fillRect(e.x-e.r,e.y-e.r-8,e.r*2,4);g.fillStyle=e.c;g.fillRect(e.x-e.r,e.y-e.r-8,e.r*2*Math.max(0,e.h)/e.max,4)}
-let t=target();if(t&&state==="play"&&(auto||charging||held.fire.size))ring(t.x,t.y,t.r+6,"#d2afff");for(let b of B)orb(b.x,b.y,b.r,b.c);g.fillStyle="#3d2d55";g.fillRect(10,H-15,100,5);g.fillStyle=locked?"#ff536b":"#b78aff";g.fillRect(10,H-15,heat,5);g.fillStyle="#d9baff";g.font="12px system-ui";g.textAlign="right";g.fillText(boss?(missionSector===3?stationBossLabel():missionSector===2?gameText("Meteor Warden"):gameText("CORE GUARDIAN")):kills>=missionSectors[missionSector].goal?gameText("CLEAR REMAINING"):gameText("WAVE")+" "+wave,W-10,15);
-$("charge").textContent=charging?"CHARGE "+Math.round(charge*50)+"%":gameText("NOVA CHARGE");for(let [k,v] of Object.entries({Hp:Math.ceil(hp),Shield:Math.floor(shield),Heat:locked?"HOT":Math.round(heat)+"%",Kills:kills,Time:time(elapsed),Score:score,Power:power+"/5",Magnet:magnet+"/5",Speed:speed+"/5",Wave:boss?"CORE":wave}))$("hud"+k).textContent=v;$("barHp").style.width=hp+"%";$("barShield").style.width=shield+"%";$("barHeat").style.width=heat+"%";
+let t=target();if(t&&state==="play"&&(auto||charging||held.fire.size))ring(t.x,t.y,t.r+6,"#d2afff");for(let b of B)orb(b.x,b.y,b.r,b.c);g.fillStyle="#3d2d55";g.fillRect(10,H-15,100,5);g.fillStyle=locked?"#ff536b":"#b78aff";g.fillRect(10,H-15,heat,5);g.fillStyle="#d9baff";g.font="12px system-ui";g.textAlign="right";g.fillText(infiniteRun?sectorName(missionSector)+" · "+gameText("WAVE")+" "+wave:boss?(missionSector===3?stationBossLabel():missionSector===2?gameText("Meteor Warden"):gameText("CORE GUARDIAN")):kills>=missionSectors[missionSector].goal?gameText("CLEAR REMAINING"):gameText("WAVE")+" "+wave,W-10,15);
+$("charge").textContent=charging?"CHARGE "+Math.round(charge*50)+"%":gameText("NOVA CHARGE");for(let [k,v] of Object.entries({Hp:Math.ceil(hp),Shield:Math.floor(shield),Heat:locked?"HOT":Math.round(heat)+"%",Kills:kills,Time:time(elapsed),Score:score,Power:power+(infiniteRun?"/10":"/5"),Magnet:magnet+(infiniteRun?"/10":"/5"),Speed:speed+(infiniteRun?"/10":"/5"),Wave:boss?"CORE":wave}))$("hud"+k).textContent=v;$("barHp").style.width=hp+"%";$("barShield").style.width=shield+"%";$("barHeat").style.width=heat+"%";
 drawFeedback(soloFeedback);ageFeedback(soloFeedback,dt);
 updateNovaDeck(elapsed,wave,boss,rapidLevel);
 if(state==="play"&&!paused&&(awaitingInput||manualPaused)){g.save();g.fillStyle="#d9baff";g.font="bold 14px system-ui";g.textAlign="center";g.fillText(manualPaused?gameText("PAUSED — press Resume"):gameText("PAUSED — touch controls"),W/2,30);g.restore()}
@@ -1864,9 +1926,34 @@ Object.assign(lobbyText.es,{coopDifficulty:"Dificultad cooperativa",coopRefresh:
 function newCoopPilot(x) {
   return {x,y:160,hp:100,shield:0,heat:0,power:0,speed:0,magnet:0,rapid:0,delay:0,safe:0,charge:0,locked:false,coins:0,feedback:[],pickups:newRunPickups(),upgrades:{}};
 }
-function newCoopArena(mode) {
-  return {mode,players:[newCoopPilot(75),newCoopPilot(285)],enemies:[],shots:[],drops:[],wave:1,
-    kills:0,spawned:0,status:"playing",elapsed:0};
+function newCoopArena(mode,route="1") {
+  const arena={mode,route,players:[newCoopPilot(75),newCoopPilot(285)],enemies:[],shots:[],drops:[],wave:1,
+    kills:0,spawned:0,status:"playing",elapsed:0,cleared:0,transition:null,effects:[],stages:[],stageStart:0,stageKills:0,stageCredits:[0,0]};
+  changeCoopMap(arena,Number(route)||1);
+  return arena;
+}
+function changeCoopMap(arena,sector){
+  const map=missionSectors[sector];
+  arena.sector=sector;arena.width=map.width;arena.height=map.height;
+  arena.rocks=map.rocks.map(rock=>({...rock,hp:120}));
+  arena.players.forEach((pilot,index)=>{pilot.x=index===0?75:map.width-75;pilot.y=map.height/2;});
+  arena.drops=[];arena.shots=[];arena.effects=[];
+}
+function syncCoopMap(arena){
+  if(W!==arena.width||H!==arena.height)setArenaSize(arena.width,arena.height);
+  liveMeteorites=arena.rocks;
+  for(const rock of liveMeteorites){
+    if(!rock.orbitRadius)continue;
+    const angle=rock.angle+arena.elapsed*.42;
+    rock.x=W/2+Math.cos(angle)*rock.orbitRadius;
+    rock.y=H/2+Math.sin(angle)*rock.orbitRadius;
+  }
+}
+function advanceCoopWave(arena){
+  arena.wave++;arena.spawned=0;arena.shots=[];
+  for(const pilot of arena.players){
+    if(pilot.hp<=0)Object.assign(pilot,{hp:50,shield:0,heat:0,charge:0,locked:false,safe:0});
+  }
 }
 const coopWaveSizes = [8,15,52];
 function coopDamage(player, amount) {
@@ -1877,7 +1964,8 @@ function coopDamage(player, amount) {
   player.hp=Math.max(0,player.hp-amount+absorbed);
   healthFeedback(player.feedback??=[],player,player.hp-before,-absorbed);
 }
-function coopPickup(player, drop) {
+function coopPickup(player, drop, arena) {
+  const pickupCap=arena.route==="infinite"?10:5;
   player.pickups[drop.type]=(player.pickups[drop.type]||0)+1;
   const beforeHp=player.hp,beforeShield=player.shield,beforePower=player.power,beforeSpeed=player.speed,beforeMagnet=player.magnet;
   if(drop.type==="health") {
@@ -1885,9 +1973,15 @@ function coopPickup(player, drop) {
     player.hp+=healed;
     player.shield=Math.min(100,player.shield+drop.amount-healed);
   } else if(drop.type==="shield") player.shield=Math.min(100,player.shield+drop.amount);
-  else if(drop.type==="power" || drop.type==="speed" || drop.type==="magnet") player[drop.type]=Math.min(5,player[drop.type]+1);
+  else if(drop.type==="power" || drop.type==="speed" || drop.type==="magnet") player[drop.type]=Math.min(pickupCap,player[drop.type]+1);
   else if(drop.type==="coin") player.coins+=drop.amount;
-  else if(drop.type==="rapid"&&(player.rapid||0)<maxRapidLevel){
+  else if(drop.type==="flame"||drop.type==="lightning"){
+    const damage=amplifierDamage[player.upgrades.damage||0]*powerMultiplier[player.power];
+    useSpecial(arena,player,arena.enemies,"hp",drop.type,damage,foe=>coopArmor(arena,foe));
+    player.coins+=specialCredits(drop.type);
+    addFeedback(player.feedback??=[],player,"coin",specialCredits(drop.type));
+  }
+  else if(drop.type==="rapid"&&(player.rapid||0)<pickupCap){
     player.rapid=(player.rapid||0)+1;
     addFeedback(player.feedback??=[],player,"rapid",10);
   }
@@ -1901,14 +1995,18 @@ function coopPickup(player, drop) {
 function coopSpawn(arena, type) {
   const [hp,speed,r,color,range,interval]=T[type];
   const difficulty=difficultyModes[arena.mode];
-  const health=hp*difficulty.health*(type==="boss"?1.75:1.2);
-  arena.enemies.push({type,x:arena.spawned%2?20:340,y:35+Math.random()*250,
-    hp:health,max:health,speed:speed*difficulty.speed,r,color,range,interval:interval*difficulty.interval,delay:0.6});
+  const scale=arena.route==="infinite"?endlessScale(arena.wave):1;
+  const bossHP=[0,1.75,3,4.25][arena.sector];
+  const health=hp*difficulty.health*(type==="boss"?bossHP:1.2)*scale;
+  arena.enemies.push({type,x:arena.spawned%2?20:arena.width-20,y:35+Math.random()*(arena.height-70),
+    hp:health,max:health,speed:speed*difficulty.speed*scale,r,color,range,scale,
+    interval:interval*difficulty.interval*(type==="boss"&&arena.sector===3?2.7:1),delay:.6,exposed:0});
+
 }
 function coopFire(arena, from, target, enemy, damage, offset=0) {
   const angle=Math.atan2(target.y-from.y,target.x-from.x)+offset;
   const speed=enemy?125:330;
-  arena.shots.push({x:from.x,y:from.y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,enemy,damage,life:2.5});
+  arena.shots.push({x:from.x,y:from.y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,enemy,damage,r:3,life:2.5});
 }
 function fireCoopVolley(arena,player,primary,damage) {
   coopFire(arena,player,primary,false,damage);
@@ -1917,9 +2015,13 @@ function fireCoopVolley(arena,player,primary,damage) {
     coopFire(arena,player,secondary||primary,false,Math.round(damage*.6),secondary?0:.055);
   }
 }
+function coopArmor(arena,foe){
+  return arena.sector===3&&foe.type==="boss"&&!foe.exposed ? .1 : 1;
+}
 function updateCoopArena(arena, inputs, dt) {
   if(arena.status!=="playing") return;
   arena.elapsed+=dt;
+  syncCoopMap(arena);
   for(const player of arena.players)ageFeedback(player.feedback??=[],dt);
   const mode=difficultyModes[arena.mode];
   arena.players.forEach((player,i)=>{
@@ -1931,8 +2033,7 @@ function updateCoopArena(arena, inputs, dt) {
     const x=clamp(Number(input.x)||0,-1,1), y=clamp(Number(input.y)||0,-1,1);
     const magnitude=Math.max(1,Math.hypot(x,y));
     const speed=(slide?245:100)*(1+0.10*player.speed+0.08*velocity);
-    player.x=clamp(player.x+x/magnitude*speed*dt,12,348);
-    player.y=clamp(player.y+y/magnitude*speed*dt,12,308);
+    moveInSector(player,x/magnitude*speed*dt,y/magnitude*speed*dt,12);
     player.heat=clamp(player.heat+dt*((slide||focus)?((slide?32:0)+(focus?24:0))/(1+0.2*thermal):-(26+3*thermal)),0,100);
     if(player.heat>=100) player.locked=true;
     if(player.heat<30) player.locked=false;
@@ -1940,7 +2041,8 @@ function updateCoopArena(arena, inputs, dt) {
     player.safe+=dt;
     if(upgrades.shieldRegen) player.shield=Math.min(100,player.shield+15*Math.max(0,player.safe-Math.max(7,oldSafe)));
     player.delay=Math.max(-dt,player.delay-dt);
-    const target=arena.enemies.reduce((best,e)=>!best||dist(player,e)<dist(player,best)?e:best,null);
+    if(arena.route==="infinite")updateSpecials(arena,player,arena.enemies,"hp",foe=>coopArmor(arena,foe));
+    const target=arena.enemies.reduce((best,e)=>e.hp>0&&(!best||dist(player,e)<dist(player,best))?e:best,null);
     const damage=amplifierDamage[upgrades.damage||0]*powerMultiplier[player.power];
     if(input.charge) player.charge=Math.min(2,player.charge+dt);
     else if(player.charge>0) {
@@ -1953,32 +2055,40 @@ function updateCoopArena(arena, inputs, dt) {
     }
   });
   for(const enemy of arena.enemies) {
+    if(enemy.hp<=0)continue;
+    enemy.exposed=Math.max(0,enemy.exposed-dt);
     const target=arena.players.filter(p=>p.hp>0).reduce((best,p)=>!best||dist(p,enemy)<dist(best,enemy)?p:best,null);
     if(!target) break;
     const distance=dist(target,enemy)||1;
     if(distance>Math.max(20,enemy.range)) {
-      enemy.x+=(target.x-enemy.x)/distance*enemy.speed*dt;
-      enemy.y+=(target.y-enemy.y)/distance*enemy.speed*dt;
+      const step=Math.min(enemy.speed*dt,distance);
+      moveInSector(enemy,(target.x-enemy.x)/distance*step,(target.y-enemy.y)/distance*step,enemy.r);
     }
     enemy.delay-=dt;
     if(enemy.delay<=0) {
-      const damage=(enemy.type==="boss"?12:10)*(mode.damage??1);
+      const damage=(enemy.type==="boss"?12:10)*(mode.damage??1)*enemy.scale;
       if(enemy.type==="hunter") {
         if(distance<24) {coopDamage(target,damage);enemy.delay=enemy.interval;}
       } else {
-        for(const offset of enemy.type==="boss"?[-.5,-.25,0,.25,.5]:[0]) coopFire(arena,enemy,target,true,damage,offset);
-        enemy.delay=enemy.interval;
+        const firingBoss=enemy.type==="boss";
+        const wide=firingBoss&&(arena.sector===3||arena.sector===2&&enemy.hp<enemy.max/2||arena.sector===1&&!enemy.burst);
+        for(const offset of wide?[-.84,-.56,-.28,0,.28,.56,.84]:firingBoss?[-.35,0,.35]:[0])coopFire(arena,enemy,target,true,damage,offset);
+        if(firingBoss&&arena.sector===3)enemy.exposed=Math.max(.65,enemy.interval*.48);
+        enemy.burst=!enemy.burst;
+        enemy.delay=enemy.interval*(firingBoss&&arena.sector===1?(wide?1.4:.7):1);
       }
     }
   }
   for(const bullet of arena.shots) {
     bullet.life-=dt;
+    const x=bullet.x,y=bullet.y;
     bullet.x+=bullet.vx*dt;bullet.y+=bullet.vy*dt;
+    if(rockBlocksShot(x,y,bullet)){bullet.life=0;continue;}
     const targets=bullet.enemy?arena.players:arena.enemies;
     const hit=targets.find(target=>target.hp>0&&dist(bullet,target)<(target.r??10)+3);
     if(hit) {
       if(bullet.enemy) coopDamage(hit,bullet.damage);
-      else hit.hp-=bullet.damage;
+      else hit.hp-=bullet.damage*coopArmor(arena,hit);
       bullet.life=0;
     }
   }
@@ -1986,12 +2096,12 @@ function updateCoopArena(arena, inputs, dt) {
   for(const enemy of arena.enemies) {
     if(enemy.hp>0) continue;
     arena.kills++;
-    if(enemy.type==="boss") {
+    if(enemy.type==="boss"&&arena.route!=="infinite") {
       arena.shots=[];
       arena.drops=[{x:enemy.x,y:enemy.y,type:"coin",amount:100,shared:true,life:3600}];
     } else {
       const roll=Math.random();
-      const type=roll<.16?"power":roll<.30?"speed":roll<.52?"coin":roll<.64?"health":roll<.68?"shield":roll<.76?"magnet":roll<.82?"rapid":null;
+      const type=roll<.16?"power":roll<.30?"speed":roll<.52?"coin":roll<.64?"health":roll<.68?"shield":roll<.76?"magnet":roll<.82?"rapid":arena.route==="infinite"&&roll<.88?"flame":arena.route==="infinite"&&roll<.93?"lightning":null;
       if(type) arena.drops.push({x:enemy.x,y:enemy.y,type,amount:type==="coin"?10:rollPackAmount(type),life:15});
     }
   }
@@ -2005,21 +2115,42 @@ function updateCoopArena(arena, inputs, dt) {
     }
     const collector=arena.players.find(player=>player.hp>0&&dist(player,drop)<23);
     if(!collector) continue;
-    if(drop.shared) {
-      arena.players.forEach(player=>coopPickup(player,drop));
-      arena.status="won";
-    } else coopPickup(collector,drop);
+    if(drop.shared){
+      arena.players.forEach(player=>coopPickup(player,drop,arena));
+      drop.life=0;
+      arena.stages.push({sector:arena.sector,points:(arena.kills-arena.stageKills)*50,
+        seconds:arena.elapsed-arena.stageStart,credits:arena.players.map((player,i)=>player.coins-arena.stageCredits[i])});
+      if(arena.route==="campaign"&&arena.sector<3){
+        arena.stageStart=arena.elapsed;arena.stageKills=arena.kills;arena.stageCredits=arena.players.map(player=>player.coins);
+        changeCoopMap(arena,arena.sector+1);
+        advanceCoopWave(arena);arena.wave=1;
+      }else arena.status="won";
+      break;
+    }
+    coopPickup(collector,drop,arena);
     drop.life=0;
   }
   arena.drops=arena.drops.filter(drop=>drop.life>0);
   if(arena.players.every(player=>player.hp<=0)) {arena.status="lost";return;}
   if(arena.status!=="playing"||arena.drops.some(drop=>drop.shared)) return;
-  if(arena.wave<=3&&arena.spawned===coopWaveSizes[arena.wave-1]&&!arena.enemies.length) {
-    arena.wave++;
-    arena.spawned=0;
-    arena.shots=[];
-    arena.players.forEach(p=>{if(p.hp<=0){p.hp=50;p.shield=0;p.heat=0;p.charge=0;p.locked=false;p.safe=0;}});
+  if(arena.route==="infinite"){
+    if(arena.spawned===endlessWaveLength(arena.wave)&&!arena.enemies.length){
+      arena.cleared=arena.wave;
+      if(arena.wave%3===0){
+        arena.transition??=arena.elapsed+1.8;
+        if(arena.elapsed<arena.transition)return;
+      }
+      advanceCoopWave(arena);arena.transition=null;
+      const nextSector=endlessSector(arena.wave);
+      if(nextSector!==arena.sector)changeCoopMap(arena,nextSector);
+    }
+    while(arena.enemies.length<Math.min(8,3+Math.floor((arena.wave-1)/2))&&arena.spawned<endlessWaveLength(arena.wave)){
+      coopSpawn(arena,endlessEnemy(arena.wave,arena.spawned));
+      arena.spawned++;
+    }
+    return;
   }
+  if(arena.wave<=3&&arena.spawned===coopWaveSizes[arena.wave-1]&&!arena.enemies.length)advanceCoopWave(arena);
   if(arena.wave===4) {
     if(!arena.spawned){coopSpawn(arena,"boss");arena.spawned++;}
     return;
@@ -2045,7 +2176,8 @@ async function coopRequest(args) {
   return lobbyResult(coopClient.rpc("coop_rooms",args));
 }
 function coopRoomRows(rooms) {
-  const list=$("coopRoomList");
+  const lists=[$("coopRoomList"),$("multiplayerInvites").querySelector("ul")||document.createElement("ul")];
+  for(const list of lists){
   list.replaceChildren();
   for(const room of rooms) {
     const row=document.createElement("li");
@@ -2065,6 +2197,8 @@ function coopRoomRows(rooms) {
     row.append(close);
     list.append(row);
   }
+  }
+  $("multiplayerInvites").append(lists[1]);
 }
 async function refreshCoopRooms(args={op:"list"}) {
   if(coopRoomsPending||coopConnection||coopJoining) return;
@@ -2074,8 +2208,8 @@ async function refreshCoopRooms(args={op:"list"}) {
     coopWatching=rooms.length>0;
     coopRoomRows(rooms);
     const accepted=rooms.find(room=>room.status==="accepted");
-    if(accepted) await joinCoopRoom(accepted);
-    else if(rooms.some(room=>room.role==="host")) coopStatus("Waiting for your friend…","Esperando a tu amigo…");
+    if(accepted&&state==="home") await joinCoopRoom(accepted);
+    else if(rooms.some(room=>room.role==="host")) {setRoomStatus("roomWaiting");coopStatus("Waiting for your friend…","Esperando a tu amigo…");}
     else if(rooms.length) coopStatus("Co-op invite received.","Recibiste una invitación.");
     else coopStatus("","");
   } catch {coopStatus("Could not connect. Refresh invites and try again.","No se pudo conectar. Actualiza las invitaciones e intenta de nuevo.");}
@@ -2110,21 +2244,37 @@ async function joinCoopRoom(room) {
       if(!Array.isArray(payload.arena?.players)||payload.arena.players.length!==2) return;
       conn.received=payload.sequence;
       conn.arena=payload.arena;
+      if(!conn.started)enterCoopArena(conn);
       conn.lastPacket=performance.now();
     });
     channel.on("broadcast",{event:"leave"},()=>{if(coopConnection===conn) leaveCoop(false);});
+    conn.route=validCoopRoute($("multiplayerRoute").value);
+    conn.mode=readDifficulty(room.mode);
+    conn.revision=0;conn.localReady=false;conn.peerConfirmed=false;conn.peerJoined=false;conn.started=false;conn.credited=0;
+    channel.on("broadcast",{event:"ready-room"},({payload})=>{
+      if(coopConnection!==conn||!payload||payload.version!==1)return;
+      conn.lastPacket=performance.now();
+      conn.peerJoined=true;
+      if(conn.host)conn.peerConfirmed=payload.revision===conn.revision&&payload.ready===true;
+      else if(Number.isSafeInteger(payload.revision)&&payload.revision>=conn.revision){
+        if(payload.revision!==conn.revision||!conn.hostSettings){
+          conn.localReady=false;
+          conn.revision=payload.revision;
+          conn.route=validCoopRoute(payload.route);conn.mode=readDifficulty(payload.mode);
+        }
+        conn.hostSettings=true;conn.peerConfirmed=payload.ready===true;
+      }
+      if(!conn.started)renderMultiplayerRoom();
+    });
     coopConnection=conn;
     if(!$("profile").hidden) panel("profile");
-    resetNovaDeck();
-    document.body.classList.remove("home-active");setArenaSize(360,320);clear();state="play";paused=false;manualPaused=false;
-    document.body.classList.add("coop-active");
-    $("missionSettings").dataset.copy="matchOptions";$("missionSettings").textContent=copy("matchOptions");
-    $("coopMatchBar").hidden=false;
-    $("coopLeave").textContent=coopText("Leave co-op","Salir del cooperativo");
-    $("coopMatchStatus").textContent=coopText("Connecting to "+room.friend+"…","Conectando con "+room.friend+"…");
+    if(state!=="home")showMainScreen();
+    if(!$("multiplayerRoom").open)$("multiplayerRoom").showModal();
+    renderMultiplayerRoom();
     channel.subscribe(status=>{
       if(coopConnection!==conn) return;
       conn.ready=status==="SUBSCRIBED";
+      if(!conn.started)renderMultiplayerRoom();
       if(status==="CHANNEL_ERROR"||status==="TIMED_OUT") {
         $("coopMatchStatus").textContent=coopText("Connection interrupted.","Conexión interrumpida.");
       }
@@ -2134,7 +2284,9 @@ async function joinCoopRoom(room) {
 async function leaveCoop(notify=true) {
   const conn=coopConnection;
   if(!conn) return;
+  settleCoopCredits(conn);
   coopConnection=null;
+  if($("multiplayerRoom").open)$("multiplayerRoom").close();
   coopWatching=false;
   coopChargeQueued=false;
   if(notify) sendCoop(conn,"leave",{});
@@ -2156,8 +2308,17 @@ function coopTick(now,dt) {
   const conn=coopConnection;
   const age=now-conn.lastPacket;
   if(age>20000) {leaveCoop();return;}
+  if(!conn.started){
+    if(conn.ready&&now-conn.lastSent>=220){
+      conn.lastSent=now;
+      sendCoop(conn,"ready-room",{version:1,ready:conn.localReady,revision:conn.revision,route:conn.route,mode:conn.mode});
+    }
+    if(conn.host&&conn.ready&&conn.localReady&&conn.peerConfirmed){
+      conn.arena=newCoopArena(conn.mode,conn.route);
+      enterCoopArena(conn);
+    }else return;
+  }
   const input=coopReadInput();
-  if(conn.host&&conn.peerReady&&!conn.arena) conn.arena=newCoopArena(conn.room.mode);
   if(conn.host&&conn.arena&&age<2500&&!document.hidden) {
     conn.arena.players[0].upgrades=input.upgrades;
     conn.arena.players[1].upgrades=coopIncomingUpgrades(conn.peer?.upgrades);
@@ -2177,6 +2338,8 @@ function coopTick(now,dt) {
 }
 function renderCoop(conn,age) {
   const arena=conn.arena;
+  syncCoopMap(arena);
+  settleCoopCredits(conn);
   const local=arena.players[conn.host?0:1];
   const friend=arena.players[conn.host?1:0];
   if(arena.status!=="playing"&&!conn.reportShown){conn.reportShown=true;showCoopReport(arena,local);}
@@ -2186,8 +2349,9 @@ function renderCoop(conn,age) {
   g.strokeStyle="#302345";g.lineWidth=.6;
   for(let x=0;x<W;x+=30){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke();}
   for(let y=0;y<H;y+=30){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke();}
+  drawMeteorites();drawSpecials(arena.effects);
   for(const drop of arena.drops) {
-    const color={health:"#7dff85",shield:"#72dbff",power:"#ff70db",speed:"#6affbd",coin:"#ffd65c",magnet:"#fff498",rapid:"#ffae72"}[drop.type]||"#ffae72";
+    const color={health:"#7dff85",shield:"#72dbff",power:"#ff70db",speed:"#6affbd",coin:"#ffd65c",magnet:"#fff498",rapid:"#ffae72",flame:"#ff6b4a",lightning:"#b9aeff"}[drop.type]||"#ffae72";
     if(drop.shared){g.fillStyle="#ffd65c44";g.fillRect(drop.x-6,0,12,drop.y);ring(drop.x,drop.y,15,color);}
     diamond(drop.x,drop.y,drop.shared?10:6,color);
   }
@@ -2205,14 +2369,18 @@ function renderCoop(conn,age) {
     if(player.charge>0) ring(player.x,player.y,15+player.charge*5,"#eee0ff");
   }
   drawFeedback(local.feedback||[]);
-  updateNovaDeck(arena.elapsed,arena.wave,arena.wave>3,local.rapid||0);
-  const waveLabel=arena.wave>3?gameText("CORE GUARDIAN"):gameText("WAVE")+" "+arena.wave;
+  const activeBoss=arena.enemies.some(foe=>foe.type==="boss");
+  const cap=arena.route==="infinite"?10:5;
+  updateNovaDeck(arena.elapsed,arena.wave,activeBoss,local.rapid||0);
+  const waveLabel=arena.route==="infinite"?sectorName(arena.sector)+" · "+gameText("WAVE")+" "+arena.wave:
+    activeBoss&&arena.sector===3?gameText("Station Keeper")+" · "+gameText(arena.enemies.some(foe=>foe.exposed>0)?"Core exposed":"Core shielded"):
+    activeBoss&&arena.sector===2?gameText("Meteor Warden"):activeBoss?gameText("CORE GUARDIAN"):gameText("WAVE")+" "+arena.wave;
   for(const [key,value] of Object.entries({Hp:Math.ceil(local.hp),Shield:Math.floor(local.shield),
     Heat:Math.round(local.heat)+"%",Kills:arena.kills,Time:time(arena.elapsed),Score:arena.kills*50,
-    Power:local.power+"/5",Magnet:local.magnet+"/5",Speed:local.speed+"/5",Wave:arena.wave>3?"CORE":arena.wave})) $("hud"+key).textContent=value;
+    Power:local.power+"/"+cap,Magnet:local.magnet+"/"+cap,Speed:local.speed+"/"+cap,Wave:activeBoss?"CORE":arena.wave})) $("hud"+key).textContent=value;
   $("barHp").style.width=local.hp+"%";$("barShield").style.width=local.shield+"%";$("barHeat").style.width=local.heat+"%";
   $("charge").textContent=local.charge>0?"CHARGE "+Math.round(local.charge*50)+"%":gameText("NOVA CHARGE");
-  g.font="12px system-ui";g.textAlign="right";g.fillStyle="#d9baff";g.fillText(waveLabel,350,18);
+  g.font="12px system-ui";g.textAlign="right";g.fillStyle="#d9baff";g.fillText(waveLabel,W-10,18);
   if(arena.status!=="playing"||local.hp<=0||arena.drops.some(drop=>drop.shared)) {
     g.textAlign="center";g.font="bold 16px system-ui";g.fillStyle="#f1eaff";
     if(arena.status!=="playing"){g.fillStyle="#100d20dc";g.fillRect(0,112,W,96);g.fillStyle="#f1eaff";}
@@ -2226,7 +2394,7 @@ function renderCoop(conn,age) {
 $("coopLeave").onclick=()=>leaveCoop();
 $("coopRefresh").onclick=()=>refreshCoopRooms();
 $("profileBtn").addEventListener("click",()=>{if(!$("profile").hidden) refreshCoopRooms();});
-setInterval(()=>{if(!$("profile").hidden||coopWatching) refreshCoopRooms();},2500);
+setInterval(()=>{if(!$("profile").hidden||$("multiplayerRoom").open||coopWatching) refreshCoopRooms();},2500);
 
 translateGame();
 lobbyText.en.sectorOneScores="Shared leaderboards track Sector 1.";
@@ -2248,7 +2416,7 @@ Object.assign(lobbyText.es, {
   reportExit:"¿Salir de esta misión y volver al menú principal?"
 });
 function newRunPickups() {
-  return {coin:0,power:0,speed:0,health:0,shield:0,magnet:0,rapid:0,twinPulse:0};
+  return {coin:0,power:0,speed:0,health:0,shield:0,magnet:0,rapid:0,twinPulse:0,flame:0,lightning:0};
 }
 function renderHomeMission() {
   renderSector();
@@ -2259,48 +2427,58 @@ function showMainScreen() {
   clear();
   stopLobbyUpdates();
   if(!$("settings").hidden) panel("settings");
+  infiniteRun=null;campaignReports=[];
   state="home";last=0;paused=false;manualPaused=false;
+  if($("novaLine")){$("novaLine").hidden=false;$("novaLine").textContent=copy("novaHome")||"";}
   document.body.classList.add("home-active");
   renderHomeMission();
 }
-function showReport({win,mode,sector,points,count,seconds,health,barrier,attack,move,thermal,pickups,credits,rapid=0,twin=false,coop=false}) {
-  saveMatchResult({win,mode,sector,points,count,seconds,health,barrier,attack,move,thermal,pickups,credits,rapid,twin,coop});
+function showReport({win,mode,sector,points,count,seconds,health,barrier,attack,move,thermal,pickups,credits,rapid=0,twin=false,coop=false,endless=false,waves=0,campaign=[]}) {
+  saveMatchResult({win,mode,sector,points,count,seconds,health,barrier,attack,move,thermal,pickups,credits,rapid,twin,coop,endless,waves});
+  $("reportDetails").open=false;
   $("reportTitle").textContent=gameText(win?"MISSION COMPLETE":"SIGNAL LOST");
-  $("reportContext").textContent=sectorName(sector)+" · "+gameText(difficultyLabels[mode]);
-  $("reportSummary").innerHTML=tiles([[gameText("Score"),points],[gameText("Kills"),count],[gameText("Time"),time(seconds)]]);
-  $("reportPickups").innerHTML=tiles([[copy(coop?"reportRunCredits":"reportCredits"),credits+" NC"],
+  $("reportContext").textContent=(endless?copy("infiniteTitle")+" · "+copy("wavesCleared")+" "+waves:sectorName(sector))+" · "+gameText(difficultyLabels[mode]);
+  if(endless)$("reportTitle").textContent=copy("infiniteRecap");
+  const summary=campaign.length===3?campaign.reduce((sum,stage)=>({points:sum.points+stage.points,credits:sum.credits+stage.credits,seconds:sum.seconds+stage.seconds}),{points:0,credits:0,seconds:0}):{points,credits,seconds};
+  $("reportCampaign").hidden=campaign.length!==3;
+  $("reportCampaign").innerHTML=campaign.length===3?tiles(campaign.map(stage=>[sectorName(stage.sector),stage.points+" · "+stage.credits+" NC · "+time(stage.seconds)])):"";
+  $("reportSummary").innerHTML=tiles([[gameText("Score"),summary.points],[copy("reportCredits"),summary.credits+" NC"],[gameText("Time"),time(summary.seconds)]]);
+  $("reportPickups").innerHTML=tiles([[gameText("Kills"),count],
     [gameText("Power"),pickups.power],
     [gameText("Speed"),pickups.speed],[copy("reportHealth"),pickups.health],
-    [copy("reportShield"),pickups.shield],[gameText("Magnet"),pickups.magnet],[gameText("Fire Rate"),pickups.rapid||0]]);
+    [copy("reportShield"),pickups.shield],[gameText("Magnet"),pickups.magnet],[gameText("Fire Rate"),pickups.rapid||0],...(endless?[[copy("flame"),pickups.flame||0],[copy("lightning"),pickups.lightning||0]]:[])]);
   $("twinReward").hidden=!pickups.twinPulse;
   const heatReduction=Math.round(100*(1-1/(1+.20*thermal)));
   $("reportStats").innerHTML=tiles([[copy("reportAtk"),Math.round(attack)],[copy("dpsStat"),Math.round(attack*shotsPerSecond(rapid))],[copy("cadenceStat"),shotsPerSecond(rapid).toFixed(1)],[copy("twinStat"),gameText(twin?"ON":"OFF")],[copy("reportSpd"),Math.round(move*100)+"%"],
     [copy("reportDef"),Math.ceil(health)+" + "+Math.floor(barrier)],[copy("reportBoost"),(heatReduction?"−":"")+heatReduction+"%"]]);
-  const next=win&&!coop&&campaignActive&&sector<3;
+  const next=win&&!coop&&!endless&&campaignActive&&sector<3;
   $("reportPlay").hidden=coop||next;
   $("reportNext").hidden=!next;
   $("reportHold").hidden=!next;
   $("campaignCountdown").hidden=!next;
   if(next)queueNextSector();
-  if(win&&!coop&&sector===3&&campaignActive)$("reportTitle").textContent=copy("levelOneComplete");
+  if(win&&!endless&&((!coop&&sector===3&&campaignActive)||(coop&&campaign.length===3)))$("reportTitle").textContent=copy("levelOneComplete");
   const dialog=$("missionReport");
   if(!dialog.open) dialog.showModal();
 }
 function showSoloReport(win,twinUsed) {
+  if(win&&campaignActive)campaignReports.push({sector:missionSector,points:score,credits:soloPickups.coin*10,seconds:elapsed});
   showReport({win,mode:missionDifficulty,sector:missionSector,points:score,count:kills,seconds:elapsed,
     health:hp,barrier:shield,attack:shotDamage(),move:1+.10*speed+.08*activeUpgrade("velocity"),thermal:activeUpgrade("thermal"),
-    pickups:soloPickups,credits:soloPickups.coin*10,rapid:rapidLevel,twin:twinUsed});
+    pickups:soloPickups,credits:soloPickups.coin*10,rapid:rapidLevel,twin:twinUsed,campaign:campaignReports});
 }
 function showCoopReport(arena,player) {
   const upgrades=player.upgrades;
   const won=arena.status==="won";
   if(won&&grantTwinPulse()){player.twinReward=1;persist();}
-  publishMissionScore(arena.mode,arena.kills*50,4);
+  if(arena.route==="1")publishMissionScore(arena.mode,arena.kills*50,4);
   if(arena.elapsed>0)referralMissionFinished();
-  showReport({win:won,mode:arena.mode,sector:1,points:arena.kills*50,count:arena.kills,seconds:arena.elapsed,
+  const index=arena.players.indexOf(player);
+  const campaign=arena.route==="campaign"?arena.stages.map(stage=>({...stage,credits:stage.credits[index]})):[];
+  showReport({win:won,mode:arena.mode,sector:arena.sector,points:arena.kills*50,count:arena.kills,seconds:arena.elapsed,
     health:player.hp,barrier:player.shield,attack:amplifierDamage[upgrades.damage||0]*powerMultiplier[player.power],
     move:1+.10*player.speed+.08*(upgrades.velocity||0),thermal:upgrades.thermal||0,
-    pickups:{...(player.pickups||newRunPickups()),twinPulse:player.twinReward},credits:player.coins,rapid:player.rapid||0,twin:Boolean(upgrades.twinPulse),coop:true});
+    pickups:{...(player.pickups||newRunPickups()),twinPulse:player.twinReward},credits:player.coins,rapid:player.rapid||0,twin:Boolean(upgrades.twinPulse),coop:true,endless:arena.route==="infinite",waves:arena.cleared,campaign});
 }
 function exitReport() {
   $("missionReport").close();
@@ -2308,8 +2486,9 @@ function exitReport() {
   else showMainScreen();
 }
 $("homePlay").onclick=()=>reset();
-$("openMainScreen").onclick=()=>{if(state==="play"&&!confirm(copy("reportExit")))return;if(coopConnection)leaveCoop();else showMainScreen();};
-$("reportPlay").onclick=()=>{$("missionReport").close();reset();};
+$("homeInfinite").onclick=()=>startInfinite();
+$("openMainScreen").onclick=()=>{if(state==="play"&&!confirm(copy("reportExit")))return;if(coopConnection)leaveCoop();else if(infiniteRun&&state==="play")finishInfinite();else showMainScreen();};
+$("reportPlay").onclick=()=>{$("missionReport").close();if(infiniteRun)startInfinite();else reset();};
 $("reportHome").onclick=exitReport;
 $("reportNext").onclick=enterNextSector;
 $("reportHold").onclick=()=>{
@@ -2972,7 +3151,7 @@ function validMatchRecord(record){
   if(!["story","relaxed","easy","normal","hard","expert","nightmare"].includes(record.mode)||![1,2,3].includes(record.sector))return false;
   if(!Number.isSafeInteger(record.at)||record.at<=0||record.at>8640000000000000)return false;
   if(!["points","count","seconds","health","barrier","attack","move","thermal","credits","rapid"].every(key=>Number.isFinite(record[key])&&record[key]>=0))return false;
-  return record.rapid<=5&&record.pickups&&["power","speed","health","shield","magnet","rapid","twinPulse"].every(key=>Number.isFinite(record.pickups[key])&&record.pickups[key]>=0);
+  return record.rapid<=(record.endless?10:5)&&(!record.endless||Number.isSafeInteger(record.waves)&&record.waves>=0)&&record.pickups&&["power","speed","health","shield","magnet","rapid","twinPulse"].every(key=>Number.isFinite(record.pickups[key])&&record.pickups[key]>=0);
 }
 function validMatchHistory(entries){
   return entries===undefined||Array.isArray(entries)&&entries.length<=matchHistoryLimit&&entries.every(validMatchRecord);
@@ -2987,7 +3166,7 @@ function replaceMatchHistory(entries){
 }
 function saveMatchResult(result){
   const pickups={};
-  for(const key of ["power","speed","health","shield","magnet","rapid","twinPulse"])pickups[key]=result.pickups?.[key]||0;
+  for(const key of ["power","speed","health","shield","magnet","rapid","twinPulse","flame","lightning"])pickups[key]=result.pickups?.[key]||0;
   const record={...result,at:Date.now(),pickups};
   if(validMatchRecord(record))replaceMatchHistory([record,...matchHistory]);
 }
@@ -3022,11 +3201,11 @@ function renderMatchHistory(){
   const formatDate=new Intl.DateTimeFormat(local,{dateStyle:"medium",timeStyle:"short"});
   for(const item of matchHistory){
     const outcome=gameText(item.win?"VICTORY":"DEFEAT");
-    const label=outcome+" · "+sectorName(item.sector)+" · "+gameText(difficultyLabels[item.mode]);
+    const label=(item.endless?copy("infiniteTitle")+" · "+copy("wavesCleared")+" "+item.waves:outcome+" · "+sectorName(item.sector))+" · "+gameText(difficultyLabels[item.mode]);
     const detail=matchDetail(label,formatDate.format(item.at)+" · "+(item.coop?gameText("Co-op"):copy("soloMatch"))+" · "+item.points.toLocaleString(local)+" "+gameText("Score").toLowerCase());
     appendMatchTiles(detail,copy("reportLoot"),[[gameText("Score"),item.points],[gameText("Kills"),item.count],[gameText("Time"),time(item.seconds)],
       [copy(item.coop?"reportRunCredits":"reportCredits"),item.credits+" NC"],[gameText("Power"),item.pickups.power],[gameText("Speed"),item.pickups.speed],
-      [copy("reportHealth"),item.pickups.health],[copy("reportShield"),item.pickups.shield],[gameText("Magnet"),item.pickups.magnet],[gameText("Fire Rate"),item.pickups.rapid]]);
+      [copy("reportHealth"),item.pickups.health],[copy("reportShield"),item.pickups.shield],[gameText("Magnet"),item.pickups.magnet],[gameText("Fire Rate"),item.pickups.rapid],...(item.endless?[[copy("flame"),item.pickups.flame||0],[copy("lightning"),item.pickups.lightning||0]]:[])]);
     const estimate=weaponEstimate(item.attack,item.rapid,item.twin);
     const damage=[[copy("dpsStat"),estimate.primary],[copy("cadenceStat"),estimate.cadence.toFixed(1)],[copy("twinStat"),gameText(item.twin?"ON":"OFF")]];
     if(item.twin)damage.push([copy("secondaryDps"),estimate.secondary],[copy("combinedDps"),estimate.primary+estimate.secondary]);
@@ -3095,6 +3274,230 @@ lobbyLanguage.addEventListener("change",()=>{
   if(!$("profileMatchHistory").hidden)renderMatchHistory();
   if($("petChips").open)renderChipStats();
 });
+Object.assign(lobbyText.en,{
+  infiniteMode:"∞ Infinite",infiniteTitle:"Infinite",infiniteRecap:"INFINITE RUN COMPLETE",wavesCleared:"Waves cleared",
+  flame:"Fire Breath",lightning:"Lightning Strike",multiplayer:"Multiplayer",reportDetails:"Details",
+  novaHome:"Ready for the next run.",roomDestination:"Destination",roomConnect:"Connect online",roomReady:"Ready",
+  roomUnready:"Cancel ready",roomInvite:"Invite",roomFriendsEmpty:"Add a friend in Profile to invite them.",
+  roomChoose:"Choose a destination and invite a friend.",roomSync:"Connecting to your teammate…",
+  roomHost:"The host chooses the destination.",roomWaiting:"Waiting for your friend to accept.",
+  roomYou:"You",roomNotReady:"Not ready",roomMode:"Destination",roomError:"Could not reach the room. Try again."
+});
+Object.assign(lobbyText.es,{
+  infiniteMode:"∞ Infinito",infiniteTitle:"Infinito",infiniteRecap:"PARTIDA INFINITA TERMINADA",wavesCleared:"Oleadas superadas",
+  flame:"Aliento de fuego",lightning:"Impacto de rayos",multiplayer:"Multijugador",reportDetails:"Detalles",
+  novaHome:"Lista para la próxima partida.",roomDestination:"Destino",roomConnect:"Conectar en línea",roomReady:"Listo",
+  roomUnready:"Cancelar listo",roomInvite:"Invitar",roomFriendsEmpty:"Agrega un amigo en el perfil para invitarlo.",
+  roomChoose:"Elige un destino e invita a un amigo.",roomSync:"Conectando con tu compañero…",
+  roomHost:"El anfitrión elige el destino.",roomWaiting:"Esperando que tu amigo acepte.",
+  roomYou:"Tú",roomNotReady:"En espera",roomMode:"Destino",roomError:"No se pudo entrar a la sala. Intenta de nuevo."
+});
+function endlessScale(currentWave){
+  const cleared=currentWave-1;
+  return 1.12**Math.min(110,Math.floor(cleared/3))*2**Math.min(65,Math.floor(cleared/15));
+}
+function endlessSector(currentWave){
+  return Math.floor((currentWave-1)/3)%3+1;
+}
+function endlessWaveLength(currentWave){
+  return [8,12,16][(currentWave-1)%3];
+}
+function endlessEnemy(currentWave,index){
+  if(currentWave%15===0&&index===endlessWaveLength(currentWave)-1)return "boss";
+  return ["sentinel","hunter","artillery"][index===0&&currentWave===1?0:Math.floor(Math.random()*3)];
+}
+function specialCredits(kind){return kind==="flame"?15:25;}
+function useSpecial(run,pilot,enemies,hpKey,kind,damage,armor){
+  run.effects??=[];
+  if(kind==="flame"){
+    const burn={until:run.elapsed+5,next:run.elapsed+.25,damage:Math.max(8,damage*.30)};
+    (pilot.burns??=[]).push(burn);
+    return;
+  }
+  for(const foe of enemies){
+    if(foe[hpKey]<=0)continue;
+    foe[hpKey]-=Math.max(45,damage*1.8)*armor(foe);
+    run.effects.push({kind,x:foe.x,y:foe.y,until:run.elapsed+.22});
+  }
+}
+function updateSpecials(run,pilot,enemies,hpKey,armor){
+  run.effects??=[];
+  run.effects=run.effects.filter(effect=>effect.until>run.elapsed);
+  if(!pilot.burns?.length)return;
+  for(const burn of pilot.burns){
+    if(burn.next>Math.min(run.elapsed,burn.until))continue;
+    burn.next+=.25;
+    const foe=enemies.reduce((nearest,e)=>e[hpKey]>0&&(!nearest||dist(pilot,e)<dist(pilot,nearest))?e:nearest,null);
+    if(!foe)continue;
+    foe[hpKey]-=burn.damage*armor(foe);
+    if(run.effects.length<40)run.effects.push({kind:"flame",x:foe.x,y:foe.y,fromX:pilot.x,fromY:pilot.y,until:run.elapsed+.14});
+  }
+  pilot.burns=pilot.burns.filter(burn=>burn.next<=burn.until||run.elapsed<burn.until);
+}
+function drawSpecials(effects){
+  for(const effect of effects||[]){
+    g.save();g.beginPath();
+    if(effect.kind==="flame"){
+      g.moveTo(effect.fromX,effect.fromY);g.lineTo(effect.x,effect.y);
+      g.strokeStyle="#ff8752bb";g.lineWidth=8;
+    }else{
+      g.moveTo(effect.x-6,0);g.lineTo(effect.x+7,effect.y*.4);
+      g.lineTo(effect.x-5,effect.y*.7);g.lineTo(effect.x,effect.y);
+      g.strokeStyle="#c4b5ff";g.lineWidth=4;
+    }
+    g.stroke();g.restore();
+  }
+}
+function startInfinite(){
+  state="home";
+  reset(1);
+  campaignActive=false;campaignReports=[];
+  missionDifficulty=readDifficulty($("difficulty").value);
+  infiniteRun={spawned:0,cleared:0,elapsed:0,transition:null,effects:[],bonus:0};
+  E=[];B=[];
+  updateInfiniteWave();
+}
+function changeSoloMap(nextSector){
+  missionSector=nextSector;
+  const arena=missionSectors[missionSector];
+  setArenaSize(arena.width,arena.height);
+  liveMeteorites=arena.rocks.map(rock=>({...rock,hp:120}));
+  p.x=65;p.y=H/2;
+  B=[];I=[];F=[];
+  updateStationCover();
+}
+function updateInfiniteWave(){
+  const run=infiniteRun;
+  run.elapsed=elapsed;
+  if(run.spawned===endlessWaveLength(wave)&&!E.length){
+    run.cleared=wave;
+    if(wave%3===0){
+      if(run.transition===null)run.transition=elapsed+1.8;
+      if(elapsed<run.transition)return;
+    }
+    wave++;run.spawned=0;run.transition=null;
+    const nextSector=endlessSector(wave);
+    if(nextSector!==missionSector)changeSoloMap(nextSector);
+  }
+  while(E.length<Math.min(7,2+Math.floor((wave-1)/2))&&run.spawned<endlessWaveLength(wave)){
+    spawn(endlessEnemy(wave,run.spawned));
+    run.spawned++;
+  }
+  boss=E.some(foe=>foe.type==="boss");
+}
+function finishInfinite(){
+  if(!infiniteRun||state!=="play")return;
+  state="lost";clear();
+  career.missions++;career.kills+=kills;career.seconds+=elapsed;career.xp+=kills*10+50;
+  saveCareer();
+  showReport({win:false,mode:missionDifficulty,sector:missionSector,points:score,count:kills,seconds:elapsed,
+    health:hp,barrier:shield,attack:shotDamage(),move:1+.10*speed+.08*activeUpgrade("velocity"),
+    thermal:activeUpgrade("thermal"),pickups:soloPickups,credits:soloPickups.coin*10+infiniteRun.bonus,
+    rapid:rapidLevel,twin:Boolean(activeUpgrade("twinPulse")),endless:true,waves:infiniteRun.cleared});
+}
+$("novaLine").textContent=copy("novaHome");
+function validCoopRoute(route){
+  return ["campaign","1","2","3","infinite"].includes(route)?route:"campaign";
+}
+function setRoomStatus(key){
+  $("multiplayerStatus").textContent=copy(key);
+}
+function renderMultiplayerRoom(){
+  const conn=coopConnection;
+  const linked=Boolean(conn?.peerJoined&&conn?.ready&&(conn.host||conn.hostSettings));
+  $("multiplayerReady").hidden=!linked;
+  $("multiplayerRoute").disabled=Boolean(conn&&!conn.host);
+  $("multiplayerDifficulty").disabled=Boolean(conn&&!conn.host);
+  if(!conn)return;
+  $("multiplayerFriends").hidden=true;
+  $("multiplayerInvites").hidden=true;
+  $("multiplayerConnect").hidden=true;
+  $("multiplayerRoute").value=conn.route;
+  $("multiplayerDifficulty").value=conn.mode;
+  $("multiplayerReady").textContent=copy(conn.localReady?"roomUnready":"roomReady");
+  $("multiplayerStatus").textContent=linked?
+    copy("roomYou")+" · "+copy(conn.localReady?"roomReady":"roomNotReady")+" / "+conn.room.friend+" · "+copy(conn.peerConfirmed?"roomReady":"roomNotReady"):
+    copy("roomSync");
+}
+function enterCoopArena(conn){
+  conn.started=true;
+  if($("multiplayerRoom").open)$("multiplayerRoom").close();
+  resetNovaDeck();
+  document.body.classList.remove("home-active");
+  clear();state="play";paused=false;manualPaused=false;
+  document.body.classList.add("coop-active");
+  $("missionSettings").dataset.copy="matchOptions";
+  $("missionSettings").textContent=copy("matchOptions");
+  $("coopMatchBar").hidden=false;
+  $("coopLeave").textContent=coopText("Leave co-op","Salir del cooperativo");
+}
+function settleCoopCredits(conn){
+  const player=conn.arena?.players[conn.host?0:1];
+  if(!player||!Number.isSafeInteger(player.coins)||player.coins<=conn.credited)return;
+  progress.credits+=player.coins-conn.credited;
+  conn.credited=player.coins;
+  persist();
+}
+async function openMultiplayer(){
+  const dialog=$("multiplayerRoom");
+  if(!dialog.open)dialog.showModal();
+  if(coopConnection){renderMultiplayerRoom();return;}
+  const list=$("multiplayerFriends");
+  list.hidden=false;list.replaceChildren();
+  $("multiplayerInvites").hidden=false;
+  $("multiplayerConnect").hidden=true;
+  setRoomStatus("roomChoose");
+  $("multiplayerDifficulty").value=$("difficulty").value;
+  renderMultiplayerRoom();
+  try {
+    const client=await getAccountClient();
+    const {session}=await lobbyResult(client.auth.getSession());
+    if(!session){
+      setRoomStatus("roomConnect");
+      $("multiplayerConnect").hidden=false;
+      return;
+    }
+    const friends=await lobbyResult(client.rpc("referral_friends_all_modes"));
+    if(!dialog.open||coopConnection)return;
+    for(const friend of friends){
+      const row=document.createElement("li");
+      const name=document.createElement("span");name.textContent=friend.display_name+" #"+friend.arcade_id;
+      const button=document.createElement("button");button.type="button";button.textContent=copy("roomInvite");
+      button.onclick=()=>refreshCoopRooms({op:"invite",friend_name:friend.display_name,friend_tag:friend.arcade_id,run_mode:$("multiplayerDifficulty").value});
+      row.append(name,button);list.append(row);
+    }
+    if(!friends.length)setRoomStatus("roomFriendsEmpty");
+    refreshCoopRooms();
+  }catch{setRoomStatus("roomError");}
+}
+function configureCoopRoom(){
+  const conn=coopConnection;
+  if(!conn?.host||conn.started)return;
+  conn.route=validCoopRoute($("multiplayerRoute").value);
+  conn.mode=readDifficulty($("multiplayerDifficulty").value);
+  conn.revision++;conn.localReady=false;conn.peerConfirmed=false;
+  renderMultiplayerRoom();
+}
+for(const [mode,label] of Object.entries(difficultyLabels)){
+  const option=document.createElement("option");option.value=mode;option.textContent=gameText(label);option.dataset.gameText=label;
+  $("multiplayerDifficulty").append(option);
+}
+$("homeMultiplayer").onclick=openMultiplayer;
+$("closeMultiplayer").onclick=()=>{
+  if(coopConnection&&!coopConnection.started)leaveCoop();
+  else $("multiplayerRoom").close();
+};
+$("multiplayerRoom").addEventListener("cancel",event=>{
+  event.preventDefault();$("closeMultiplayer").click();
+});
+$("multiplayerConnect").onclick=()=>{$("multiplayerRoom").close();$("petPicLobby").click();};
+$("multiplayerRoute").onchange=$("multiplayerDifficulty").onchange=configureCoopRoom;
+$("multiplayerReady").onclick=()=>{
+  if(!coopConnection?.peerJoined)return;
+  coopConnection.localReady=!coopConnection.localReady;
+  renderMultiplayerRoom();
+};
+
 lobbyLanguage.addEventListener("change",translatePet);
 translateGame();
 translatePet();
