@@ -5704,6 +5704,96 @@ const raidNames22=[
   ["X","Cosmic Inferno","Infierno cósmico"]
 ];
 const raidMoves22=["breath","stars","nova","cross","spiral","gravity","comets","lattice","starbreaker","inferno"];
+const infernoWindup = 4;
+let infernoCue = "";
+
+function drawInferno22(clock, warning, cast) {
+  const remaining = warning ? clamp(warning.fire-clock, 0, infernoWindup) : 0;
+  const charge = 1-remaining/infernoWindup;
+  const age = warning ? 0 : Math.max(0, clock-cast.at);
+  const moving = motionAllowed();
+  const phase = moving ? clock : 0;
+  const tick = Math.ceil(remaining);
+  const cue = warning ? warning.fire+"/"+tick : "impact/"+cast.at;
+  if (infernoCue !== cue) {
+    infernoCue = cue;
+    if (gamePrefs.sound) {
+      if (warning) tone(350+(4-tick)*90,.16,.042,"triangle",540+(4-tick)*90);
+      else tone(190,.44,.06,"triangle",48);
+    }
+  }
+
+  g.save();
+  try {
+    g.setLineDash([]);
+    g.globalAlpha *= warning ? 1 : Math.max(0,1-age/1.4);
+    g.fillStyle = warning ? "rgba(239,67,17,.07)" : "rgba(255,113,36,.22)";
+    g.fillRect(0,0,W,H);
+    for (const side of [0,1]) {
+      const edge = side*W, inward = side ? -1 : 1;
+      for (const [scale,color] of [[1,"#ed5935"],[.48,"#ffd578"]]) {
+        g.fillStyle=color; g.beginPath(); g.moveTo(edge,0);
+        for (let y=0;y<H;y+=24) {
+          const depth=(4+18*charge)*scale*(.8+.2*Math.sin(y*.14+side+phase*5));
+          g.quadraticCurveTo(edge+inward*depth*.25,y+9,edge+inward*depth,Math.min(H,y+15));
+          g.lineTo(edge,Math.min(H,y+24));
+        }
+        g.closePath(); g.fill();
+      }
+    }
+    if (warning) {
+      const x=W*.5, y=Math.min(H*.30,W*.94*.31)*.74, radius=10+charge*24;
+      const glow=g.createRadialGradient(x,y,0,x,y,radius);
+      glow.addColorStop(0,"#fff5bf"); glow.addColorStop(.32,"#ffa34b"); glow.addColorStop(1,"#c751ff00");
+      g.fillStyle=glow; g.fillRect(x-radius,y-radius,2*radius,2*radius);
+      for (let arm=0; arm<5; arm++) {
+        g.beginPath();
+        for (let j=0;j<=18;j++) {
+          const u=j/18, a=arm*Math.PI*.4+2.6*u-phase*2;
+          const r=3+u*(radius+12);
+          const px=x+Math.cos(a)*r, py=y+Math.sin(a)*r*.67;
+          if(j===0) g.moveTo(px,py); else g.lineTo(px,py);
+        }
+        g.lineWidth=1+charge; g.strokeStyle=arm%2?"#ffd580":"#e898ff"; g.stroke();
+      }
+    }
+    if (moving && warning && remaining<.75) {
+      const y=(1-remaining/.75)*(H+36)-18;
+      const glow=g.createLinearGradient(0,y-H*.46,0,y+17);
+      glow.addColorStop(0,"#622aa300"); glow.addColorStop(.55,"#ce4437a8");
+      glow.addColorStop(.85,"#ff943c"); glow.addColorStop(1,"#fff2ab");
+      g.fillStyle=glow; g.beginPath(); g.moveTo(0,y-H*.46); g.lineTo(W,y-H*.46);
+      for(let i=72;i>=0;i--) {
+        const u=i/72;
+        g.lineTo(u*W,y+9*Math.sin(23*u-phase*8)+5*Math.sin(51*u+phase*6));
+      }
+      g.closePath(); g.fill();
+      for(let i=0;i<22;i++) {
+        const x=W*(i+.5)/22, curl=Math.sin(phase*7+i*2.4), tip=y+8*curl;
+        g.fillStyle=i%3?"#ffc969bb":"#fff3b7bf"; g.beginPath(); g.moveTo(x-4,tip);
+        g.quadraticCurveTo(x+curl*13,tip-16,x+curl*9,tip-30-12*curl);
+        g.quadraticCurveTo(x+7,tip-9,x+4,tip); g.fill();
+      }
+    }
+    if (moving && !warning) {
+      for(let i=0;i<34;i++) {
+        g.fillStyle=i%3?"#ffa352":"#fff0b2";
+        g.fillRect((i*.618%1)*W+Math.sin(i+age*3)*6,(i*.381%1)*H-age*(16+i%16),2,3+i%4);
+      }
+    }
+    const es=lobbyLanguage.value==="es";
+    const timeText=(Math.ceil(remaining*10)/10).toFixed(1)+(es?" s":"s");
+    const title=warning ? (es?"INFERNO · IMPACTO EN ":"INFERNO · IMPACT IN ")+timeText
+                        : (es?"INFERNO · IMPACTO":"INFERNO · IMPACT");
+    const width=Math.min(285,W-16), left=(W-width)/2, top=H*.29;
+    g.fillStyle="#251520"; g.fillRect(left,top,width,45);
+    g.fillStyle="#fff1cf"; g.textAlign="center"; g.font="bold 15px system-ui";
+    g.fillText(title,W/2,top+18,width-10); g.font="12px system-ui";
+    g.fillText(es?"Golpea toda la arena":"Hits the entire arena",W/2,top+34,width-10);
+    g.fillStyle="#ffb155"; g.fillRect(left,top+41,width*charge,4);
+  } finally { g.restore(); }
+}
+
 const raidRoutes22=raidNames22.map((_,i)=>i===0?"raid":"raid"+(i+1));
 for(const [index,route] of raidRoutes22.entries()){
   const level=index+1, title="gauntletTier"+level, [roman,en,es]=raidNames22[index];
@@ -5735,7 +5825,7 @@ function gauntletPattern22(arena,dragon,live){
     const kind=raidMoves22[dragon.attackIndex%tier.level];
     const target=live[dragon.attackIndex%live.length];
     dragon.attackIndex++;
-    dragon.attack={kind,aim:{x:target.x,y:target.y},fire:now+(kind==="inferno"?2.4:.94/Math.sqrt(pressure))};
+    dragon.attack={kind,aim:{x:target.x,y:target.y},fire:now+(kind==="inferno"?infernoWindup:.94/Math.sqrt(pressure))};
     return;
   }
   if(!dragon.attack||now<dragon.attack.fire)return;
@@ -5791,8 +5881,10 @@ updateRaidDragon=function(arena,dragon){
 const baseCast22=dragonCastArt21;
 dragonCastArt21=function(dragon,clock,nightmare){
   const warning=dragon.attack, cast=dragon.cast21;
-  const recent=cast&&clock-cast.at<.95?cast:null;
+  const recent=cast&&clock-cast.at<(cast.kind==="inferno"?1.4:.95)?cast:null;
   const effect=warning||recent;
+  if(effect?.kind==="inferno"){ drawInferno22(clock,warning,recent); return; }
+  infernoCue="";
   if(!effect||raidMoves22.indexOf(effect.kind)<5){
     baseCast22(dragon,clock,nightmare);return;
   }
@@ -5830,19 +5922,10 @@ dragonCastArt21=function(dragon,clock,nightmare){
         g.beginPath();g.moveTo(W/2,y);g.lineTo(W/2+radius*Math.cos(a),y+radius*Math.sin(a));g.stroke();
       }
     }
-  }else{
-    const wave=warning?(motion?(.5+.5*Math.sin(clock*8))*H:H/2):motion?Math.min(H,age*H/.6):H/2;
-    const tint=g.createLinearGradient(0,Math.max(0,wave-45),0,wave+45);
-    tint.addColorStop(0,"#ff502300");tint.addColorStop(.5,"#ffc08bcc");tint.addColorStop(1,"#ff502300");
-    g.fillStyle=tint;g.fillRect(0,0,W,H);
-    g.strokeRect(4,4,W-8,H-8);
-    if(warning){
-      const warningText=lobbyLanguage.value==="es"?"FUEGO CÓSMICO · TODA LA ARENA":"COSMIC FIRE · FIELD-WIDE HIT";
-      g.fillStyle="#fff0b8";g.font="bold 14px system-ui";g.textAlign="center";g.fillText(warningText,W/2,H*.52);
-    }
   }
   g.restore();
 };
+
 const baseDrawDragon22=drawGrandDragon;
 drawGrandDragon=function(dragon,now,clock=elapsed,nightmare=missionDifficulty==="nightmare",health=dragon.h){
   const warning=dragon.attack;
