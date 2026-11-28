@@ -6280,18 +6280,39 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
     }catch(error){if(token===epoch)status.textContent=error.message;}
     finally{busy=false;}
   });
-  getAccountClient().then(c=>{
+  const accessHint = document.getElementById("labPreviewStatus");
+  function hint(message){if(accessHint)accessHint.textContent=message;}
+  let revision=0;
+  async function verifySession(session){
+    const request=++revision;
+    const id=session?.user?.id;
+    if(!id || session.user.is_anonymous===true){
+      revoke();hint("Preview · Sign in through S-Nova → Overview");return;
+    }
+    if(owner!==id)revoke();
+    try{
+      const result=await client.from("dev_lab_access").select("owner_id").eq("owner_id",id).maybeSingle();
+      if(request!==revision)return;
+      if(result.error)throw result.error;
+      if(!result.data){revoke();hint("Preview · This game account has no lab access");return;}
+      owner=id;entry.hidden=false;visibility();hint("Preview · Owner verified");
+    }catch{
+      if(request===revision){revoke();hint("Preview · Account check failed. Reload to retry.");}
+    }
+  }
+  getAccountClient().then(async c=>{
     client=c;
     client.auth.onAuthStateChange((_event,session)=>{
-      const id=session?.user?.is_anonymous===false?session.user.id:null;
-      if(!id || id!==owner)revoke();
-      const token=epoch;
-      if(id)setTimeout(async()=>{
-        try{await check(id);if(token!==epoch)return;owner=id;entry.hidden=false;visibility();}
-        catch{if(token===epoch)revoke();}
-      },0);
+      const ticket=++revision;
+      if(!session || session.user.id!==owner)revoke();
+      setTimeout(()=>{if(ticket===revision)verifySession(session);},0);
     });
-  }).catch(revoke);
+    const ticket=revision;
+    const {data,error}=await client.auth.getSession();
+    if(ticket!==revision)return;
+    if(error)throw error;
+    await verifySession(data.session);
+  }).catch(()=>{revoke();hint("Preview · Account service unavailable. Reload to retry.");});
 })();
 
 </script></body></html>
