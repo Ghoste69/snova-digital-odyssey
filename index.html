@@ -6009,4 +6009,289 @@ if(!seen22)openUpdates21(true);
 updateDialog22.addEventListener("close",()=>{try{localStorage.setItem("snovaSeenGauntlet22","yes");}catch{}});
 translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
 })();
+</script><script id="private-lab-code">
+(() => {
+  "use strict";
+  const entry = document.createElement("button");
+  entry.type = "button";
+  entry.textContent = "Dev Lab";
+  entry.hidden = true;
+  $("profileBtn").before(entry);
+  const recreate = entry.cloneNode(true);
+  recreate.textContent = "Recreate in Dev Lab";
+  $("reportHome").after(recreate);
+
+  const dialog = document.createElement("dialog");
+  dialog.id = "privateLab";
+  dialog.innerHTML = `<header><b>DEV LAB</b><button data-act="tools">Controls</button><button data-act="exit">Exit Lab</button></header>
+  <section><div class="labGrid">
+    <label>Start from<select id="labOrigin"><option value="copy">Current pilot</option><option value="resume">Saved setup</option></select></label>
+    <label>Saved setup<select id="labPreset"></select></label>
+    <button data-act="load">Load setup</button><button data-act="default">Remember start choice</button>
+    <label>Test encounter<select id="labMode"><option value="infinite">Infinite</option><option value="raid">Raid practice</option></select></label>
+    <label>Wave<input id="labWave" type="number" min="1" max="999"></label>
+    <label>Raid tier<input id="labTier" type="number" min="1" max="10"></label>
+    <label>Pilot level<input id="labLevel" type="number" min="1" max="999"></label>
+    <label>Credits<input id="labCredits" type="number" min="0" max="99999999"></label>
+    <label>Power<input id="labPower" type="number" min="0" max="999"></label>
+    <label>Speed stacks<input id="labSpeed" type="number" min="0" max="999"></label>
+    <label>Rapid stacks<input id="labRapid" type="number" min="0" max="999"></label>
+    <label>Starting HP<input id="labHealth" type="number" min="1" max="99999" placeholder="Pilot default"></label>
+    <label>Starting shield<input id="labShield" type="number" min="0" max="99999" placeholder="Pilot default"></label>
+    <label>Extra gear<select id="labGear"><option value="">None</option></select></label>
+    <label>Joystick side<select id="labSide"><option value="left">Left</option><option value="right">Right</option></select></label>
+    <button data-act="play">Start test</button><button data-act="capture">Capture running build</button><button data-act="boss">Spawn boss</button>
+    <label>Raid attack<select id="labAttack"></select></label><button data-act="attack">Trigger attack</button>
+    <label class="wide">Setup name<input id="labName" maxlength="80"></label><button data-act="save">Save setup</button>
+    <label class="wide">Developer note<textarea id="labNote" maxlength="4000" rows="2"></textarea></label>
+    <button data-act="note">Save private note</button><button data-act="proposal">Prepare update</button>
+    </div><details><summary>Notebook and proposals</summary><ul id="labJournal"></ul></details></section>
+    <output aria-live="polite"></output><div class="labStage"></div>`;
+  document.body.append(dialog);
+  const style = document.createElement("style");
+  style.textContent = `#privateLab{box-sizing:border-box;background:#101023;color:#fff;width:100%;height:100dvh;max-width:100%;max-height:100%;padding:8px;margin:0;border:2px solid #ffb85c;overflow:hidden}
+  #privateLab[open]{display:flex;flex-direction:column}#privateLab header{position:static;display:flex;gap:8px;align-items:center;justify-content:space-between;color:#ffd083}
+  #privateLab section{overflow:auto;max-height:64dvh;padding:6px}#privateLab section[hidden]{display:none}
+  #privateLab .labGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  #privateLab label{display:grid;gap:3px}#privateLab .wide{grid-column:1/-1}
+  #privateLab :is(button,select,input,textarea){min-width:0;max-width:100%;font-size:16px}
+  #privateLab output{font-size:.85rem}#privateLab .labStage{flex:1;min-height:0}#privateLab iframe{width:100%;height:100%;border:0}
+  #labJournal{overflow-wrap:anywhere} `;
+  document.head.append(style);
+  const status = dialog.querySelector("output"), panel = dialog.querySelector("section");
+  const attacks = ["breath","stars","nova","cross","spiral","gravity","comets","lattice","starbreaker","inferno"];
+  for (const kind of Object.keys(gearCatalog)) $("labGear").add(new Option(kind,kind));
+  for (const kind of attacks) $("labAttack").add(new Option(kind,kind));
+  let client, owner, epoch = 0, frame, pilot, rows = [], lastName, busy = false;
+  const numeric = ["wave","tier","level","credits","power","speed","rapid","health","shield"];
+  const fields = [...numeric,"mode","gear","side","attack"];
+  const field = k => $("lab"+k[0].toUpperCase()+k.slice(1));
+  function setup() {
+    const result = {};
+    for (const key of fields) {
+      const input = field(key);
+      if (numeric.includes(key)) {
+        if (!input.checkValidity() || (!input.value && !["health","shield"].includes(key)))
+          throw Error("Check "+key+".");
+        result[key] = input.value === "" ? null : Number(input.value);
+      } else result[key] = input.value;
+    }
+    return result;
+  }
+  function copyPilot() {
+    const progressCopy = structuredClone(progress);
+    return {progress:progressCopy,career:{...career,avatar:""},difficulty:selectedDifficulty,
+      prefs:{auto,toggle,combined,touchPause},language:lobbyLanguage.value};
+  }
+  function readLive(replay) {
+    pilot = copyPilot();
+    const cfg = {mode:"infinite",wave:1,tier:10,level:pilotLevel(),credits:progress.credits,
+      power:0,speed:0,rapid:0,health:null,shield:null,gear:"",side:"left",attack:"inferno"};
+    if (replay) Object.assign(cfg,{wave:Math.max(1,infiniteRun.cleared+1),power,speed,rapid:rapidLevel});
+    if (replay) pilot.difficulty=missionDifficulty;
+    return cfg;
+  }
+  function fill(cfg) { for (const k of fields) field(k).value = cfg[k] ?? ""; }
+  function close() {
+    epoch++; currentTest=null; frame?.remove(); frame=null; pilot=null; rows=[]; lastName=null;
+    $("labJournal").replaceChildren(); $("labPreset").replaceChildren();
+    $("labName").value=""; $("labNote").value=""; status.textContent="";
+    if(dialog.open)dialog.close();
+  }
+  function revoke(){close();owner=null;entry.hidden=recreate.hidden=true;}
+  async function check(id) {
+    const {data,error}=await client.from("dev_lab_access").select("start_mode,last_preset").eq("owner_id",id).maybeSingle();
+    if(error) throw error;
+    if(!data)throw Error("Owner access required.");
+    return data;
+  }
+  function list() {
+    const select=$("labPreset");select.replaceChildren();
+    const journal=$("labJournal");journal.replaceChildren();
+    for(const row of rows){
+      if(row.kind==="preset"){select.add(new Option(row.name,row.name));continue;}
+      const item=document.createElement("li");
+      item.textContent=row.kind+" · "+row.name+" — "+row.payload.text;
+      for(const reply of Array.isArray(row.payload.replies)?row.payload.replies:[]){
+        const p=document.createElement("p");p.textContent="Nova · "+String(reply.text);item.append(p);
+      }
+      journal.prepend(item);
+    }
+    if(lastName)select.value=lastName;
+    if(select.selectedIndex<0 && select.length)select.selectedIndex=0;
+  }
+  function loadChoice(replay=false){
+    const saved=rows.find(row=>row.kind==="preset"&&row.name===$("labPreset").value);
+    if(!replay && $("labOrigin").value==="resume" && saved){
+      pilot=structuredClone(saved.payload.pilot);fill(saved.payload.setup);$("labName").value=saved.name;
+    }else{fill(readLive(replay));$("labName").value="";}
+  }
+  async function open(replay){
+    if(!owner||dialog.open)return;
+    if(state==="play"||coopConnection?.started){alert("Open Dev Lab from the main menu or after a solo Infinite run.");return;}
+    const token=++epoch, id=owner;
+    try{
+      const access=await check(id);
+      const result=await client.from("dev_lab_entries").select("kind,name,payload").eq("owner_id",id).order("name");
+      if(result.error)throw result.error;
+      if(token!==epoch || owner!==id)return;
+      rows=result.data;lastName=access.last_preset;list();
+      $("labOrigin").value=replay?"copy":access.start_mode;loadChoice(replay);
+      panel.hidden=false;dialog.showModal();status.textContent="Private test session";
+    }catch(e){if(token===epoch)alert(e.message);}
+  }
+  entry.onclick=()=>open(false);recreate.onclick=()=>open(true);
+  const report=$("missionReport");
+  function visibility(){recreate.hidden=!(owner && report.open && infiniteRun?.kind==="infinite" && !coopConnection);}
+  new MutationObserver(visibility).observe(report,{attributes:true,attributeFilter:["open"]});
+  dialog.addEventListener("cancel",e=>{e.preventDefault();close();});
+
+  // Executed inside an opaque, network-isolated iframe after the original game scripts.
+  function boot(cfg, moves, channel) {
+    for(const modal of document.querySelectorAll("dialog[open]"))modal.close();
+    if(pilotLevel()!==cfg.level){
+      // Reuse the installed XP curve, including future balance changes.
+      let lo=0,hi=1;
+      while(hi<Number.MAX_SAFE_INTEGER){career.xp=hi;if(pilotLevel()>=cfg.level)break;lo=hi;hi=Math.min(Number.MAX_SAFE_INTEGER,hi*2);}
+      while(lo+1<hi){const mid=Math.floor((lo+hi)/2);career.xp=mid;if(pilotLevel()<cfg.level)lo=mid;else hi=mid;}
+      career.xp=cfg.level===1?0:hi;
+    }
+    progress.credits=cfg.credits;
+    if(cfg.gear && Object.hasOwn(gearCatalog,cfg.gear)){
+      const item=addGear(cfg.gear,3);gearWorn()[gearCatalog[cfg.gear].slots[0]]=item.id;
+    }
+    if(cfg.side==="right"){
+      const controls=$("controls");controls.style.display="flex";controls.style.flexDirection="row-reverse";
+      controls.querySelector(".actions").style.flex="1";
+    }
+    if(cfg.mode==="raid"){
+      startRaidPractice(cfg.tier===1?"raid":"raid"+cfg.tier);
+      const pl=coopConnection.arena.players[0];
+      Object.assign(pl,{power:cfg.power,speed:cfg.speed,rapid:cfg.rapid});
+      if(cfg.health!=null){pl.maxHealth=Math.max(pl.maxHealth||100,cfg.health);pl.hp=cfg.health;}
+      if(cfg.shield!=null){pl.maxShield=Math.max(pl.maxShield||100,cfg.shield);pl.shield=cfg.shield;}
+    }else{
+      startInfinite();wave=cfg.wave;infiniteRun.cleared=wave-1;infiniteRun.spawned=0;
+      E=[];changeSoloMap(endlessSector(wave));updateInfiniteWave();
+      power=cfg.power;speed=cfg.speed;rapidLevel=cfg.rapid;
+      if(cfg.health!=null){soloCaps21().maxHealth=Math.max(soloCaps21().maxHealth,cfg.health);hp=cfg.health;}
+      if(cfg.shield!=null){soloCaps21().maxShield=Math.max(soloCaps21().maxShield,cfg.shield);shield=cfg.shield;}
+    }
+    window.addEventListener("message",e=>{
+      if(e.source!==parent || e.data?.channel!==channel)return;
+      const {act,attack}=e.data;
+      if(act==="capture"){
+        const arena=coopConnection?.practice?coopConnection.arena:null;
+        const pl=arena?.players[0];
+        if((arena || infiniteRun) && state==="play"){
+          const snapshot={...cfg,gear:"",level:pilotLevel(),credits:progress.credits,
+            wave:arena?cfg.wave:wave,power:pl?.power??power,speed:pl?.speed??speed,
+            rapid:pl?.rapid??rapidLevel,health:Math.max(1,Math.ceil(pl?.hp??hp)),
+            shield:Math.max(0,Math.ceil(pl?.shield??shield))};
+          parent.postMessage({channel,capture:{setup:snapshot,progress:structuredClone(progress),
+            career:{...career,avatar:""}}},"*");
+          return;
+        }
+      }
+      let message="Test is complete. Start another test.";
+      if(state==="play" && act==="boss" && infiniteRun){spawn("boss");message="Boss spawned";}
+      if(state==="play" && act==="attack" && coopConnection?.practice){
+        const arena=coopConnection.arena,dragon=arena.enemies.find(e=>e.raid);
+        const index=moves.indexOf(attack);
+        if(dragon && index>=0 && index<cfg.tier){
+          dragon.attack=null;dragon.attackIndex=index;dragon.nextFlare=arena.elapsed;message="Queued "+attack;
+        }else message="Select a tier that includes this attack.";
+      }
+      parent.postMessage({channel,message},"*");
+    });
+    parent.postMessage({channel,message:"Test running"},"*");
+  }
+  let channel, currentTest;
+  window.addEventListener("message",e=>{
+    if(!frame || e.source!==frame.contentWindow || e.origin!=="null" || e.data?.channel!==channel)return;
+    const captured=e.data.capture;
+    if(captured && validProgress(captured.progress) && validCareer(captured.career)){
+      pilot={...pilot,progress:captured.progress,career:captured.career};
+      fill(captured.setup);currentTest=structuredClone(captured.setup);
+      status.textContent="Build captured. Save setup to keep it.";
+    }else status.textContent=String(e.data.message).slice(0,160);
+  });
+  const jsValue=v=>JSON.stringify(v).replace(/</g,"\\u003c");
+  async function play(cfg, token){
+    const url=new URL(location.pathname,location.origin);
+    const res=await fetch(url,{cache:"no-cache"});
+    if(!res.ok)throw Error("Could not load the game build.");
+    const html=await res.text();
+    if(token!==epoch)return;
+    const mark='<script id="private-lab-code">';
+    const start=html.indexOf(mark);
+    if(start<0)throw Error("Reload the updated game before starting a test.");
+    const source=html.slice(0,start);
+    const freshChannel=crypto.randomUUID();
+    const memory={snova08progress:pilot.progress,snova10career:pilot.career,
+      snova07prefs:{...pilot.prefs,difficulty:pilot.difficulty},snovaSeenGauntlet22:"yes",snovaLastSeenUpdate:"0.21.0"};
+    const seed=Object.fromEntries(Object.entries(memory).map(([k,v])=>[k,k==="snovaSeenGauntlet22"||k==="snovaLastSeenUpdate"?v:JSON.stringify(v)]));
+    seed.snovaLobbyLanguage=pilot.language;
+    const init='const localStorage=(()=>{const m=new Map(Object.entries('+jsValue(seed)+'));return {getItem:k=>m.get(k)??null,setItem:(k,v)=>m.set(k,String(v)),removeItem:k=>m.delete(k)}})();';
+    const csp=`<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">`;
+    const script=code=>"<script>"+code+"<"+"/script>";
+    const next=document.createElement("iframe");next.title="Private game test";
+    next.setAttribute("sandbox","allow-scripts");next.referrerPolicy="no-referrer";
+    next.srcdoc=source.replace("<head>","<head>"+csp+script(init))+script("("+boot.toString()+")("+jsValue(cfg)+","+jsValue(attacks)+","+jsValue(freshChannel)+")")+"</body></html>";
+    currentTest=structuredClone(cfg); channel=freshChannel;frame=next;dialog.querySelector(".labStage").replaceChildren(next);
+    panel.hidden=true;status.textContent="Starting test…";
+  }
+  async function updateAccess(id, data){
+    const r=await client.from("dev_lab_access").update(data).eq("owner_id",id).select("owner_id").single();
+    if(r.error)throw r.error;
+  }
+  dialog.addEventListener("click",async e=>{
+    const act=e.target.closest("button[data-act]")?.dataset.act;
+    if(!act)return;
+    if(act==="exit"){close();return;}
+    if(act==="tools"){panel.hidden=!panel.hidden;return;}
+    if(busy || !owner || !pilot)return;
+    busy=true;const token=epoch,id=owner;
+    try{
+      await check(id);if(token!==epoch)return;
+      if(act==="load"){loadChoice();status.textContent="Setup loaded";return;}
+      if(act==="default"){await updateAccess(id,{start_mode:$("labOrigin").value,last_preset:$("labPreset").value||null});status.textContent="Start choice saved";return;}
+      const cfg=setup();
+      if(act==="play"){await play(cfg,token);return;}
+      if(act==="attack"||act==="boss"||act==="capture"){
+        if(!frame)throw Error("Start a test first.");
+        frame.contentWindow.postMessage({channel,act,attack:cfg.attack},"*");return;
+      }
+      const kind=act==="save"?"preset":act;
+      if(!["preset","proposal","note"].includes(kind))return;
+      const text=$("labNote").value.trim();
+      const name=kind==="preset"?$("labName").value.trim():new Date().toISOString()+" "+crypto.randomUUID().slice(0,6);
+      if(!name || (kind!=="preset"&&!text))throw Error(kind==="preset"?"Give this setup a name.":"Write a developer note first.");
+      const payload={version:1,test:currentTest,build:document.querySelector("footer")?.textContent.trim(),setup:cfg,text};
+      if(kind==="preset")payload.pilot=pilot;
+      const row={owner_id:id,kind,name,payload};
+      const exists=rows.some(r=>r.kind===kind&&r.name===name);
+      const req=exists?client.from("dev_lab_entries").update({payload}).eq("owner_id",id).eq("kind",kind).eq("name",name):client.from("dev_lab_entries").insert(row);
+      const result=await req.select("name").single();if(result.error)throw result.error;
+      if(token!==epoch)return;
+      rows=rows.filter(r=>r.kind!==kind||r.name!==name);rows.push(row);
+      if(kind==="preset"){await updateAccess(id,{last_preset:name});if(token!==epoch)return;lastName=name;}
+      list();status.textContent=kind==="proposal"?"Private update proposal saved":"Saved privately";
+    }catch(error){if(token===epoch)status.textContent=error.message;}
+    finally{busy=false;}
+  });
+  getAccountClient().then(c=>{
+    client=c;
+    client.auth.onAuthStateChange((_event,session)=>{
+      const id=session?.user?.is_anonymous===false?session.user.id:null;
+      if(!id || id!==owner)revoke();
+      const token=epoch;
+      if(id)setTimeout(async()=>{
+        try{await check(id);if(token!==epoch)return;owner=id;entry.hidden=false;visibility();}
+        catch{if(token===epoch)revoke();}
+      },0);
+    });
+  }).catch(revoke);
+})();
+
 </script></body></html>
