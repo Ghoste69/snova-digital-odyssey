@@ -6105,7 +6105,19 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
   const dialog = document.createElement("dialog");
   dialog.id = "privateLab";
   dialog.innerHTML = `<header><b>DEV LAB</b><button data-act="tools">Controls</button><button data-act="exit">Exit Lab</button></header>
-  <section><p>Pick a starting pilot, choose an encounter, then tap Start test. Use Controls during a test to capture a build. Save setup keeps it for your next visit.</p><div class="labGrid">
+  <section><details id="giftPanel"><summary>Send a gift</summary>
+    <fieldset><legend>Recipient</legend>
+    <label>Choose a friend<select id="giftFriend"><option value="">Enter a player manually</option></select></label>
+    <p id="giftHint" role="status"></p>
+    <div id="giftManual" class="labGrid"><label>Display name<input id="eventPlayer" maxlength="24" autocomplete="off"></label>
+    <label>Arcade tag<input id="eventTag" placeholder="#ABC" autocapitalize="characters" spellcheck="false"></label></div></fieldset>
+    <fieldset><legend>Reward</legend><label>Nova Credits<input id="eventCoins" type="number" inputmode="numeric" min="0" max="1000000" value="100"></label>
+    <div id="giftAmounts" aria-label="Credit amounts"><button type="button" value="100">100 NC</button><button type="button" value="500">500 NC</button><button type="button" value="1000">1,000 NC</button></div>
+    <label>Equipment<select id="eventKind"><option value="">Coins only</option></select></label><div id="eventStats"></div>
+    <label>Gift name (optional)<input id="eventTitle" maxlength="60" placeholder="Event reward"></label></fieldset>
+    <details><summary>Reusable designs</summary><label>Saved designs<select id="eventDesign"></select></label>
+    <button data-act="designLoad">Load design</button><button data-act="designSave">Save this design</button></details>
+    <p id="giftPreview"></p><button data-act="sendGift">Review and send gift</button></details><p>Pick a starting pilot, choose an encounter, then tap Start test. Use Controls during a test to capture a build. Save setup keeps it for your next visit.</p><div class="labGrid">
     <label>Start from<select id="labOrigin"><option value="copy">Current pilot</option><option value="resume">Saved setup</option></select></label>
     <label>Saved setup<select id="labPreset"></select></label>
     <button data-act="load">Load setup</button><button data-act="default">Remember start choice</button>
@@ -6126,13 +6138,7 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
     <label class="wide">Setup name<input id="labName" maxlength="80"></label><button data-act="save">Save setup</button>
     <label class="wide">Developer note<textarea id="labNote" maxlength="4000" rows="2"></textarea></label>
     <button data-act="note">Save private note</button><button data-act="proposal">Prepare update</button>
-    </div><details><summary>Event rewards · real players</summary>
-    <p>Save a design for reuse, or enter a linked player's exact display name and arcade tag to send a real reward.</p>
-    <div class="labGrid"><label>Saved designs<select id="eventDesign"></select></label><button data-act="designLoad">Load design</button>
-    <label>Reward name<input id="eventTitle" maxlength="60"></label><label>NC gift<input id="eventCoins" type="number" min="0" max="1000000" value="0"></label>
-    <label>Item type<select id="eventKind"><option value="">Coins only</option></select></label><div id="eventStats"></div>
-    <button data-act="designSave">Save reward design</button><label>Player name<input id="eventPlayer" maxlength="24"></label>
-    <label>Arcade tag<input id="eventTag" placeholder="#ABC"></label><button data-act="sendGift">Send real gift</button></div></details>
+    </div>
     <details><summary>Notebook and proposals</summary><ul id="labJournal"></ul></details></section>
     <output aria-live="polite"></output><div class="labStage"></div>`;
   document.body.append(dialog);
@@ -6145,6 +6151,13 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
   #privateLab label{display:grid;gap:3px}#privateLab .wide{grid-column:1/-1}
   #privateLab :is(button,select,input,textarea){min-width:0;max-width:100%;font-size:16px}
   #privateLab output{font-size:.85rem}#privateLab .labStage{flex:1;min-height:0}#privateLab iframe{width:100%;height:100%;border:0}
+  #giftPanel{margin:4px 0 12px;text-align:left}#giftPanel summary{padding:12px;cursor:pointer;font-weight:700;color:#e3c7ff}
+  #giftPanel fieldset{min-width:0;margin:8px 0;padding:10px;border:1px solid #62537f;border-radius:10px}
+  #giftPanel legend{color:#e4d1ff;font-weight:700}#giftPanel label{margin:6px 0}
+  #giftPanel :is(button,select,input){min-height:44px}#giftAmounts{display:flex;gap:5px;flex-wrap:wrap}
+  #giftPanel #eventStats:not([hidden]){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  #giftPanel [hidden]{display:none}#giftPanel p{margin:8px 0;overflow-wrap:anywhere}
+  #giftPanel [data-act="sendGift"]{width:100%;background:#53358b}
   #labJournal{overflow-wrap:anywhere} `;
   document.head.append(style);
   const status = dialog.querySelector("output"), panel = dialog.querySelector("section");
@@ -6152,7 +6165,7 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
   for (const kind of Object.keys(gearCatalog)) $("labGear").add(new Option(kind,kind));
   for (const kind of attacks) $("labAttack").add(new Option(kind,kind));
   const caps={attack:60,cadence:50,defense:30,barrier:80,regen:20,move:30};
-  for(const kind of Object.keys(gearCatalog))$("eventKind").add(new Option(kind,kind));
+  for(const kind of Object.keys(gearCatalog))$("eventKind").add(new Option(gearCatalog[kind].icon+" "+copy(gearCatalog[kind].name),kind));
   for(const [key,max] of Object.entries(caps)){
     const label=document.createElement("label"),input=document.createElement("input");
     label.textContent=key+" bonus (0–"+max+")";input.type="number";input.min=0;input.max=max;input.value=0;input.id="bonus-"+key;
@@ -6160,9 +6173,60 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
   }
   $("eventKind").onchange=()=>{$("eventStats").hidden=!$("eventKind").value;};$("eventKind").onchange();
   let pendingGift;
+  function giftContents(d){
+    const parts=[];
+    if(d.coins)parts.push(d.coins.toLocaleString()+" NC");
+    if(d.kind)parts.push(copy(gearCatalog[d.kind].name));
+    for(const [key,n] of Object.entries(d.stats))parts.push("+"+n+" "+key);
+    return parts.join(" · ");
+  }
+  function refreshGift(){
+    const player=$("eventPlayer").value.trim(),tag=$("eventTag").value.trim().replace(/^#/,"");
+    let ready=false;
+    try{
+      const reward=rewardForm();
+      $("giftPreview").textContent=giftContents(reward)+(player&&tag?" → "+player+" #"+tag:"");
+      ready=Boolean(player&&tag);
+    }catch(error){$("giftPreview").textContent=error.message;}
+    $("giftPanel").querySelector('[data-act="sendGift"]').disabled=!ready;
+  }
+  $("giftAmounts").onclick=e=>{
+    const button=e.target.closest("button");
+    if(button){$("eventCoins").value=button.value;refreshGift();}
+  };
+  $("giftFriend").onchange=()=>{
+    const choice=$("giftFriend").selectedOptions[0];
+    $("eventPlayer").value=choice?.dataset.player||"";
+    $("eventTag").value=choice?.dataset.tag||"";
+    $("giftManual").hidden=Boolean(choice?.value);
+    refreshGift();
+  };
+  $("giftPanel").addEventListener("input",refreshGift);
+  $("giftPanel").addEventListener("change",refreshGift);
+  $("giftPanel").addEventListener("toggle",async()=>{
+    if(!$("giftPanel").open||!owner)return;
+    const token=epoch,friend=$("giftFriend");
+    $("giftHint").textContent="Loading friends…";
+    try{
+      const {data,error}=await client.rpc("referral_friends_all_modes");
+      if(token!==epoch||!$("giftPanel").open)return;
+      if(error)throw error;
+      const previous=friend.value;
+      friend.replaceChildren(new Option("Enter a player manually",""));
+      for(const row of data||[]){
+        const opt=new Option(row.display_name+" #"+row.arcade_id,row.friend_id);
+        opt.dataset.player=row.display_name;opt.dataset.tag=row.arcade_id;friend.add(opt);
+      }
+      friend.value=previous;
+      if(previous)friend.onchange();
+      $("giftHint").textContent=data?.length?"":"Enter the linked player’s display name and arcade tag.";
+    }catch{if(token===epoch)$("giftHint").textContent="Friends could not load. You can enter a player manually.";}
+    refreshGift();
+  });
+  refreshGift();
   function rewardForm(){
-    const title=$("eventTitle").value.trim(),kind=$("eventKind").value||null,coins=$("eventCoins").valueAsNumber,stats={};
-    if(!title||!Number.isSafeInteger(coins)||coins<0||coins>1000000||(!coins&&!kind))throw Error("Name the reward and choose coins or gear.");
+    const title=$("eventTitle").value.trim()||"Event reward",kind=$("eventKind").value||null,coins=$("eventCoins").valueAsNumber,stats={};
+    if(!title||!Number.isSafeInteger(coins)||coins<0||coins>1000000||(!coins&&!kind))throw Error("Enter 0–1,000,000 whole credits and include credits or equipment.");
     if(kind)for(const key of Object.keys(caps)){
       const input=$("bonus-"+key);if(!input.value||!input.checkValidity())throw Error("Check "+key+" bonus.");
       if(input.valueAsNumber)stats[key]=input.valueAsNumber;
@@ -6175,7 +6239,7 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
       if(!chosen)throw Error("Choose a saved design.");
       const d=chosen.payload;$("eventTitle").value=d.title;$("eventKind").value=d.kind||"";$("eventCoins").value=d.coins;
       for(const key in caps)$("bonus-"+key).value=d.stats[key]||0;
-      $("eventKind").onchange();return;
+      $("eventKind").onchange();refreshGift();return;
     }
     const d=rewardForm();
     if(act==="designSave"){
@@ -6187,12 +6251,12 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
     }
     const player=$("eventPlayer").value.trim(),tag=$("eventTag").value.trim().replace(/^#/,"");
     if(!player||!tag)throw Error("Enter the player's display name and arcade tag.");
-    if(!confirm("Send "+d.title+" ("+d.coins+" NC"+(d.kind?" + "+d.kind:"")+") to "+player+" #"+tag+" in the live game?"))return;
+    if(!confirm("Send "+d.title+" to "+player+" #"+tag+"?\n\n"+giftContents(d)+"\n\nThe player can claim this in their Event gifts inbox."))return;
     const signature=JSON.stringify([id,d,player,tag]);
     if(pendingGift?.signature!==signature)pendingGift={signature,ticket:crypto.randomUUID()};
     const r=await client.rpc("send_event_gift",{ticket:pendingGift.ticket,pilot_name:player,tag,title_text:d.title,nc:d.coins,gear:d.kind,bonuses:d.stats});
     if(r.error)throw r.error;
-    pendingGift=null;$("eventPlayer").value="";$("eventTag").value="";status.textContent="Gift sent to "+player+" #"+tag;
+    pendingGift=null;$("giftFriend").value="";$("giftManual").hidden=false;$("eventPlayer").value="";$("eventTag").value="";status.textContent="Gift sent to "+player+" #"+tag;refreshGift();
   }
   let client, owner, epoch = 0, frame, pilot, rows = [], lastName, busy = false;
   const numeric = ["wave","tier","level","credits","power","speed","rapid","health","shield"];
@@ -6231,7 +6295,7 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
     $("labName").value=""; $("labNote").value=""; status.textContent="";
     if(dialog.open)dialog.close();
   }
-  function revoke(){close();owner=null;entry.hidden=god.hidden=recreate.hidden=true;}
+  function revoke(){close();$("giftPanel").open=false;$("giftFriend").replaceChildren(new Option("Enter a player manually",""));$("giftFriend").onchange();pendingGift=null;owner=null;entry.hidden=god.hidden=recreate.hidden=true;}
   async function check(id) {
     const {data,error}=await client.from("dev_lab_access").select("start_mode,last_preset").eq("owner_id",id).maybeSingle();
     if(error) throw error;
