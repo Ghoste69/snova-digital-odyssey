@@ -381,7 +381,7 @@ body.game-motion :is(#homeModes,#extraModes,#controls) button:active{transform:s
 </section><div id="settings" hidden><h3 id="settingsTitle" data-game-text="Settings">Settings</h3><div id="pauseStatSummary" class="mission-setting"></div>
 <div class="settings-row home-setting"><label for="lobbyLanguage" data-copy="languageSetting">Language</label><select id="lobbyLanguage"><option value="en">English</option><option value="es">Español (Latinoamérica)</option></select></div>
 <details class="settings-group"><summary data-copy="controlSettings">Controls</summary><div class="settings-actions"><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: TOUCH</button></div></details>
-<details class="settings-group"><summary data-copy="gameplaySettings">Gameplay</summary>
+<details class="settings-group"><summary data-copy="gameplaySettings">Gameplay</summary><label><input id="testerToggle" type="checkbox"> <span data-copy="testerLabel">Share gameplay stats with the developer</span></label><small data-copy="testerHint">Online pilot required. Shares future match results, difficulty, wave, stage, party size, score, kills and duration. You can turn this off anytime.</small><p id="testerStatus" role="status"></p>
 <div class="visualOptions">
 <label><span data-copy="motionMode">Animations</span><select id="motionSetting"><option value="system" data-copy="useSystem">System default</option><option value="on" data-game-text="ON">On</option><option value="off" data-game-text="OFF">Off</option></select></label>
 <label><input id="planetsSetting" type="checkbox"><span data-copy="planetSetting">Planet backgrounds</span></label>
@@ -563,7 +563,7 @@ body.game-motion :is(#homeModes,#extraModes,#controls) button:active{transform:s
   <details id="reportDetails"><summary data-copy="reportDetails">Details</summary><div id="reportCampaign" hidden></div>
   <h4 data-copy="reportLoot">Loot collected</h4><div id="reportPickups"></div><p id="twinReward" data-copy="twinReward" hidden></p>
   <h4 data-copy="reportStats">Final stats</h4><div id="reportStats"></div></details>
-  <p id="campaignCountdown" role="timer" hidden></p><div class="report-actions"><button id="reportNext" type="button" data-copy="nextSector" hidden>Next sector</button><button id="reportHold" type="button" data-copy="holdSector" hidden>Wait</button><button id="reportPlay" type="button" data-copy="playAgain">Play again</button>
+  <details id="testerInvite"><summary data-copy="testerHeading">Help improve gameplay</summary><p data-copy="testerHint">Online pilot required. Shares future match results, difficulty, wave, stage, party size, score, kills and duration. You can turn this off anytime.</p><label><input id="testerDebrief" type="checkbox"> <span data-copy="testerLabel">Share gameplay stats with the developer</span></label><p id="testerRunStatus" role="status"></p></details><p id="campaignCountdown" role="timer" hidden></p><div class="report-actions"><button id="reportNext" type="button" data-copy="nextSector" hidden>Next sector</button><button id="reportHold" type="button" data-copy="holdSector" hidden>Wait</button><button id="reportPlay" type="button" data-copy="playAgain">Play again</button>
   <button id="reportHome" type="button" data-copy="mainMenu">Main menu</button></div>
 </dialog><script>
 const gameSpanish = {
@@ -2746,9 +2746,49 @@ function showMainScreen() {
   document.body.classList.add("home-active");
   renderHomeMission();
 }
+const testerKey="snovaShareMatchResults1";
+function sharesMatches(){try{return localStorage.getItem(testerKey)==="yes";}catch{return false;}}
+function syncTesterPreference(){
+  $("testerToggle").checked=$("testerDebrief").checked=sharesMatches();
+}
+function testerStatus(en,es){
+  $("testerStatus").textContent=$("testerRunStatus").textContent=coopText(en,es);
+}
+for(const toggle of [$("testerToggle"),$("testerDebrief")]){
+  toggle.onchange=()=>{
+    try{
+      localStorage.setItem(testerKey,toggle.checked?"yes":"no");
+      if(toggle.checked)testerStatus("Sharing future online matches.","Se compartirán las próximas partidas en línea.");
+      else testerStatus("Sharing is off.","Envío desactivado.");
+    }catch{testerStatus("Could not save this choice.","No se pudo guardar la opción.");}
+    syncTesterPreference();
+  };
+}
+syncTesterPreference();
+async function recordTesterResult(stats){
+  if(window.parent!==window||!sharesMatches())return;
+  try{
+    const api=await getAccountClient();
+    const {data,error}=await api.auth.getSession();
+    if(error)throw error;
+    if(!data.session){testerStatus("Join the online lobby to share results.","Entra a la sala en línea para compartir resultados.");return;}
+    if(!sharesMatches())return;
+    const reply=await api.from("tester_runs").insert({id:crypto.randomUUID(),...stats});
+    if(reply.error)throw reply.error;
+    if(sharesMatches())testerStatus("Match summary shared.","Resumen enviado.");
+  }catch{if(sharesMatches())testerStatus("Match summary could not be sent.","No se pudo enviar el resumen.");}
+}
 function showReport({win,mode,sector,points,count,seconds,health,barrier,attack,move,thermal,pickups,credits,rapid=0,twin=false,coop=false,endless=false,waves=0,campaign=[],raid=false,practice=false,raidXP=0,cadence=0}) {
   const variant=!coop?infiniteRun?.kind:undefined;
   const storyStage=!raid&&!coop?playingStoryLevel||null:null;
+  $("testerInvite").hidden=window.parent!==window||practice;
+  if(!practice){
+    const arena=coopConnection?.arena;
+    const route=raid?"raid":storyStage||arena?.route==="campaign"?"story":endless?(variant&&["lastStand","bossSurvival"].includes(variant)?variant:"infinite"):"sector";
+    const stage=raid?tierForRaid(arena).level:storyStage||Number(sector)||0;
+    void recordTesterResult({route,difficulty:mode,won:Boolean(win),wave:Math.max(0,Math.floor(waves||0)),stage,
+      party:arena?.players?.length||1,score:Math.floor(points||0),kills:Math.floor(count||0),seconds:Math.floor(seconds||0)});
+  }
   const personalBest=endless&&(!variant||variant==="infinite")&&saveWaveBest(coop,mode,waves);
   if(!raid)recordDaily({win,count,pickups,endless,waves,coop,mode});
   if(!practice)saveMatchResult({win,mode,sector,points,count,seconds,health,barrier,attack,move,thermal,pickups,credits,rapid,twin,coop:coop||raid,endless,waves,variant,storyStage,raid,raidTier:raid?coopConnection?.arena?.route:undefined});
@@ -3864,7 +3904,7 @@ function readCosmicPreferences(){
 const cosmicCopy={
 en:{
  moreModes:"More modes",levelTwo:"Level 2",levelTwoClear:"LEVEL 2 COMPLETE",bossSurvival:"Boss Survival",lastStand:"Last Stand",dailyTitle:"Daily challenges",
- controlSettings:"Controls",dailySolo:"Challenges reset at midnight UTC. Progress is saved on this device.",gameplaySettings:"Gameplay",motionMode:"Animations",useSystem:"System default",planetSetting:"Planet backgrounds",
+ controlSettings:"Controls",dailySolo:"Challenges reset at midnight UTC. Progress is saved on this device.",gameplaySettings:"Gameplay",testerHeading:"Help improve gameplay",testerLabel:"Share gameplay stats with the developer",testerHint:"Online pilot required. Shares future match results, difficulty, wave, stage, party size, score, kills and duration. You can turn this off anytime.",motionMode:"Animations",useSystem:"System default",planetSetting:"Planet backgrounds",
  damageSetting:"Damage numbers",noticeSettings:"Notifications",inviteAlerts:"Invite and friend message pop-ups",appearance:"Appearance",neonTheme:"Neon theme",themeViolet:"Neon Violet",themePink:"Neon Pink",themeCyan:"Neon Cyan",
  heroSkin:"Hero skin",enemySkin:"Enemy skins",effectSkin:"Attack, slide and barrier",lightSetting:"Dynamic glow",audioTitle:"Audio",musicTrack:"Music track",musicVolume:"Music volume",soundEffects:"Sound effects",
  holeTip:"Enemy defeats can create gravity wells. Chip level sets how many wells can coexist and how large a merger can get.",holeName:"Black Hole",holeLocked:"Claim 3 daily rewards to unlock this chip.",holeBuy:"Buy Black Hole · 2,500 NC",holeOwned:"Owned · equip in Chip Folder",
@@ -3873,7 +3913,7 @@ en:{
 },
 es:{
  moreModes:"Más modos",levelTwo:"Nivel 2",levelTwoClear:"NIVEL 2 COMPLETADO",bossSurvival:"Supervivencia de jefes",lastStand:"Última resistencia",dailyTitle:"Desafíos diarios",
- controlSettings:"Controles",dailySolo:"Los desafíos se reinician a medianoche UTC. El progreso se guarda en este dispositivo.",gameplaySettings:"Jugabilidad",motionMode:"Animaciones",useSystem:"Configuración del sistema",planetSetting:"Fondos planetarios",
+ controlSettings:"Controles",dailySolo:"Los desafíos se reinician a medianoche UTC. El progreso se guarda en este dispositivo.",gameplaySettings:"Jugabilidad",testerHeading:"Ayuda a mejorar el juego",testerLabel:"Compartir estadísticas de juego con el desarrollador",testerHint:"Requiere piloto en línea. Comparte resultados futuros, dificultad, oleada, etapa, tamaño del grupo, puntos, bajas y duración. Puedes desactivarlo cuando quieras.",motionMode:"Animaciones",useSystem:"Configuración del sistema",planetSetting:"Fondos planetarios",
  damageSetting:"Números de daño",noticeSettings:"Notificaciones",inviteAlerts:"Avisos de invitaciones y mensajes",appearance:"Apariencia",neonTheme:"Tema neón",themeViolet:"Violeta neón",themePink:"Rosa neón",themeCyan:"Cian neón",
  heroSkin:"Aspecto del piloto",enemySkin:"Aspectos de enemigos",effectSkin:"Ataque, impulso y barrera",lightSetting:"Brillo dinámico",audioTitle:"Audio",musicTrack:"Pista musical",musicVolume:"Volumen de música",soundEffects:"Efectos de sonido",
  holeTip:"Al derrotar enemigos pueden aparecer pozos de gravedad. El nivel limita la cantidad de pozos y el tamaño de sus fusiones.",holeName:"Agujero negro",holeLocked:"Cobra 3 recompensas diarias para desbloquear este chip.",holeBuy:"Comprar agujero negro · 2,500 NC",holeOwned:"Adquirido · equípalo en la carpeta de chips",
@@ -6104,8 +6144,8 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
 
   const dialog = document.createElement("dialog");
   dialog.id = "privateLab";
-  dialog.innerHTML = `<header><b>DEV LAB</b><button data-act="tools">Controls</button><button data-act="exit">Exit Lab</button></header>
-  <section><details id="giftPanel"><summary>Send a gift</summary>
+  dialog.innerHTML = `<header><b id="labHeading">DEV LAB</b><button data-act="gifts">Send gift</button><button data-act="tools">Controls</button><button data-act="exit">Exit Lab</button></header>
+  <section><div id="godActions" hidden><button data-act="cheats">Start cheat session</button> <button data-act="testerResults">Tester results</button><p id="testerSummary" role="status"></p></div><details id="giftPanel"><summary>Send a gift</summary>
     <fieldset><legend>Recipient</legend>
     <label>Choose a friend<select id="giftFriend"><option value="">Enter a player manually</option></select></label>
     <p id="giftHint" role="status"></p>
@@ -6150,6 +6190,7 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
   #privateLab .labGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
   #privateLab label{display:grid;gap:3px}#privateLab .wide{grid-column:1/-1}
   #privateLab :is(button,select,input,textarea){min-width:0;max-width:100%;font-size:16px}
+  #privateLab header{flex-wrap:wrap}#privateLab header button{min-height:42px}#godModeEntry{min-height:44px;border:2px solid #ffb85c}
   #privateLab output{font-size:.85rem}#privateLab .labStage{flex:1;min-height:0}#privateLab iframe{width:100%;height:100%;border:0}
   #giftPanel{margin:4px 0 12px;text-align:left}#giftPanel summary{padding:12px;cursor:pointer;font-weight:700;color:#e3c7ff}
   #giftPanel fieldset{min-width:0;margin:8px 0;padding:10px;border:1px solid #62537f;border-radius:10px}
@@ -6290,7 +6331,7 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
   }
   function fill(cfg) { $("labInvincible").checked=!!cfg.invincible;$("labUnlimited").checked=!!cfg.unlimited;for (const k of fields) field(k).value = cfg[k] ?? ""; }
   function close() {
-    epoch++; currentTest=null; frame?.remove(); frame=null; pilot=null; rows=[]; lastName=null;
+    epoch++; $("testerSummary").replaceChildren(); currentTest=null; frame?.remove(); frame=null; pilot=null; rows=[]; lastName=null;
     $("labJournal").replaceChildren(); $("labPreset").replaceChildren();
     $("labName").value=""; $("labNote").value=""; status.textContent="";
     if(dialog.open)dialog.close();
@@ -6336,7 +6377,11 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
       rows=result.data;lastName=access.last_preset;list();
       $("labOrigin").value=replay?"copy":access.start_mode;loadChoice(replay);
       panel.hidden=false;dialog.showModal();status.textContent="Private test session";
-      if(quick){fill(readLive(false));$("labMode").value="home";$("labInvincible").checked=true;$("labUnlimited").checked=true;await play(setup(),token);}
+      $("labHeading").textContent=quick?"GOD MODE":"DEV LAB";
+      $("godActions").hidden=!quick;
+      $("giftPanel").open=quick;
+      panel.scrollTop=0;
+      if(quick)status.textContent="Owner controls";
     }catch(e){if(token===epoch)alert(e.message);}
   }
   god.onclick=()=>open(false,true);entry.onclick=()=>open(false);recreate.onclick=()=>open(true);
@@ -6456,11 +6501,36 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
     const act=e.target.closest("button[data-act]")?.dataset.act;
     if(!act)return;
     if(act==="exit"){close();return;}
+    if(act==="gifts"&&owner){panel.hidden=false;$("giftPanel").open=true;panel.scrollTop=0;$("giftPanel").querySelector("summary").focus();return;}
     if(act==="tools"){panel.hidden=!panel.hidden;return;}
     if(busy || !owner || !pilot)return;
     busy=true;const token=epoch,id=owner;
     try{
       await check(id);if(token!==epoch)return;
+      if(act==="cheats"){fill(readLive(false));$("labMode").value="home";$("labInvincible").checked=true;$("labUnlimited").checked=true;await play(setup(),token);return;}
+      if(act==="testerResults"){
+        const box=$("testerSummary");box.textContent="Loading…";
+        const result=await client.from("tester_runs").select("route,difficulty,won,wave,stage,party,score,kills,seconds").order("received_at",{ascending:false}).limit(100);
+        if(token!==epoch)return;
+        if(result.error){box.textContent="Could not load tester results.";throw result.error;}
+        box.replaceChildren();
+        const heading=document.createElement("strong");
+        heading.textContent=result.data.length?"Latest "+result.data.length+" shared match summaries":"No tester results yet";
+        box.append(heading);
+        const groups=new Map();
+        for(const r of result.data){
+          const key=r.route+" · "+r.difficulty+" · "+r.party+"P";
+          if(!groups.has(key))groups.set(key,[]);
+          groups.get(key).push(r);
+        }
+        for(const [key,runs] of groups){
+          const line=document.createElement("p");
+          const waves=runs.map(r=>r.wave);
+          line.textContent=key+" — "+runs.length+" runs, "+runs.filter(r=>r.won).length+" wins"+(runs[0].route==="infinite"?", waves cleared "+Math.min(...waves)+"–"+Math.max(...waves):"");
+          box.append(line);
+        }
+        return;
+      }
       if(["designLoad","designSave","sendGift"].includes(act)){await rewards(act,id);return;}
       if(act==="load"){loadChoice();status.textContent="Setup loaded";return;}
       if(act==="default"){await updateAccess(id,{start_mode:$("labOrigin").value,last_preset:$("labPreset").value||null});status.textContent="Start choice saved";return;}
