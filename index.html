@@ -894,12 +894,12 @@ function renderShieldUpgrade(root) {
 const missionSectors = {
   1:{width:360,height:320,goal:50,waveTwo:5,waveThree:15,rocks:[]},
   2:{width:480,height:400,goal:64,waveTwo:8,waveThree:24,rocks:[
-    {x:145,y:96,r:25},{x:335,y:88,r:28},{x:245,y:199,r:35},
-    {x:125,y:302,r:29},{x:373,y:294,r:31}
+    {x:98,y:67,r:25},{x:374,y:62,r:28},{x:245,y:199,r:31},
+    {x:94,y:335,r:26},{x:390,y:333,r:28}
   ]},
   3:{width:500,height:430,goal:72,waveTwo:10,waveThree:28,rocks:[
-    {orbitRadius:102,angle:0,r:26},{orbitRadius:102,angle:Math.PI/2,r:26},
-    {orbitRadius:102,angle:Math.PI,r:26},{orbitRadius:102,angle:Math.PI*1.5,r:26}
+    {orbitRadius:133,angle:0,r:26},{orbitRadius:133,angle:Math.PI/2,r:26},
+    {orbitRadius:133,angle:Math.PI,r:26},{orbitRadius:133,angle:Math.PI*1.5,r:26}
   ]}
 };
 let selectedSector=0, missionSector=1, campaignActive=false;
@@ -1287,7 +1287,7 @@ let defeated=false;for(let e of E){if(e.h<=0){tryHole(soloHoles,e,elapsed,combat
 collectSoloLoot(dt);
 I=I.filter(i=>!i.dead&&(i.life>0||i.fuse!==null));F=F.filter(f=>(f.life-=dt)>0);
 const arena=missionSectors[missionSector];if(hp<=0){if(infiniteRun?.kind==="infinite"&&infiniteRun.lives>0)reviveSolo();else finish(false);}else if(infiniteRun)updateInfiniteWave();else if(defeated)finish(true);else if(kills>=arena.goal){if(!E.length&&!boss){boss=true;B=[];spawn("boss")}}else{wave=kills>=arena.waveThree?3:kills>=arena.waveTwo?2:1;while(E.length<Math.min(wave+(missionSector===2?1:0),arena.goal-kills))spawn(next())}}
-paintArena(focus);g.strokeStyle="#302345";g.lineWidth=.6;for(let x=0;x<W;x+=30){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke()}for(let y=0;y<H;y+=30){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}
+paintArena(focus,infiniteRun?.kind==="infinite"?infiniteRun.mapIndex:null);g.strokeStyle="#302345";g.lineWidth=.6;for(let x=0;x<W;x+=30){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke()}for(let y=0;y<H;y+=30){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}
 drawMeteorites();
 if(infiniteRun)drawSpecials(infiniteRun.effects);
 for(const item of I)drawPickupGlyph(item,now);
@@ -1299,8 +1299,9 @@ if(infiniteRun?.kind==="storyVoyage"&&infiniteRun.rewardUntil>elapsed){
 
 for(let f of F)ring(f.x,f.y,48,"#ff7766");if(slide)for(let i=5;i>0;i--)orb(p.x-dx*i*9,p.y-dy*i*9,9,effectColors().trail);drawBarrierAura21(p,shield,guardAura21());drawHero(p,shield);if(charging)ring(p.x,p.y,15+charge*5,"#eee0ff");drawPilotBars(p,hp,shield,soloCaps21().maxHealth,soloCaps21().maxShield);
 for(let e of E){if(e.story){drawGrandDragon(e,now);continue;}e.c=enemyColor(e.type,e.baseColor??=e.c);if(e.type==="artillery"){g.fillStyle=e.c;g.fillRect(e.x-15,e.y-15,30,30)}else if(e.type==="hunter"){g.save();g.translate(e.x,e.y);g.rotate(e.angle);g.fillStyle=e.c;g.beginPath();g.moveTo(15,0);g.lineTo(-10,-10);g.lineTo(-10,10);g.closePath();g.fill();g.restore()}else{orb(e.x,e.y,e.r,e.c);orb(e.x,e.y,e.r*.45,"#72213d");if(e.dragon)drawDragonBoss(e);if(missionSector===3&&e.type==="boss")ring(e.x,e.y,e.r+4,e.exposed?"#ffda68":"#75dcff")}g.fillStyle="#35264e";g.fillRect(e.x-e.r,e.y-e.r-8,e.r*2,4);g.fillStyle=e.c;g.fillRect(e.x-e.r,e.y-e.r-8,e.r*2*Math.max(0,e.h)/e.max,4)}
-let t=target();if(t&&state==="play"&&(auto||charging||held.fire.size))ring(t.x,t.y,t.r+6,"#d2afff");for(const b of B){drawDragonTrail21(b,now);orb(b.x,b.y,b.r,b.c);}g.fillStyle="#3d2d55";g.fillRect(10,H-15,100,5);g.fillStyle=locked?"#ff536b":"#b78aff";g.fillRect(10,H-15,heat,5);g.fillStyle="#d9baff";g.font="12px system-ui";g.textAlign="right";g.fillText(E.some(enemy=>enemy.dragon)?copy("cosmicDragon"):infiniteRun?(infiniteRun.kind==="infinite"?sectorName(missionSector):(infiniteRun.kind==="storyVoyage"?storyLabel(infiniteRun.level):copy(infiniteRun.kind)))+" · "+gameText("WAVE")+" "+wave:boss?(missionSector===3?stationBossLabel():missionSector===2?gameText("Meteor Warden"):gameText("CORE GUARDIAN")):kills>=missionSectors[missionSector].goal?gameText("CLEAR REMAINING"):gameText("WAVE")+" "+wave,W-10,15);
+let t=target();if(t&&state==="play"&&(auto||charging||held.fire.size))ring(t.x,t.y,t.r+6,"#d2afff");for(const b of B){drawDragonTrail21(b,now);orb(b.x,b.y,b.r,b.c);}g.fillStyle="#3d2d55";g.fillRect(10,H-15,100,5);g.fillStyle=locked?"#ff536b":"#b78aff";g.fillRect(10,H-15,heat,5);g.fillStyle="#d9baff";g.font="12px system-ui";g.textAlign="right";g.fillText(E.some(enemy=>enemy.dragon)?copy("cosmicDragon"):infiniteRun?(infiniteRun.kind==="infinite"?infiniteMapName(infiniteRun.mapIndex,missionSector):(infiniteRun.kind==="storyVoyage"?storyLabel(infiniteRun.level):copy(infiniteRun.kind)))+" · "+gameText("WAVE")+" "+wave:boss?(missionSector===3?stationBossLabel():missionSector===2?gameText("Meteor Warden"):gameText("CORE GUARDIAN")):kills>=missionSectors[missionSector].goal?gameText("CLEAR REMAINING"):gameText("WAVE")+" "+wave,W-10,15);
 $("charge").textContent=charging?"CHARGE "+Math.round(charge*50)+"%":gameText("NOVA CHARGE");for(let [k,v] of Object.entries({Hp:soloCaps21().maxHealth===100?Math.ceil(hp):Math.ceil(hp)+"/"+soloCaps21().maxHealth,Shield:soloCaps21().maxShield===100?Math.floor(shield):Math.floor(shield)+"/"+soloCaps21().maxShield,Heat:locked?"HOT":Math.round(heat)+"%",Kills:kills,Time:time(elapsed),Score:score,Power:power+(infiniteRun?"/10":"/5"),Magnet:magnet+(infiniteRun?"/10":"/5"),Speed:speed+(infiniteRun?"/10":"/5"),Wave:boss?"CORE":wave}))$("hud"+k).textContent=v;$("barHp").style.width=100*hp/soloCaps21().maxHealth+"%";$("barShield").style.width=100*shield/soloCaps21().maxShield+"%";$("barHeat").style.width=heat+"%";
+if(hp>0)markLocalPilot(p);
 drawFeedback(soloFeedback);ageFeedback(soloFeedback,dt);
 updateNovaDeck(elapsed,wave,boss,rapidLevel);
 if(state==="play"&&!paused&&(awaitingInput||manualPaused)){g.save();g.fillStyle="#d9baff";g.font="bold 14px system-ui";g.textAlign="center";g.fillText(manualPaused?gameText("PAUSED — press Resume"):gameText("PAUSED — touch controls"),W/2,30);g.restore()}
@@ -2184,7 +2185,7 @@ function newCoopArena(mode,route="1",count=2) {
 function changeCoopMap(arena,sector){
   const map=missionSectors[sector];
   arena.sector=sector;arena.width=map.width;arena.height=map.height;
-  arena.rocks=map.rocks.map(rock=>({...rock,hp:120}));
+  arena.rocks=arena.route==="infinite" ? nextInfiniteMap(arena,map.width,map.height) : map.rocks.map(rock=>({...rock,hp:120}));
   arena.players.forEach((pilot,index)=>{
     pilot.x=index%2===0?75:map.width-75;
     pilot.y=map.height/2+(arena.players.length>2?(Math.floor(index/2)-1)*55:0);
@@ -2648,7 +2649,7 @@ function renderCoop(conn,age) {
   }).filter(Boolean).join(" · "):"";
   $("coopMatchStatus").textContent=conn.practice?copy("raidPractice"):conn.crew?crewText:age>2500?coopText("Waiting for your friend’s connection…","Esperando la conexión de tu amigo…"):
     conn.room.friend+" · "+gameText("HP")+" "+Math.ceil(friend.hp)+" · "+gameText("Shield")+" "+Math.floor(friend.shield);
-  paintArena(false);
+  paintArena(false,arena.route==="infinite"?arena.mapIndex:null);
   g.strokeStyle="#302345";g.lineWidth=.6;
   for(let x=0;x<W;x+=30){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke();}
   for(let y=0;y<H;y+=30){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke();}
@@ -2676,12 +2677,13 @@ function renderCoop(conn,age) {
     drawPilotBars(player,player.hp,player.shield,player.maxHealth,player.maxShield);
     if(player.charge>0) ring(player.x,player.y,15+player.charge*5,"#eee0ff");
   }
+  if(local.hp>0)markLocalPilot(local);
   drawFeedback(local.feedback||[]);
   const activeBoss=arena.enemies.some(foe=>foe.type==="boss");
   const cap=arena.route==="infinite"?10:5;
   updateNovaDeck(arena.elapsed,arena.wave,activeBoss,local.rapid||0);
   if(isRaidRoute(arena.route)&&arena.enemies.length)updateRaidPresentation(arena);
-  const waveLabel=isRaidRoute(arena.route)?copy("cosmicDragon"):arena.route==="infinite"?sectorName(arena.sector)+" · "+gameText("WAVE")+" "+arena.wave:
+  const waveLabel=isRaidRoute(arena.route)?copy("cosmicDragon"):arena.route==="infinite"?infiniteMapName(arena.mapIndex,arena.sector)+" · "+gameText("WAVE")+" "+arena.wave:
     activeBoss&&arena.sector===3?gameText("Station Keeper")+" · "+gameText(arena.enemies.some(foe=>foe.exposed>0)?"Core exposed":"Core shielded"):
     activeBoss&&arena.sector===2?gameText("Meteor Warden"):activeBoss?gameText("CORE GUARDIAN"):gameText("WAVE")+" "+arena.wave;
   for(const [key,value] of Object.entries({Hp:(local.maxHealth||100)===100?Math.ceil(local.hp):Math.ceil(local.hp)+"/"+local.maxHealth,Shield:(local.maxShield||100)===100?Math.floor(local.shield):Math.floor(local.shield)+"/"+local.maxShield,
@@ -3606,6 +3608,40 @@ function endlessScale(currentWave){
   const cleared=currentWave-1;
   return 1.12**Math.min(110,Math.floor(cleared/3))*2**Math.min(65,Math.floor(cleared/15));
 }
+// Each symbol marks a rock in a four-column, three-row arena layout.
+const infiniteMaps = [
+  {names:["Halo Reach","Anillo remoto"], color:"#39788c", sky:"rings", x:.77, layout:["#..#", ".##.", "#..."]},
+  {names:["Twin Suns","Soles gemelos"], color:"#886534", sky:"binary", x:.24, layout:[".##.", "....", "#..#"]},
+  {names:["Violet Rift","Grieta violeta"], color:"#64558c", sky:"rift", x:.53, layout:["#.#.", "..#.", ".#.#"]},
+  {names:["Jade Aurora","Aurora de jade"], color:"#467e68", sky:"aurora", x:.67, layout:[".#.#", ".#..", "#..#"]},
+  {names:["Ember Rings","Anillos de brasa"], color:"#935365", sky:"rings", x:.18, layout:["#..#", "....", ".##."]},
+  {names:["Midnight Fault","Falla nocturna"], color:"#425a90", sky:"rift", x:.78, layout:["..#.", ".#..", "#.#."]},
+  {names:["Amber Veil","Velo ámbar"], color:"#905b42", sky:"aurora", x:.25, layout:["##..", "..#.", ".#.#"]},
+  {names:["Glacier Moons","Lunas glaciales"], color:"#537f89", sky:"binary", x:.63, layout:["#.#.", "....", "#.##"]}
+];
+function infiniteMapName(index,sector){
+  return infiniteMaps[index]?.names[lobbyLanguage.value==="es"?1:0] || sectorName(sector);
+}
+function nextInfiniteMap(run,width,height) {
+  if(!run.mapDeck?.length){
+    const deck=infiniteMaps.map((_,i)=>i);
+    for(let i=deck.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [deck[i],deck[j]]=[deck[j],deck[i]];
+    }
+    if(deck.at(-1)===run.mapIndex) [deck[0],deck[deck.length-1]]=[deck.at(-1),deck[0]];
+    run.mapDeck=deck;
+  }
+  run.mapIndex=run.mapDeck.pop();
+  const flip=Math.random()<.5;
+  const rocks=[];
+  infiniteMaps[run.mapIndex].layout.forEach((row,y)=>[...row].forEach((cell,x)=>{
+    if(cell!=="#")return;
+    rocks.push({x:width*(.13+.246*(flip?3-x:x))+(Math.random()-.5)*8,
+      y:height*(.15+.35*y)+(Math.random()-.5)*8,r:14+Math.random()*4,hp:120});
+  }));
+  return rocks;
+}
 function endlessSector(currentWave){
   return Math.floor((currentWave-1)/3)%3+1;
 }
@@ -3665,6 +3701,7 @@ function startInfinite(kind="infinite"){
   campaignActive=false;campaignReports=[];
   missionDifficulty=readDifficulty($("difficulty").value);
   infiniteRun={kind,spawned:0,cleared:0,elapsed:0,transition:null,effects:[],bonus:0,lives:kind==="infinite"?1:0};
+  if(kind==="infinite")changeSoloMap(1);
   if(kind==="lastStand"){hp=50;shield=0;}
   E=[];B=[];
   updateInfiniteWave();
@@ -3673,7 +3710,7 @@ function changeSoloMap(nextSector){
   missionSector=nextSector;
   const arena=missionSectors[missionSector];
   setArenaSize(arena.width,arena.height);
-  liveMeteorites=arena.rocks.map(rock=>({...rock,hp:120}));
+  liveMeteorites=infiniteRun?.kind==="infinite" ? nextInfiniteMap(infiniteRun,W,H) : arena.rocks.map(rock=>({...rock,hp:120}));
   p.x=65;p.y=H/2;
   B=[];I=[];F=[];soloHoles=[];
   updateStationCover();
@@ -3885,6 +3922,17 @@ function enemyColor(type,base){
   if(type==="sentinel")return palette.core;
   return palette.body;
 }
+function markLocalPilot(pilot){
+  // Open side brackets leave the shield, health bars and incoming shots visible.
+  g.save();g.translate(pilot.x,pilot.y);g.lineJoin="round";g.lineCap="round";
+  g.beginPath();
+  for(const side of [-1,1]){
+    g.moveTo(side*14,-8);g.lineTo(side*18,-4);g.lineTo(side*18,4);g.lineTo(side*14,8);
+  }
+  g.moveTo(-4,-22);g.lineTo(0,-18);g.lineTo(4,-22);
+  g.lineWidth=5;g.strokeStyle="#10131e";g.stroke();
+  g.lineWidth=2.5;g.strokeStyle="#f6ffda";g.stroke();g.restore();
+}
 function drawHero(pilot,barrier,local=true){
   const skin=local?effectPalettes[gamePrefs.hero]||effectPalettes.violet:{body:"#6affbd",core:"#deffee"};
   g.save();
@@ -3899,10 +3947,39 @@ function drawHero(pilot,barrier,local=true){
   else orb(pilot.x,pilot.y,10,skin.body);
   orb(pilot.x,pilot.y,4,skin.core);g.restore();
 }
-function paintArena(focus){
+function drawInfiniteSky(map,time){
+  const x=W*map.x, y=H*.29, r=H*.23;
+  g.save();
+  g.globalAlpha=.58;
+  const haze=g.createRadialGradient(x,y,0,x,y,H*.82);
+  haze.addColorStop(0,map.color);haze.addColorStop(1,"#100d2000");
+  g.fillStyle=haze;g.fillRect(0,0,W,H);
+  g.strokeStyle=map.color;g.fillStyle=map.color;
+  if(map.sky==="binary"||map.sky==="rings"){
+    orb(x,y,r,map.color);
+    if(map.sky==="binary")orb(W-x,H*.65,r*.48,map.color);
+    else {g.lineWidth=3;g.beginPath();g.ellipse(x,y,r*1.6,r*.38,-.42,0,Math.PI*2);g.stroke();}
+  }else{
+    for(let i=0;i<5;i++){
+      g.lineWidth=2+i;g.globalAlpha=.1+i*.035;g.beginPath();
+      const offset=i*H*.045;
+      if(map.sky==="rift"){
+        g.moveTo(x-W*.4+offset,0);g.lineTo(x+offset,H*.48);g.lineTo(x-W*.12+offset,H*.57);g.lineTo(x+W*.3+offset,H);
+      }else{
+        g.moveTo(0,y+offset);g.bezierCurveTo(W*.32,y-H*.38+offset,W*.66,H+offset,W,H*.43+offset);
+      }
+      g.stroke();
+    }
+  }
+  g.globalAlpha=.32;g.fillStyle="#bfccde";
+  for(let i=0;i<40;i++)g.fillRect((i*73.3+time*2+x)%W,(i*103.7+x)%H,i%5?1:2,1);
+  g.restore();
+}
+function paintArena(focus,mapIndex){
   g.fillStyle=focus?"#201c3d":"#100d20";g.fillRect(0,0,W,H);
   if(!gamePrefs.planets)return;
   const time=motionAllowed()?performance.now()/4000:0;
+  if(infiniteMaps[mapIndex]){drawInfiniteSky(infiniteMaps[mapIndex],time);return;}
   const x=W*.77+Math.sin(time)*18,y=H*.22,r=H*.34;
   const gradient=g.createRadialGradient(x-r*.23,y-r*.18,0,x,y,r);
   gradient.addColorStop(0,"#49366f");gradient.addColorStop(.56,"#2d2152");gradient.addColorStop(1,"#141124");
