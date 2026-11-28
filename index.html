@@ -381,7 +381,7 @@ body.game-motion :is(#homeModes,#extraModes,#controls) button:active{transform:s
 </section><div id="settings" hidden><h3 id="settingsTitle" data-game-text="Settings">Settings</h3><div id="pauseStatSummary" class="mission-setting"></div>
 <div class="settings-row home-setting"><label for="lobbyLanguage" data-copy="languageSetting">Language</label><select id="lobbyLanguage"><option value="en">English</option><option value="es">Español (Latinoamérica)</option></select></div>
 <details class="settings-group"><summary data-copy="controlSettings">Controls</summary><div class="settings-actions"><button id="combine">COMBINE: ON</button><button id="mode">COMBO: HOLD</button><button id="auto">AUTO FIRE: ON</button><button id="pauseMode">PAUSE: TOUCH</button></div></details>
-<details class="settings-group"><summary data-copy="gameplaySettings">Gameplay</summary>
+<details class="settings-group"><summary data-copy="gameplaySettings">Gameplay</summary><label><input id="testerToggle" type="checkbox"> <span data-copy="testerLabel">Share gameplay stats with the developer</span></label><small data-copy="testerHint">Online pilot required. Shares future match results, difficulty, wave, stage, party size, score, kills and duration. You can turn this off anytime.</small><p id="testerStatus" role="status"></p>
 <div class="visualOptions">
 <label><span data-copy="motionMode">Animations</span><select id="motionSetting"><option value="system" data-copy="useSystem">System default</option><option value="on" data-game-text="ON">On</option><option value="off" data-game-text="OFF">Off</option></select></label>
 <label><input id="planetsSetting" type="checkbox"><span data-copy="planetSetting">Planet backgrounds</span></label>
@@ -563,7 +563,7 @@ body.game-motion :is(#homeModes,#extraModes,#controls) button:active{transform:s
   <details id="reportDetails"><summary data-copy="reportDetails">Details</summary><div id="reportCampaign" hidden></div>
   <h4 data-copy="reportLoot">Loot collected</h4><div id="reportPickups"></div><p id="twinReward" data-copy="twinReward" hidden></p>
   <h4 data-copy="reportStats">Final stats</h4><div id="reportStats"></div></details>
-  <p id="campaignCountdown" role="timer" hidden></p><div class="report-actions"><button id="reportNext" type="button" data-copy="nextSector" hidden>Next sector</button><button id="reportHold" type="button" data-copy="holdSector" hidden>Wait</button><button id="reportPlay" type="button" data-copy="playAgain">Play again</button>
+  <details id="testerInvite"><summary data-copy="testerHeading">Help improve gameplay</summary><p data-copy="testerHint">Online pilot required. Shares future match results, difficulty, wave, stage, party size, score, kills and duration. You can turn this off anytime.</p><label><input id="testerDebrief" type="checkbox"> <span data-copy="testerLabel">Share gameplay stats with the developer</span></label><p id="testerRunStatus" role="status"></p></details><p id="campaignCountdown" role="timer" hidden></p><div class="report-actions"><button id="reportNext" type="button" data-copy="nextSector" hidden>Next sector</button><button id="reportHold" type="button" data-copy="holdSector" hidden>Wait</button><button id="reportPlay" type="button" data-copy="playAgain">Play again</button>
   <button id="reportHome" type="button" data-copy="mainMenu">Main menu</button></div>
 </dialog><script>
 const gameSpanish = {
@@ -2746,9 +2746,49 @@ function showMainScreen() {
   document.body.classList.add("home-active");
   renderHomeMission();
 }
+const testerKey="snovaShareMatchResults1";
+function sharesMatches(){try{return localStorage.getItem(testerKey)==="yes";}catch{return false;}}
+function syncTesterPreference(){
+  $("testerToggle").checked=$("testerDebrief").checked=sharesMatches();
+}
+function testerStatus(en,es){
+  $("testerStatus").textContent=$("testerRunStatus").textContent=coopText(en,es);
+}
+for(const toggle of [$("testerToggle"),$("testerDebrief")]){
+  toggle.onchange=()=>{
+    try{
+      localStorage.setItem(testerKey,toggle.checked?"yes":"no");
+      if(toggle.checked)testerStatus("Sharing future online matches.","Se compartirán las próximas partidas en línea.");
+      else testerStatus("Sharing is off.","Envío desactivado.");
+    }catch{testerStatus("Could not save this choice.","No se pudo guardar la opción.");}
+    syncTesterPreference();
+  };
+}
+syncTesterPreference();
+async function recordTesterResult(stats){
+  if(window.parent!==window||!sharesMatches())return;
+  try{
+    const api=await getAccountClient();
+    const {data,error}=await api.auth.getSession();
+    if(error)throw error;
+    if(!data.session){testerStatus("Join the online lobby to share results.","Entra a la sala en línea para compartir resultados.");return;}
+    if(!sharesMatches())return;
+    const reply=await api.from("tester_runs").insert({id:crypto.randomUUID(),...stats});
+    if(reply.error)throw reply.error;
+    if(sharesMatches())testerStatus("Match summary shared.","Resumen enviado.");
+  }catch{if(sharesMatches())testerStatus("Match summary could not be sent.","No se pudo enviar el resumen.");}
+}
 function showReport({win,mode,sector,points,count,seconds,health,barrier,attack,move,thermal,pickups,credits,rapid=0,twin=false,coop=false,endless=false,waves=0,campaign=[],raid=false,practice=false,raidXP=0,cadence=0}) {
   const variant=!coop?infiniteRun?.kind:undefined;
   const storyStage=!raid&&!coop?playingStoryLevel||null:null;
+  $("testerInvite").hidden=window.parent!==window||practice;
+  if(!practice){
+    const arena=coopConnection?.arena;
+    const route=raid?"raid":storyStage||arena?.route==="campaign"?"story":endless?(variant&&["lastStand","bossSurvival"].includes(variant)?variant:"infinite"):"sector";
+    const stage=raid?tierForRaid(arena).level:storyStage||Number(sector)||0;
+    void recordTesterResult({route,difficulty:mode,won:Boolean(win),wave:Math.max(0,Math.floor(waves||0)),stage,
+      party:arena?.players?.length||1,score:Math.floor(points||0),kills:Math.floor(count||0),seconds:Math.floor(seconds||0)});
+  }
   const personalBest=endless&&(!variant||variant==="infinite")&&saveWaveBest(coop,mode,waves);
   if(!raid)recordDaily({win,count,pickups,endless,waves,coop,mode});
   if(!practice)saveMatchResult({win,mode,sector,points,count,seconds,health,barrier,attack,move,thermal,pickups,credits,rapid,twin,coop:coop||raid,endless,waves,variant,storyStage,raid,raidTier:raid?coopConnection?.arena?.route:undefined});
@@ -3864,7 +3904,7 @@ function readCosmicPreferences(){
 const cosmicCopy={
 en:{
  moreModes:"More modes",levelTwo:"Level 2",levelTwoClear:"LEVEL 2 COMPLETE",bossSurvival:"Boss Survival",lastStand:"Last Stand",dailyTitle:"Daily challenges",
- controlSettings:"Controls",dailySolo:"Challenges reset at midnight UTC. Progress is saved on this device.",gameplaySettings:"Gameplay",motionMode:"Animations",useSystem:"System default",planetSetting:"Planet backgrounds",
+ controlSettings:"Controls",dailySolo:"Challenges reset at midnight UTC. Progress is saved on this device.",gameplaySettings:"Gameplay",testerHeading:"Help improve gameplay",testerLabel:"Share gameplay stats with the developer",testerHint:"Online pilot required. Shares future match results, difficulty, wave, stage, party size, score, kills and duration. You can turn this off anytime.",motionMode:"Animations",useSystem:"System default",planetSetting:"Planet backgrounds",
  damageSetting:"Damage numbers",noticeSettings:"Notifications",inviteAlerts:"Invite and friend message pop-ups",appearance:"Appearance",neonTheme:"Neon theme",themeViolet:"Neon Violet",themePink:"Neon Pink",themeCyan:"Neon Cyan",
  heroSkin:"Hero skin",enemySkin:"Enemy skins",effectSkin:"Attack, slide and barrier",lightSetting:"Dynamic glow",audioTitle:"Audio",musicTrack:"Music track",musicVolume:"Music volume",soundEffects:"Sound effects",
  holeTip:"Enemy defeats can create gravity wells. Chip level sets how many wells can coexist and how large a merger can get.",holeName:"Black Hole",holeLocked:"Claim 3 daily rewards to unlock this chip.",holeBuy:"Buy Black Hole · 2,500 NC",holeOwned:"Owned · equip in Chip Folder",
@@ -3873,7 +3913,7 @@ en:{
 },
 es:{
  moreModes:"Más modos",levelTwo:"Nivel 2",levelTwoClear:"NIVEL 2 COMPLETADO",bossSurvival:"Supervivencia de jefes",lastStand:"Última resistencia",dailyTitle:"Desafíos diarios",
- controlSettings:"Controles",dailySolo:"Los desafíos se reinician a medianoche UTC. El progreso se guarda en este dispositivo.",gameplaySettings:"Jugabilidad",motionMode:"Animaciones",useSystem:"Configuración del sistema",planetSetting:"Fondos planetarios",
+ controlSettings:"Controles",dailySolo:"Los desafíos se reinician a medianoche UTC. El progreso se guarda en este dispositivo.",gameplaySettings:"Jugabilidad",testerHeading:"Ayuda a mejorar el juego",testerLabel:"Compartir estadísticas de juego con el desarrollador",testerHint:"Requiere piloto en línea. Comparte resultados futuros, dificultad, oleada, etapa, tamaño del grupo, puntos, bajas y duración. Puedes desactivarlo cuando quieras.",motionMode:"Animaciones",useSystem:"Configuración del sistema",planetSetting:"Fondos planetarios",
  damageSetting:"Números de daño",noticeSettings:"Notificaciones",inviteAlerts:"Avisos de invitaciones y mensajes",appearance:"Apariencia",neonTheme:"Tema neón",themeViolet:"Violeta neón",themePink:"Rosa neón",themeCyan:"Cian neón",
  heroSkin:"Aspecto del piloto",enemySkin:"Aspectos de enemigos",effectSkin:"Ataque, impulso y barrera",lightSetting:"Brillo dinámico",audioTitle:"Audio",musicTrack:"Pista musical",musicVolume:"Volumen de música",soundEffects:"Efectos de sonido",
  holeTip:"Al derrotar enemigos pueden aparecer pozos de gravedad. El nivel limita la cantidad de pozos y el tamaño de sus fusiones.",holeName:"Agujero negro",holeLocked:"Cobra 3 recompensas diarias para desbloquear este chip.",holeBuy:"Comprar agujero negro · 2,500 NC",holeOwned:"Adquirido · equípalo en la carpeta de chips",
@@ -6104,8 +6144,20 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
 
   const dialog = document.createElement("dialog");
   dialog.id = "privateLab";
-  dialog.innerHTML = `<header><b>DEV LAB</b><button data-act="tools">Controls</button><button data-act="exit">Exit Lab</button></header>
-  <section><p>Pick a starting pilot, choose an encounter, then tap Start test. Use Controls during a test to capture a build. Save setup keeps it for your next visit.</p><div class="labGrid">
+  dialog.innerHTML = `<header><b id="labHeading">DEV LAB</b><button data-act="gifts">Send gift</button><button data-act="tools">Controls</button><button data-act="exit">Exit Lab</button></header>
+  <section><div id="godActions" hidden><button data-act="cheats">Start cheat session</button> <button data-act="testerResults">Tester results</button><p id="testerSummary" role="status"></p></div><details id="giftPanel"><summary>Send a gift</summary>
+    <fieldset><legend>Recipient</legend>
+    <label>Choose a friend<select id="giftFriend"><option value="">Enter a player manually</option></select></label>
+    <p id="giftHint" role="status"></p>
+    <div id="giftManual" class="labGrid"><label>Display name<input id="eventPlayer" maxlength="24" autocomplete="off"></label>
+    <label>Arcade tag<input id="eventTag" placeholder="#ABC" autocapitalize="characters" spellcheck="false"></label></div></fieldset>
+    <fieldset><legend>Reward</legend><label>Nova Credits<input id="eventCoins" type="number" inputmode="numeric" min="0" max="1000000" value="100"></label>
+    <div id="giftAmounts" aria-label="Credit amounts"><button type="button" value="100">100 NC</button><button type="button" value="500">500 NC</button><button type="button" value="1000">1,000 NC</button></div>
+    <label>Equipment<select id="eventKind"><option value="">Coins only</option></select></label><div id="eventStats"></div>
+    <label>Gift name (optional)<input id="eventTitle" maxlength="60" placeholder="Event reward"></label></fieldset>
+    <details><summary>Reusable designs</summary><label>Saved designs<select id="eventDesign"></select></label>
+    <button data-act="designLoad">Load design</button><button data-act="designSave">Save this design</button></details>
+    <p id="giftPreview"></p><button data-act="sendGift">Review and send gift</button></details><p>Pick a starting pilot, choose an encounter, then tap Start test. Use Controls during a test to capture a build. Save setup keeps it for your next visit.</p><div class="labGrid">
     <label>Start from<select id="labOrigin"><option value="copy">Current pilot</option><option value="resume">Saved setup</option></select></label>
     <label>Saved setup<select id="labPreset"></select></label>
     <button data-act="load">Load setup</button><button data-act="default">Remember start choice</button>
@@ -6126,13 +6178,7 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
     <label class="wide">Setup name<input id="labName" maxlength="80"></label><button data-act="save">Save setup</button>
     <label class="wide">Developer note<textarea id="labNote" maxlength="4000" rows="2"></textarea></label>
     <button data-act="note">Save private note</button><button data-act="proposal">Prepare update</button>
-    </div><details><summary>Event rewards · real players</summary>
-    <p>Save a design for reuse, or enter a linked player's exact display name and arcade tag to send a real reward.</p>
-    <div class="labGrid"><label>Saved designs<select id="eventDesign"></select></label><button data-act="designLoad">Load design</button>
-    <label>Reward name<input id="eventTitle" maxlength="60"></label><label>NC gift<input id="eventCoins" type="number" min="0" max="1000000" value="0"></label>
-    <label>Item type<select id="eventKind"><option value="">Coins only</option></select></label><div id="eventStats"></div>
-    <button data-act="designSave">Save reward design</button><label>Player name<input id="eventPlayer" maxlength="24"></label>
-    <label>Arcade tag<input id="eventTag" placeholder="#ABC"></label><button data-act="sendGift">Send real gift</button></div></details>
+    </div>
     <details><summary>Notebook and proposals</summary><ul id="labJournal"></ul></details></section>
     <output aria-live="polite"></output><div class="labStage"></div>`;
   document.body.append(dialog);
@@ -6144,7 +6190,15 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
   #privateLab .labGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
   #privateLab label{display:grid;gap:3px}#privateLab .wide{grid-column:1/-1}
   #privateLab :is(button,select,input,textarea){min-width:0;max-width:100%;font-size:16px}
+  #privateLab header{flex-wrap:wrap}#privateLab header button{min-height:42px}#godModeEntry{min-height:44px;border:2px solid #ffb85c}
   #privateLab output{font-size:.85rem}#privateLab .labStage{flex:1;min-height:0}#privateLab iframe{width:100%;height:100%;border:0}
+  #giftPanel{margin:4px 0 12px;text-align:left}#giftPanel summary{padding:12px;cursor:pointer;font-weight:700;color:#e3c7ff}
+  #giftPanel fieldset{min-width:0;margin:8px 0;padding:10px;border:1px solid #62537f;border-radius:10px}
+  #giftPanel legend{color:#e4d1ff;font-weight:700}#giftPanel label{margin:6px 0}
+  #giftPanel :is(button,select,input){min-height:44px}#giftAmounts{display:flex;gap:5px;flex-wrap:wrap}
+  #giftPanel #eventStats:not([hidden]){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  #giftPanel [hidden]{display:none}#giftPanel p{margin:8px 0;overflow-wrap:anywhere}
+  #giftPanel [data-act="sendGift"]{width:100%;background:#53358b}
   #labJournal{overflow-wrap:anywhere} `;
   document.head.append(style);
   const status = dialog.querySelector("output"), panel = dialog.querySelector("section");
@@ -6152,7 +6206,7 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
   for (const kind of Object.keys(gearCatalog)) $("labGear").add(new Option(kind,kind));
   for (const kind of attacks) $("labAttack").add(new Option(kind,kind));
   const caps={attack:60,cadence:50,defense:30,barrier:80,regen:20,move:30};
-  for(const kind of Object.keys(gearCatalog))$("eventKind").add(new Option(kind,kind));
+  for(const kind of Object.keys(gearCatalog))$("eventKind").add(new Option(gearCatalog[kind].icon+" "+copy(gearCatalog[kind].name),kind));
   for(const [key,max] of Object.entries(caps)){
     const label=document.createElement("label"),input=document.createElement("input");
     label.textContent=key+" bonus (0–"+max+")";input.type="number";input.min=0;input.max=max;input.value=0;input.id="bonus-"+key;
@@ -6160,9 +6214,60 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
   }
   $("eventKind").onchange=()=>{$("eventStats").hidden=!$("eventKind").value;};$("eventKind").onchange();
   let pendingGift;
+  function giftContents(d){
+    const parts=[];
+    if(d.coins)parts.push(d.coins.toLocaleString()+" NC");
+    if(d.kind)parts.push(copy(gearCatalog[d.kind].name));
+    for(const [key,n] of Object.entries(d.stats))parts.push("+"+n+" "+key);
+    return parts.join(" · ");
+  }
+  function refreshGift(){
+    const player=$("eventPlayer").value.trim(),tag=$("eventTag").value.trim().replace(/^#/,"");
+    let ready=false;
+    try{
+      const reward=rewardForm();
+      $("giftPreview").textContent=giftContents(reward)+(player&&tag?" → "+player+" #"+tag:"");
+      ready=Boolean(player&&tag);
+    }catch(error){$("giftPreview").textContent=error.message;}
+    $("giftPanel").querySelector('[data-act="sendGift"]').disabled=!ready;
+  }
+  $("giftAmounts").onclick=e=>{
+    const button=e.target.closest("button");
+    if(button){$("eventCoins").value=button.value;refreshGift();}
+  };
+  $("giftFriend").onchange=()=>{
+    const choice=$("giftFriend").selectedOptions[0];
+    $("eventPlayer").value=choice?.dataset.player||"";
+    $("eventTag").value=choice?.dataset.tag||"";
+    $("giftManual").hidden=Boolean(choice?.value);
+    refreshGift();
+  };
+  $("giftPanel").addEventListener("input",refreshGift);
+  $("giftPanel").addEventListener("change",refreshGift);
+  $("giftPanel").addEventListener("toggle",async()=>{
+    if(!$("giftPanel").open||!owner)return;
+    const token=epoch,friend=$("giftFriend");
+    $("giftHint").textContent="Loading friends…";
+    try{
+      const {data,error}=await client.rpc("referral_friends_all_modes");
+      if(token!==epoch||!$("giftPanel").open)return;
+      if(error)throw error;
+      const previous=friend.value;
+      friend.replaceChildren(new Option("Enter a player manually",""));
+      for(const row of data||[]){
+        const opt=new Option(row.display_name+" #"+row.arcade_id,row.friend_id);
+        opt.dataset.player=row.display_name;opt.dataset.tag=row.arcade_id;friend.add(opt);
+      }
+      friend.value=previous;
+      if(previous)friend.onchange();
+      $("giftHint").textContent=data?.length?"":"Enter the linked player’s display name and arcade tag.";
+    }catch{if(token===epoch)$("giftHint").textContent="Friends could not load. You can enter a player manually.";}
+    refreshGift();
+  });
+  refreshGift();
   function rewardForm(){
-    const title=$("eventTitle").value.trim(),kind=$("eventKind").value||null,coins=$("eventCoins").valueAsNumber,stats={};
-    if(!title||!Number.isSafeInteger(coins)||coins<0||coins>1000000||(!coins&&!kind))throw Error("Name the reward and choose coins or gear.");
+    const title=$("eventTitle").value.trim()||"Event reward",kind=$("eventKind").value||null,coins=$("eventCoins").valueAsNumber,stats={};
+    if(!title||!Number.isSafeInteger(coins)||coins<0||coins>1000000||(!coins&&!kind))throw Error("Enter 0–1,000,000 whole credits and include credits or equipment.");
     if(kind)for(const key of Object.keys(caps)){
       const input=$("bonus-"+key);if(!input.value||!input.checkValidity())throw Error("Check "+key+" bonus.");
       if(input.valueAsNumber)stats[key]=input.valueAsNumber;
@@ -6175,7 +6280,7 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
       if(!chosen)throw Error("Choose a saved design.");
       const d=chosen.payload;$("eventTitle").value=d.title;$("eventKind").value=d.kind||"";$("eventCoins").value=d.coins;
       for(const key in caps)$("bonus-"+key).value=d.stats[key]||0;
-      $("eventKind").onchange();return;
+      $("eventKind").onchange();refreshGift();return;
     }
     const d=rewardForm();
     if(act==="designSave"){
@@ -6187,12 +6292,12 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
     }
     const player=$("eventPlayer").value.trim(),tag=$("eventTag").value.trim().replace(/^#/,"");
     if(!player||!tag)throw Error("Enter the player's display name and arcade tag.");
-    if(!confirm("Send "+d.title+" ("+d.coins+" NC"+(d.kind?" + "+d.kind:"")+") to "+player+" #"+tag+" in the live game?"))return;
+    if(!confirm("Send "+d.title+" to "+player+" #"+tag+"?\n\n"+giftContents(d)+"\n\nThe player can claim this in their Event gifts inbox."))return;
     const signature=JSON.stringify([id,d,player,tag]);
     if(pendingGift?.signature!==signature)pendingGift={signature,ticket:crypto.randomUUID()};
     const r=await client.rpc("send_event_gift",{ticket:pendingGift.ticket,pilot_name:player,tag,title_text:d.title,nc:d.coins,gear:d.kind,bonuses:d.stats});
     if(r.error)throw r.error;
-    pendingGift=null;$("eventPlayer").value="";$("eventTag").value="";status.textContent="Gift sent to "+player+" #"+tag;
+    pendingGift=null;$("giftFriend").value="";$("giftManual").hidden=false;$("eventPlayer").value="";$("eventTag").value="";status.textContent="Gift sent to "+player+" #"+tag;refreshGift();
   }
   let client, owner, epoch = 0, frame, pilot, rows = [], lastName, busy = false;
   const numeric = ["wave","tier","level","credits","power","speed","rapid","health","shield"];
@@ -6226,12 +6331,12 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
   }
   function fill(cfg) { $("labInvincible").checked=!!cfg.invincible;$("labUnlimited").checked=!!cfg.unlimited;for (const k of fields) field(k).value = cfg[k] ?? ""; }
   function close() {
-    epoch++; currentTest=null; frame?.remove(); frame=null; pilot=null; rows=[]; lastName=null;
+    epoch++; $("testerSummary").replaceChildren(); currentTest=null; frame?.remove(); frame=null; pilot=null; rows=[]; lastName=null;
     $("labJournal").replaceChildren(); $("labPreset").replaceChildren();
     $("labName").value=""; $("labNote").value=""; status.textContent="";
     if(dialog.open)dialog.close();
   }
-  function revoke(){close();owner=null;entry.hidden=god.hidden=recreate.hidden=true;}
+  function revoke(){close();$("giftPanel").open=false;$("giftFriend").replaceChildren(new Option("Enter a player manually",""));$("giftFriend").onchange();pendingGift=null;owner=null;entry.hidden=god.hidden=recreate.hidden=true;}
   async function check(id) {
     const {data,error}=await client.from("dev_lab_access").select("start_mode,last_preset").eq("owner_id",id).maybeSingle();
     if(error) throw error;
@@ -6272,7 +6377,11 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
       rows=result.data;lastName=access.last_preset;list();
       $("labOrigin").value=replay?"copy":access.start_mode;loadChoice(replay);
       panel.hidden=false;dialog.showModal();status.textContent="Private test session";
-      if(quick){fill(readLive(false));$("labMode").value="home";$("labInvincible").checked=true;$("labUnlimited").checked=true;await play(setup(),token);}
+      $("labHeading").textContent=quick?"GOD MODE":"DEV LAB";
+      $("godActions").hidden=!quick;
+      $("giftPanel").open=quick;
+      panel.scrollTop=0;
+      if(quick)status.textContent="Owner controls";
     }catch(e){if(token===epoch)alert(e.message);}
   }
   god.onclick=()=>open(false,true);entry.onclick=()=>open(false);recreate.onclick=()=>open(true);
@@ -6392,11 +6501,36 @@ translateGame();renderProgression21();renderReleaseInbox();refreshRaidOptions();
     const act=e.target.closest("button[data-act]")?.dataset.act;
     if(!act)return;
     if(act==="exit"){close();return;}
+    if(act==="gifts"&&owner){panel.hidden=false;$("giftPanel").open=true;panel.scrollTop=0;$("giftPanel").querySelector("summary").focus();return;}
     if(act==="tools"){panel.hidden=!panel.hidden;return;}
     if(busy || !owner || !pilot)return;
     busy=true;const token=epoch,id=owner;
     try{
       await check(id);if(token!==epoch)return;
+      if(act==="cheats"){fill(readLive(false));$("labMode").value="home";$("labInvincible").checked=true;$("labUnlimited").checked=true;await play(setup(),token);return;}
+      if(act==="testerResults"){
+        const box=$("testerSummary");box.textContent="Loading…";
+        const result=await client.from("tester_runs").select("route,difficulty,won,wave,stage,party,score,kills,seconds").order("received_at",{ascending:false}).limit(100);
+        if(token!==epoch)return;
+        if(result.error){box.textContent="Could not load tester results.";throw result.error;}
+        box.replaceChildren();
+        const heading=document.createElement("strong");
+        heading.textContent=result.data.length?"Latest "+result.data.length+" shared match summaries":"No tester results yet";
+        box.append(heading);
+        const groups=new Map();
+        for(const r of result.data){
+          const key=r.route+" · "+r.difficulty+" · "+r.party+"P";
+          if(!groups.has(key))groups.set(key,[]);
+          groups.get(key).push(r);
+        }
+        for(const [key,runs] of groups){
+          const line=document.createElement("p");
+          const waves=runs.map(r=>r.wave);
+          line.textContent=key+" — "+runs.length+" runs, "+runs.filter(r=>r.won).length+" wins"+(runs[0].route==="infinite"?", waves cleared "+Math.min(...waves)+"–"+Math.max(...waves):"");
+          box.append(line);
+        }
+        return;
+      }
       if(["designLoad","designSave","sendGift"].includes(act)){await rewards(act,id);return;}
       if(act==="load"){loadChoice();status.textContent="Setup loaded";return;}
       if(act==="default"){await updateAccess(id,{start_mode:$("labOrigin").value,last_preset:$("labPreset").value||null});status.textContent="Start choice saved";return;}
